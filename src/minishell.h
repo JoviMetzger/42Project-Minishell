@@ -20,18 +20,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_node
-{
-	void			*value;
-	struct s_node	*next;
-} t_node;
-
-typedef struct s_history
-{
-    t_node *head;
-    t_node *tail;
-} t_history;
-
 int	ft_strcmp(char *s1, char *s2);
 void    display_prompt();
 t_history	*create_history();//
