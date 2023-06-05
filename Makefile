@@ -15,7 +15,10 @@ CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 Include	= -lreadline
 
 # Sources files
-SRC			= ./src/parsing1.c \
+SRC			= ./src/main.c \
+				./src/display_prompt.c \
+				./src/command.c \
+				# ./src/history.c
 
 # Objects files
 OBJ			= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
