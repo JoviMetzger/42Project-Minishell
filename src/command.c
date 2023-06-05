@@ -18,7 +18,6 @@ void ft_commands(char **input, char **envp)
             exit(0);
         else if (ft_strcmp(input[0], "env") == 0)
             printf("history\n");
-            //ft_env(input, envp);
 }
 
 
