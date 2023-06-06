@@ -18,6 +18,7 @@ Include	= -lreadline
 SRC			= ./src/main.c \
 				./src/display_prompt.c \
 				./src/command.c \
+				./src/create_history.c \
 				# ./src/history.c
 
 # Objects files
@@ -39,7 +40,7 @@ RESET		= \033[0m
 all:		$(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(Include) -o $(NAME)
+		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(Include) -o $(NAME)
 		@echo "$(CORAL) $(UNDER) $(BOLD) $(ITALIC) ✨Compilation Done✨   $(RESET)"
 
 $(LIBFT): 
@@ -47,11 +48,11 @@ $(LIBFT):
 
 $(OBJDIR)/%.o: ./src/%.c
 		@mkdir -p $(OBJDIR)
-		$(CC) $(CFLAGS) $(INC_FILE) $(Include) -c -o $@ $^
+		@$(CC) $(CFLAGS) $(INC_FILE) $(Include) -c -o $@ $^
 
 # Clean
 clean:
-		@$(MAKE) clean -C ./libft
+		$(MAKE) clean -C ./libft
 		@rm -rf $(OBJDIR)
 		@echo "$(GREEN) $(ITALIC) ✅ Cleaned object files ✅$(RESET)"
 
