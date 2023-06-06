@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:06:01 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/06 11:57:26 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/06 15:54:47 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,30 @@ t_history	*create_newnode(char *str)
 	if (!newnode)
 		return (NULL);
 	newnode->oneline = str;
+	newnode->index = 1;
 	newnode->next = NULL;
 	return (newnode);
 }
 
 void	create_history(char *str, t_history **data)
 {
-	t_history *tmp;
+	t_history	*tmp;
+	int			i;
 
 	tmp = *data;
+	i = 2;
 	if (!tmp)
 	{
 		*data = create_newnode(str);
 		return ;
 	}
 	while (tmp->next != NULL)
+	{
 		tmp  = tmp->next;
+		i++;
+	}
 	tmp->next = create_newnode(str);
+	tmp->next->index = i;
 }
 
 int	printf_history(t_history *data)
@@ -45,9 +52,9 @@ int	printf_history(t_history *data)
 	t_history *tmp;
 
 	tmp = data;
-	while (tmp != NULL)
+	while (tmp->next != NULL)
 	{
-		printf("%s\n",tmp->oneline);
+		printf("    %i  %s\n",tmp->index, tmp->oneline);
 		tmp = tmp->next;
 	}
 	return (0);
