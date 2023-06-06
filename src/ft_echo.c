@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   display_prompt.c                                   :+:    :+:            */
+/*   ft_echo.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/05 13:54:49 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/06 11:43:21 by jmetzger      ########   odam.nl         */
+/*   Created: 2023/06/06 16:37:40 by jmetzger      #+#    #+#                 */
+/*   Updated: 2023/06/06 16:48:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    display_prompt()
+void ft_echo()
 {
-    printf("minishell" RED BOLD " ➔  " RESET);
+    
 }

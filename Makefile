@@ -18,7 +18,15 @@ Include	= -lreadline
 SRC			= ./src/main.c \
 				./src/display_prompt.c \
 				./src/command.c \
-				# ./src/history.c
+				./src/create_history.c \
+				# ./src/signals.c \
+				# ./src/ft_cd.c \
+				# ./src/ft_echo.c \
+				# ./src/ft_env.c \
+				# ./src/ft_export.c \
+				# ./src/ft_pwd.c \
+				# ./src/ft_unset.c \
+
 
 # Objects files
 OBJ			= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
