@@ -25,8 +25,8 @@ void ft_commands(char **input, char **envp, t_history *data)
     //     ft_uset();
     // else if (ft_strcmp(input[0], "export") == 0)
     //     ft_export();
-    // else if (ft_strcmp(input[0], "pwd") == 0)
-    //     ft_pwd();
+    else if (ft_strcmp(input[0], "pwd") == 0)
+        ft_pwd();
     // else if (ft_strcmp(input[0], "cd") == 0)
     //     ft_cd(input, envp);
     // else if (ft_strcmp(input[0], "echo") == 0)
