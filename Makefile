@@ -19,12 +19,12 @@ SRC			= ./src/main.c \
 				./src/display_prompt.c \
 				./src/command.c \
 				./src/create_history.c \
+				./src/ft_pwd.c \
+				# ./src/ft_echo.c \
 				# ./src/signals.c \
 				# ./src/ft_cd.c \
-				# ./src/ft_echo.c \
 				# ./src/ft_env.c \
 				# ./src/ft_export.c \
-				# ./src/ft_pwd.c \
 				# ./src/ft_unset.c \
 
 
