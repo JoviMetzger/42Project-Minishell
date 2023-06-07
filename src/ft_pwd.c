@@ -14,5 +14,12 @@
 
 void ft_pwd()
 {
+    char *buf;
     
+    buf = (char *)malloc(sizeof(char) * 1000);
+    if (getcwd(buf, 1000) != NULL)
+        printf("%s\n", buf);
+    else 
+        perror("pwd error ----//////wrong error message\n");
+    free(buf);
 }
