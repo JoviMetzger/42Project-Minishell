@@ -5,7 +5,7 @@ NAME		= minishell
 LIBFT		= ./libft/libft.a
 
 # Compiler and flags
-CC			= gcc
+CC		= gcc
 CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # CFLAGS		+= -Werror
 
