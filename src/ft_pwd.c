@@ -6,20 +6,20 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:26 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:48:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/08 13:54:26 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_pwd()
-{
-    char *buf;
+// void ft_pwd()
+// {
+//     char *buf;
     
-    buf = (char *)malloc(sizeof(char) * 1000);
-    if (getcwd(buf, 1000) != NULL)
-        printf("%s\n", buf);
-    else 
-        perror("pwd error ----//////wrong error message\n");
-    free(buf);
-}
+//     buf = (char *)malloc(sizeof(char) * 1000);
+//     if (getcwd(buf, 1000) != NULL)
+//         printf("%s\n", buf);
+//     else 
+//         perror("getcwd() error");
+//     free(buf);
+// }

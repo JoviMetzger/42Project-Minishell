@@ -6,13 +6,8 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:48:17 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/08 13:54:19 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void ft_export()
-{
-    
-}

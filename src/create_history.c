@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:06:01 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/06 16:54:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/07 11:56:04 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_history	*create_newnode(char *str)
 {
 	t_history *newnode;
-
 
 	newnode = malloc(sizeof(t_history));
 	if (!newnode)

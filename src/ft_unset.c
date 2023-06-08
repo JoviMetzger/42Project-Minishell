@@ -6,13 +6,9 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:38 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:47:52 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/08 13:54:31 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_unset()
-{
-    
-}

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/06 17:02:08 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/08 13:42:16 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,24 @@ int main(int argc, char **argv, char **envp)
 {
     char *input;
     t_history *data;
+    //t_token *tokens;
     
     (void)argc;
     (void)argv;
+    (void)envp;
     //ft_signal_handler();
     while (1)
     {
         display_prompt();
         input = readline(NULL);
         create_history(input, &data);
-         //lexer;
-        /* lexer_error;(Few errors are discernible at the lexical level alone.
-            Lexical analyzer has a very localized view of the source text. It cannot tell whether a string fi is a misspelling of a keyword if or an identifier.
-            The lexical analyzer can detect characters that are not in the alphabet or strings
-            that have no pattern.
-            In general, when an error is found, the lexical analyzer stops (but other actions
-            are also possible).) */
-        if (input[0] != 0)
-            ft_commands(&input, envp, data);
+        if (ft_strcmp(&input[0], "exit") == 0)
+            exit(0);
+        if (ft_strcmp(&input[0], "history") == 0)
+            printf_history(data);
+        // tokens = tokenize(input);
+        // parse_and_execute(tokens, envp);
+        // free_tokens(tokens);
     }
     return (0);
 }
@@ -65,6 +65,9 @@ Handling Quotes:
 Implement a function to handle quotes (' and ").
 If a single quote is encountered, read the input until another single quote is seen and treat everything in between as a quoted sequence.
 If a double quote is encountered, read the input until another double quote is seen, but still expand variables (e.g., $VAR) within the quoted sequence except for metacharacters.
+
+Implementing Movement:
+moving up down left right with arrows. tab for autofill the word you typing. And listing all files, folders in that directory.  
 
 Implementing Redirections:
 Identify and handle the redirection symbols (<, >, <<, >>) in the user input.
@@ -108,19 +111,17 @@ Free any dynamically allocated memory
 Person 1:
     1. (DONE) Displaying a Prompt: Person 1 can work on implementing the function to display the prompt and handle user input.
     2. (DONE) Working History: Person 1 can handle the implementation of the command history data structure and the related functionalities.
-    3. Searching and Launching Executables: Person 1 can work on parsing user input, identifying built-in commands, 
-       and searching for executables in the PATH variable.
+    3. Implementing Built-in Commands: Person 2 can work on implementing separate functions for each built-in command, 
+       such as echo, cd, pwd, export, unset, env, and exit.
     4. Handling Quotes: Person 1 can handle the implementation of the function to handle quotes in the user input.
     5. Implementing Redirections: Person 1 can work on identifying and handling input/output redirections and here documents.
     6. Handling Environment Variables: Person 1 can handle the implementation of expanding environment variables in the user input.
     7. Handling Special Variables: Person 1 can work on implementing the functionality to handle special variables like $?.
     8. Handling Control Signals: Person 1 can handle the implementation of signal handlers for ctrl-C, ctrl-D, and ctrl-.
-
-Person 2:
-    1. Implementing Pipes: Person 2 can work on identifying and handling the pipe symbol in the user input, splitting commands, 
+    9. Implementing Pipes: Person 2 can work on identifying and handling the pipe symbol in the user input, splitting commands, 
        and creating pipes between them.
-    2. Implementing Built-in Commands: Person 2 can work on implementing separate functions for each built-in command, 
-       such as echo, cd, pwd, export, unset, env, and exit.
+    10. Searching and Launching Executables: Person 1 can work on parsing user input, identifying built-in commands, 
+       and searching for executables in the PATH variable.
 Both:
     1. Memory Leaks: At the end both can focus on ensuring that the code written by both individuals does not have any memory leaks 
        and properly frees allocated memory.

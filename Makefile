@@ -5,25 +5,25 @@ NAME		= minishell
 LIBFT		= ./libft/libft.a
 
 # Compiler and flags
-CC		= gcc
+CC			= gcc
 CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # CFLAGS		+= -Werror
 
 # Readline Files
 # INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
 # Include	= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
-Include	= -lreadline
+Include		= -lreadline
 
 # Sources files
 SRC			= ./src/main.c \
 				./src/display_prompt.c \
-				./src/command.c \
 				./src/create_history.c \
-				./src/ft_pwd.c \
-				./src/ft_echo.c \
-				# ./src/signals.c \
-				# ./src/ft_cd.c \
+				# ./src/command.c \
+				# ./src/ft_pwd.c \
 				# ./src/ft_env.c \
+				# ./src/ft_echo.c \
+				# ./src/ft_cd.c \
+				# ./src/signals.c \
 				# ./src/ft_export.c \
 				# ./src/ft_unset.c \
 
