@@ -48,11 +48,11 @@ typedef enum
     WORD,
 } t_token_type;
 
-typedef struct s_token
+typedef struct s_token_t
 {
     char			*value;
     t_token_type	type;
-} t_token;
+} t_token_t;
 
 typedef struct s_history
 {
