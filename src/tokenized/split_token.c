@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/12 13:07:36 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/12 13:48:45 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,20 @@ t_token	*split_token(char *str)
 			//printf("3.%s$, len:%i\n",line,len);
 			add_token_end(&top, new_token(line));
 		}
-		if (str[i] != ' ' && str[i] != '\"' &&str[i] != '\'')
+		if (str[i] == '|' || str[i] == '&' || str[i] == '<'|| str[i] == '>')
 		{
-			start = i;
-			len = strlen_char(&str[start], ' ');
-			line = ft_substr(str, start, len);
+			line = ft_substr(str, i, 1);
+			//printf("4.%s$, len:%i\n",line,1);
+			add_token_end(&top, new_token(line));
+			i++;
+		}
+		if (str[i] != ' ' && str[i] != '\"' &&str[i] != '\''&& str[i] != '|')
+		{
+			len = strlen_char(&str[i], ' ');
+			line = ft_substr(str, i, len);
 			//printf("1.%s$, len:%i\n",line,len);
 			add_token_end(&top, new_token(line));
-			i = len + start;
+			i = len + i;
 		}
 		else
 			i++;
@@ -62,7 +68,7 @@ t_token	*split_token(char *str)
 	return (top);
 }
 
-//test:  gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
+//test :  gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
 
 /* int main(void)
 {
@@ -70,9 +76,11 @@ t_token	*split_token(char *str)
 	t_token *curr;
 
 	
-	//test = split_token("  c\"\'\'\"  c\'\"\"\' b\"cd\" c \"\'\'\" | \'hello world\' ");
+	test = split_token("  c\"\'\'\"  c\'\"\"\' b\"cd\" c \"\'\'\" | \'hello world\' ");
 	//test = split_token("  chkhk df");
-	test = split_token("  c\'\"\'\" ");
+	//test = split_token(" cmd arg| cmd");
+	printf("%s ", "test");
+	//str = " cmd arg| cmd";
 	curr = test;
 	while (curr != NULL)
 	{

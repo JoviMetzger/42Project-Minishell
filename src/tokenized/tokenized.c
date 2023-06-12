@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/12 13:09:11 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/12 14:02:29 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,18 @@ t_token	*tokenized(char *str)
 	int		i;
 
 	i = -1;
-	curr = top;
 	if (quote_check(str) == 1)
-		return ;
+		return (NULL);
 	top = split_token(str);
+	curr = top;
 	while (curr != NULL)
 	{
 		if (curr->prev == NULL || curr->prev->type == PIPE)
 			curr->type = CMD;
 		else if (ft_strcmp(curr->str, "|") == 0)
 			curr->type = PIPE;
+		else if (ft_strcmp(curr->str, "&") == 0)
+			curr->type = AT;
 		else if (ft_strcmp(curr->str, "<") == 0)
 			curr->type = INPUT_REDIRECTION;
 		else if (ft_strcmp(curr->str, ">") == 0)
@@ -83,7 +85,7 @@ t_token	*tokenized(char *str)
 			curr->type = HERE_DOCUMENT;
 		else if (ft_strcmp(curr->str, ">>") == 0)
 			curr->type = APPEND_REDIRECTION;
-		else if (curr->prev->type == CMD || curr->type == EMPTY)
+		else if (curr->prev->type == CMD || curr->prev->type == ARG || curr->type == EMPTY)
 			curr->type = ARG;
 		else if (curr->prev->type == INPUT_REDIRECTION || curr->type == EMPTY)
 			curr->type = INFILE;
@@ -91,30 +93,28 @@ t_token	*tokenized(char *str)
 			curr->type = OUTFILE;
 		curr = curr->next;
 	}
+	return (top);
 }
 
-//test
+//test:gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
 
 int main(void)
 {
 	t_token *test;
 	t_token *curr;
 	char *str;
-	//str = "  c\'\"\' asdasda\"\'\" ";
-	str = "  c\"\'\'\"  c\'\"\"\' b\"cd\" c \"\'\'\" | \'hello world\' ";
+	str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
+	//str = " cmd arg| cmd";
 	//str = "  chkhk df";
 	
-	if (quote_check(str))
-		return (1);
-	test = split_token(str);
+	test = tokenized(str);
 	curr = test;
 	printf("test:%s\n", str);
 	while (curr != NULL)
 	{
-		printf("%s ", curr->str);
+		printf("%i:%s, ", curr->type, curr->str);
 		curr = curr->next;
 	}printf("\n");
 	return 0;
-	
 }
 
