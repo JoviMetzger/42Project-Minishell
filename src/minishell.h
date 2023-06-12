@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/08 09:24:34 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/12 09:29:19 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,17 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define EMPTY 0
-# define CMD 1
-# define ARG 2
-# define PIPE 3 
+enum
+{
+	EMPTY;
+	WORD;
+	PIPE;
+	INPUT_REDIRECTION;
+	OUTPUT_REDIRECTION;
+	APPEND_REDIRECTION;
+	HERE_DOCUMENT;
+	ENV_VAR;
+}
 
 typedef struct s_history
 {
@@ -54,8 +61,11 @@ void		create_history(char *str, t_history **data);
 int			printf_history(t_history *data);
 t_history	*create_newnode(char *str);
 int			quote_check(char *str);
-void	add_token_end(t_token **top, t_token *new);
-t_token	*new_token(char *str);
+void		add_token_end(t_token **top, t_token *new);
+t_token		*new_token(char *str);
+t_token		*split_token(char *str);
+int 		strlen_char(char *str, char c);
+t_token	*tokenized(char *str);
 
 //void add_coomand_to_history(t_history *history, const char *input);//
 //void print_history(t_history *history);//
