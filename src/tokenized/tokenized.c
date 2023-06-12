@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/12 14:02:29 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/12 14:15:15 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_token	*tokenized(char *str)
 		return (NULL);
 	top = split_token(str);
 	curr = top;
-	while (curr != NULL)
+	while (curr != NULL)//give every token a type
 	{
 		if (curr->prev == NULL || curr->prev->type == PIPE)
 			curr->type = CMD;

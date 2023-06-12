@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/06 17:10:10 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/12 14:18:29 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,7 @@ int main(int argc, char **argv, char **envp)
     {
         display_prompt();
         input = readline(NULL);
-        
         create_history(input, &data);
-        //lexer(input);
-        /* lexer_error;
-        (Few errors are discernible at the lexical level alone.
-Lexical analyzer has a very localized view of the source text. It cannot tell whether a string fi is a misspelling of a keyword if or an identifier.
-The lexical analyzer can detect characters that are not in the alphabet or strings
-that have no pattern.
-In general, when an error is found, the lexical analyzer stops (but other actions
-are also possible).) */
-        //parser;
         if (input[0] != 0)
             ft_commands(&input, envp, data);
     }

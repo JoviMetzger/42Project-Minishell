@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/12 11:46:44 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/12 18:56:34 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,13 @@ void		create_history(char *str, t_history **data);
 int			printf_history(t_history *data);
 t_history	*create_newnode(char *str);
 int			quote_check(char *str);
-int quote_count(char *str, int i,int *quo_nb, char quo);
+int			quote_count(char *str, int i,int *quo_nb, char quo);
 void		add_token_end(t_token **top, t_token *new);
 t_token		*new_token(char *str);
 t_token		*split_token(char *str);
 int 		strlen_char(char *str, char c);
 t_token		*tokenized(char *str);
 
-//void add_coomand_to_history(t_history *history, const char *input);//
-//void print_history(t_history *history);//
 //void free_history(t_history *history); //
 void ft_commands(char **input, char **envp, t_history *data);
 

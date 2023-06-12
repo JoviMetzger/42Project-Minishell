@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/12 13:48:45 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/12 14:17:59 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	*split_token(char *str)
 	top = NULL;
 	while (str[i] && str[i] == ' ')
 		i++;
-	while (str[i])
+	while (str[i])//split str to token based on different types(etc: deal with metacharacter), can add more...
 	{
 		if (str[i] == '\'')
 		{
