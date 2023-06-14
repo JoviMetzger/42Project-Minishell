@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/09 15:06:38 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/14 18:29:09 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int main(int argc, char **argv, char **envp)
             exit(0);
         }
         create_history(input, &data);
-        if (ft_strcmp(&input[0], "exit") == 0)
-            exit(0);
+        if (ft_strcmp(&input[0], "exit") == 0) 
+            ft_exit(1, 0);     //ft_exit
         if (ft_strcmp(&input[0], "history") == 0)
             printf_history(data);
-        // tokens = tokenize(input);
-        // parse_and_execute(tokens, envp);
+        //tokens = tokenize(input);
+        //parse_and_execute(tokens, envp);
         // free_tokens(tokens);
     }
     return (0);
