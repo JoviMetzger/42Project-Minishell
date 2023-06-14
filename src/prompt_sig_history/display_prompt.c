@@ -1,44 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlcpy.c                                       :+:    :+:            */
+/*   display_prompt.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 17:23:57 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 10:55:06 by jmetzger      ########   odam.nl         */
+/*   Created: 2023/06/05 13:54:49 by jmetzger      #+#    #+#                 */
+/*   Updated: 2023/06/14 10:27:54 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t n)
+void    display_prompt()
 {
-	size_t	i;
-
-	i = 0;
-	if (n > 0)
-	{
-		while (src[i] && i < (n - 1))
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		dest[i] = '\0';
-	}
-	return (ft_strlen(src));
-}
-
-char	*ft_strcpy(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+    printf("minishell" RED BOLD " ➔  " RESET);
 }

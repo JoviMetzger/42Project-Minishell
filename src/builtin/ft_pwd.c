@@ -1,44 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlcpy.c                                       :+:    :+:            */
+/*   ft_pwd.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/10 17:23:57 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 10:55:06 by jmetzger      ########   odam.nl         */
+/*   Created: 2023/06/06 16:38:26 by jmetzger      #+#    #+#                 */
+/*   Updated: 2023/06/14 10:28:07 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	if (n > 0)
-	{
-		while (src[i] && i < (n - 1))
-		{
-			dest[i] = src[i];
-			i++;
-		}
-		dest[i] = '\0';
-	}
-	return (ft_strlen(src));
-}
-
-char	*ft_strcpy(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+// void ft_pwd()
+// {
+//     char *buf;
+    
+//     buf = (char *)malloc(sizeof(char) * 1000);
+//     if (getcwd(buf, 1000) != NULL)
+//         printf("%s\n", buf);
+//     else 
+//         perror("getcwd() error");
+//     free(buf);
+// }

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/08 13:42:16 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/09 15:06:38 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,16 @@ int main(int argc, char **argv, char **envp)
     (void)argc;
     (void)argv;
     (void)envp;
-    //ft_signal_handler();
+    ft_signal_handler(1);
     while (1)
     {
         display_prompt();
         input = readline(NULL);
+        if (!input)
+        {
+            printf("\n");
+            exit(0);
+        }
         create_history(input, &data);
         if (ft_strcmp(&input[0], "exit") == 0)
             exit(0);

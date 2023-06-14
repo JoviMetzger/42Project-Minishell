@@ -10,22 +10,24 @@ CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # CFLAGS		+= -Werror
 
 # Readline Files
-# INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
-# Include	= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
-Include		= -lreadline
+INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
+Include		= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
+#Include		= -lreadline
 
 # Sources files
 SRC			= ./src/main.c \
-				./src/display_prompt.c \
-				./src/create_history.c \
-				# ./src/command.c \
-				# ./src/ft_pwd.c \
-				# ./src/ft_env.c \
-				# ./src/ft_echo.c \
-				# ./src/ft_cd.c \
-				# ./src/signals.c \
-				# ./src/ft_export.c \
-				# ./src/ft_unset.c \
+				./src/prompt_sig_history/display_prompt.c \
+				./src/prompt_sig_history/create_history.c \
+				./src/prompt_sig_history/signals.c \
+				./src/builtin/ft_pwd.c \
+				./src/builtin/ft_env.c \
+				./src/builtin/ft_echo.c \
+				./src/builtin/ft_cd.c \
+				./src/builtin/ft_export.c \
+				./src/builtin/ft_unset.c \
+				./src/tokenized/split_token.c \
+				./src/tokenized/token_util.c \
+				./src/tokenized/tokenized.c \
 
 
 # Objects files
@@ -55,7 +57,19 @@ $(LIBFT):
 
 $(OBJDIR)/%.o: ./src/%.c
 		@mkdir -p $(OBJDIR)
-		$(CC) $(CFLAGS) $(INC_FILE) $(Include) -c -o $@ $^
+		$(CC) $(CFLAGS) $(INC_FILE) $(Include) -c -o $@ $<
+
+$(OBJDIR)/%.o: ./src/prompt_sig_history/%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/%.o: ./src/tokenized/%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/%.o: ./src/builtin/%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c -o $@ $<
 
 # Clean
 clean:
