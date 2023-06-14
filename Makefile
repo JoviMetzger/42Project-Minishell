@@ -19,15 +19,16 @@ SRC			= ./src/main.c \
 				./src/prompt_sig_history/display_prompt.c \
 				./src/prompt_sig_history/create_history.c \
 				./src/prompt_sig_history/signals.c \
-				./src/builtin/ft_pwd.c \
-				./src/builtin/ft_env.c \
-				./src/builtin/ft_echo.c \
-				./src/builtin/ft_cd.c \
-				./src/builtin/ft_export.c \
-				./src/builtin/ft_unset.c \
-				./src/tokenized/split_token.c \
-				./src/tokenized/token_util.c \
-				./src/tokenized/tokenized.c \
+				./src/builtin/ft_exit.c \
+				# ./src/builtin/ft_pwd.c \
+				# ./src/builtin/ft_env.c \
+				# ./src/builtin/ft_echo.c \
+				# ./src/builtin/ft_cd.c \
+				# ./src/builtin/ft_export.c \
+				# ./src/builtin/ft_unset.c \
+				# ./src/tokenized/split_token.c \
+				# ./src/tokenized/token_util.c \
+				# ./src/tokenized/tokenized.c \
 
 
 # Objects files
