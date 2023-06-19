@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/12 14:15:15 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/19 11:28:42 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_token	*tokenized(char *str)
 
 //test:gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
 
-int main(void)
+/* int main(void)
 {
 	t_token *test;
 	t_token *curr;
@@ -116,5 +116,5 @@ int main(void)
 		curr = curr->next;
 	}printf("\n");
 	return 0;
-}
+} */
 

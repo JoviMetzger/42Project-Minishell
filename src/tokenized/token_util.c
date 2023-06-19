@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:04:23 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/12 13:33:36 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/19 16:18:40 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_token	*new_token(char *str)
 		return (NULL);
 	new->str = str;
 	new->type = EMPTY;
+	new->index = 0;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -45,7 +46,9 @@ t_token	*new_token(char *str)
 void	add_token_end(t_token **top, t_token *new)
 {
 	t_token	*current;
+	int		i;
 
+	i = 1;
 	current = *top;
 	if (!new)
 		return ;
@@ -55,9 +58,13 @@ void	add_token_end(t_token **top, t_token *new)
 		return ;
 	}
 	while (current->next != NULL)
+	{
 		current = current->next;
+		i++;
+	}
 	current->next = new;
 	new->prev = current;
+	new->index = i;
 }
 
 //test: gcc token_util.c
