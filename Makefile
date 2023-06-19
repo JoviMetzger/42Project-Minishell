@@ -1,28 +1,20 @@
-# Executable
 NAME		= minishell
-
-# Libraries
 LIBFT		= ./libft/libft.a
-
-# Compiler and flags
 CC			= gcc
-CFLAGS		= -Wall -Wextra -g #-fsanitize=address
-# CFLAGS		+= -Werror
-
-# Readline Files
-# INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
-# Include	= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
+CFLAGS		= -Werror -Wall -Wextra -g
 Include	= -lreadline
 
-# Sources files
 SRC			= ./src/main.c \
 				./src/display_prompt.c \
 				./src/command.c \
 				./src/create_history.c \
-				# ./src/history.c
+				./src/tokenized/split_token.c\
+				./src/tokenized/token_util.c \
+				./src/tokenized/tokenized.c\
+				./src/execute/run.c\
+				./src/execute/create_cmd.c\
 
-# Objects files
-OBJ			= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
+OBJ			= $(SRC:.c=.o)
 
 # Object Directory
 OBJDIR 		= obj

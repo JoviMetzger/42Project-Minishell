@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/19 11:28:42 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/19 18:15:26 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int quote_count(char *str, int i,int *quo_nb, char quo)
 	i++;
 	while(str[i])
 	{
-		if (str[i] == '\"')
+		if (str[i] == quo)
 		{
 			quo_nb++;;
 			break ;
