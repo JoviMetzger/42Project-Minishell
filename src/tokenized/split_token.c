@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/12 14:17:59 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 12:22:49 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,19 @@ t_token	*split_token(char *str)
 			//printf("3.%s$, len:%i\n",line,len);
 			add_token_end(&top, new_token(line));
 		}
-		if (str[i] == '|' || str[i] == '&' || str[i] == '<'|| str[i] == '>')
+		if (str[i] == '|' || str[i] == '&' || (str[i] == '<' && str[i+1] != '<') || (str[i] == '>'&& str[i+1] != '>'))
 		{
 			line = ft_substr(str, i, 1);
 			//printf("4.%s$, len:%i\n",line,1);
 			add_token_end(&top, new_token(line));
 			i++;
+		}
+		if ((str[i] == '<' && str[i+1] == '<' && str[i+2] != '<') || (str[i] == '>'&& str[i+1] == '>' && str[i+2] != '>'))
+		{
+			line = ft_substr(str, i, 2);
+			//printf("5.%s$, len:%i\n",line,1);
+			add_token_end(&top, new_token(line));
+			i+=2;
 		}
 		if (str[i] != ' ' && str[i] != '\"' &&str[i] != '\''&& str[i] != '|')
 		{
@@ -76,7 +83,7 @@ t_token	*split_token(char *str)
 	t_token *curr;
 
 	
-	test = split_token("  c\"\'\'\"  c\'\"\"\' b\"cd\" c \"\'\'\" | \'hello world\' ");
+	test = split_token("  c\"\'\'\" <<<< c\'\"\"\' b\"cd\" c \"\'\'\" | \'hello world>\'>>");
 	//test = split_token("  chkhk df");
 	//test = split_token(" cmd arg| cmd");
 	printf("%s ", "test");

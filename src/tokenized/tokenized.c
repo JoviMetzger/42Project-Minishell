@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/20 09:45:31 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 11:33:37 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ t_token	*tokenized(char *str)
 	curr = top;
 	while (curr != NULL)//give every token a type
 	{
-		if (curr->prev == NULL || curr->prev->type == PIPE)
-			curr->type = CMD;
-		else if (ft_strcmp(curr->str, "|") == 0)
+		if (ft_strcmp(curr->str, "|") == 0)
 			curr->type = PIPE;
 		else if (ft_strcmp(curr->str, "&") == 0)
 			curr->type = AT;
@@ -85,6 +83,8 @@ t_token	*tokenized(char *str)
 			curr->type = HERE_DOCUMENT;
 		else if (ft_strcmp(curr->str, ">>") == 0)
 			curr->type = APPEND_REDIRECTION;
+		else if ((curr->prev == NULL || curr->prev->type == PIPE) && curr->type == EMPTY)
+			curr->type = CMD;
 		else if (curr->prev->type == CMD || curr->prev->type == ARG || curr->type == EMPTY)
 			curr->type = ARG;
 		else if (curr->prev->type == INPUT_REDIRECTION || curr->type == EMPTY)

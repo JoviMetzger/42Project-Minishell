@@ -13,6 +13,7 @@ SRC			= ./src/main.c \
 				./src/tokenized/tokenized.c\
 				./src/execute/run.c\
 				./src/execute/create_cmd.c\
+				./src/execute/find_path.c\
 
 OBJ			= $(SRC:.c=.o)
 
@@ -44,8 +45,8 @@ $(OBJDIR)/%.o: ./src/%.c
 
 # Clean
 clean:
-		$(MAKE) clean -C ./libft
-		@rm -rf $(OBJDIR)
+		@$(MAKE) clean -C ./libft
+		@rm -rf $(OBJ)
 		@echo "$(GREEN) $(ITALIC) ✅ Cleaned object files ✅$(RESET)"
 
 fclean: clean

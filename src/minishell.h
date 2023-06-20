@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/20 09:17:43 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 17:38:56 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ typedef struct s_cmd
 {
 	char			**words;
 	int				len;
+	int				out;
+	int				in;
 	struct s_cmd	*next;
 }t_cmd;
 
@@ -86,10 +88,14 @@ t_cmd	*token_to_cmd(t_token **token);
 char	*find_path(char *cmd, char **envp);
 int		path_index(char **envp);
 void	run_cmd(t_cmd *cmd, char **envp);
+void	last_cmd_child(t_cmd *cmd, char **envp);
+
+//child
+void	cmd_child(t_cmd *cmd, char **envp);
 
 //free cmd && token && str
 
 //void free_history(t_history *history); //
-void ft_commands(char **input, char **envp, t_history *data);
+void ft_commands(char *input, char **envp, t_history *data);
 
 #endif

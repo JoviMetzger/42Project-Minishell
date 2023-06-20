@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/20 11:06:26 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 16:13:56 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 {
 	char *str;
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
-	//str = " cmd arg| cmd aa a a a |";
+	str = " cmd arg| cmd aa a a a |";
 	//str = " cmd arg|";
 	//str = "  chkhk df ";//have segmentation fault
 	//str = "  chkhk ";
@@ -180,4 +180,5 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 		curr=curr->next;
 	} 
 	return 0;
-}  */
+} 
+ */

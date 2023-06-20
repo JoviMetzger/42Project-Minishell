@@ -6,51 +6,12 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/20 09:39:01 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 17:51:27 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
-
-int		path_index(char **envp)
-{
-	int	i;
-
-	i = 1;
-	while(envp[++i] != NULL)
-	{
-		
-		if (ft_strnstr(envp[i], "PATH", 4) != NULL)
-			return (i);
-	}
-	if (!envp[i])
-		return (-1);
-	return (i);
-}
-
-char	*find_path(char *cmd, char **envp)
-{
-	char	*path_undone;
-	char	*path;
-	char	**all_path;
-	int		i;
-	
-	
-	i = path_index(envp);
-	if (i < 0)
-		return (NULL);
-	all_path = ft_split(envp[i] + 5, ':');
-	i = -1;
-	while (all_path[++i])
-	{
-		path_undone = ft_strjoin(all_path[i], "/");
-		path = ft_strjoin(path_undone, cmd);
-		if (access(path, F_OK) == 0)
-			return (path);
-	}
-	return (NULL);
-}
 
 void	run_cmd(t_cmd *cmd, char **envp)
 {
@@ -61,8 +22,56 @@ void	run_cmd(t_cmd *cmd, char **envp)
 		//exit(1);//print_error
 }
 
-//complie:gcc create_cmd.c run.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
+void	cmd_child(t_cmd *cmd, char **envp)
+{
+	int		fd[2];
+	pid_t	id;
 
+	pipe(fd);
+	id = fork();
+	if (id == -1)
+		exit(1);
+	cmd->in = fd[0];
+	cmd->out = fd[1];
+	if (id == 0)
+	{
+		dup2(fd[1], 1);
+		run_cmd(cmd, envp);
+		close(fd[1]);
+		close(fd[0]);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		//close(fd[0]);
+		waitpid(id, NULL, 0);
+	}
+}
+
+void	last_cmd_child(t_cmd *cmd, char **envp)
+{
+	//int		fd[2];
+	pid_t	id;
+
+	//pipe(fd);
+	id = fork();
+	if (id == -1)
+		exit(1);
+	if (id == 0)
+	{
+		dup2(cmd->in, 1);
+		run_cmd(cmd, envp);
+	}
+	else
+	{
+		close(cmd->in);
+		waitpid(id, NULL, 0);
+	}
+}
+
+//complie:gcc find_path.c create_cmd.c run.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
+//test
 
 /* int main(int argc, char **envp)
 {
