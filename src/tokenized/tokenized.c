@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/19 18:15:26 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 09:45:31 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ t_token	*tokenized(char *str)
 	t_token *test;
 	t_token *curr;
 	char *str;
-	str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
+	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
 	//str = " cmd arg| cmd";
-	//str = "  chkhk df";
+	str = "  chkhk df";
 	
 	test = tokenized(str);
 	curr = test;

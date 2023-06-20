@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/19 17:07:43 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 11:06:26 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cmd	*token_to_cmd(t_token **token)
 
 	curr = *token;
 	cmd = NULL;
-	while(curr->next != NULL)
+	while(curr != NULL)
 	{
 		i = 0;
 		if (curr->type == CMD)
@@ -32,13 +32,15 @@ t_cmd	*token_to_cmd(t_token **token)
 			words = malloc(sizeof(char *) * len);
 			if (!words)
 				return (NULL);//free some thing
+			words[len - 1] = NULL;
 			while (i < len - 1)
 			{
 				words[i] = curr->str;
-				curr = curr->next;
 				i++;
+				if (curr->next == NULL)
+					break ;
+				curr = curr->next;
 			}
-			words[i] = NULL;
 			new = new_cmd(words, len);
 			add_cmd_end(&cmd, new);
 		}
@@ -57,19 +59,22 @@ int	cmd_len(t_token **token, int index)
 	curr = *token;
 	while(curr != NULL)
 	{
-		if (curr->index == index && curr->type == CMD && curr->next != NULL)
+		if (curr->index == index && curr->type == CMD && curr!= NULL)
 		{
 			i++;
+			if(curr->next == NULL)
+				return (i);
 			curr = curr->next;
-			while (curr->type == ARG && curr->next != NULL)
+			while (curr->type == ARG && curr != NULL)
 			{
 				i++;
+				if(curr->next == NULL)
+					return(i);
 				curr = curr->next;
 			}
-			break ;
+			return(i);
 		}
 		curr = curr->next;
-
 	}
 	return (i);
 }
@@ -127,9 +132,9 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	str2[0]= "222";
 	str2[1]= "ads121as";
 	str2[2]= NULL;
-	add_cmd_end(&cmd, new_cmd(str));
-	add_cmd_end(&cmd, new_cmd(str2));
-	add_cmd_end(&cmd, new_cmd(str));
+	add_cmd_end(&cmd, new_cmd(str,3));
+	add_cmd_end(&cmd, new_cmd(str2,3));
+	add_cmd_end(&cmd, new_cmd(str,3));
 	t_cmd *curr = cmd;
 	while (curr != NULL)
 	{
@@ -147,19 +152,23 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 
 
 
-
+//complie:gcc create_cmd.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
 //test2:token_to_cmd && cmd_len
+
 /* int main(int argc, char **argv, char **envp)
 {
 	char *str;
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
-	str = " cmd arg| cmd aa a a a |";
-	//str = "  chkhk df";
+	//str = " cmd arg| cmd aa a a a |";
+	//str = " cmd arg|";
+	//str = "  chkhk df ";//have segmentation fault
+	//str = "  chkhk ";
 	
 	t_token *token = tokenized(str);
+	int len = cmd_len(&token, 0);
+	printf("%i ",len);
 	t_cmd *cmd = token_to_cmd(&token);
 	t_cmd *curr = cmd;
-	int len = 0;
 	while (curr != NULL)
 	{
 		int i = 0;
@@ -169,6 +178,6 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 			i++;
 		}
 		curr=curr->next;
-	}
+	} 
 	return 0;
-} */
+}  */

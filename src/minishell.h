@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/19 18:21:44 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/20 09:17:43 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_cmd	*token_to_cmd(t_token **token);
 //run
 char	*find_path(char *cmd, char **envp);
 int		path_index(char **envp);
-void	run_cmd(char **cmd, char **envp);
+void	run_cmd(t_cmd *cmd, char **envp);
 
 //free cmd && token && str
 
