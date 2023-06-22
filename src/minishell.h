@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/20 17:38:56 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 12:29:17 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ void	last_cmd_child(t_cmd *cmd, char **envp);
 //child
 void	cmd_child(t_cmd *cmd, char **envp);
 
-//free cmd && token && str
+//free and print error : cmd && token && str
+void	print_error(void);
+void	free_2dstr(char **str);
 
 //void free_history(t_history *history); //
 void ft_commands(char *input, char **envp, t_history *data);

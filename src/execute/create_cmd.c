@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/20 16:13:56 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 13:17:10 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_cmd	*token_to_cmd(t_token **token)
 			len = cmd_len(&curr, curr->index);
 			words = malloc(sizeof(char *) * len);
 			if (!words)
-				return (NULL);//free some thing
+				print_error();
 			words[len - 1] = NULL;
 			while (i < len - 1)
 			{

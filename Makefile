@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: yizhang <yizhang@student.codam.nl>           +#+                      #
+#                                                    +#+                       #
+#    Created: 2023/06/22 12:30:01 by yizhang       #+#    #+#                  #
+#    Updated: 2023/06/22 12:30:02 by yizhang       ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		= minishell
 LIBFT		= ./libft/libft.a
 CC			= gcc
@@ -14,6 +26,7 @@ SRC			= ./src/main.c \
 				./src/execute/run.c\
 				./src/execute/create_cmd.c\
 				./src/execute/find_path.c\
+				./src/execute/free_error.c\
 
 OBJ			= $(SRC:.c=.o)
 

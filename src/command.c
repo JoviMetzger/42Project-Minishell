@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/20 17:57:33 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 12:22:20 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void ft_commands(char *input, char **envp, t_history *data)
 
 	if (ft_strcmp(input, "exit") == 0)
 		exit(0);
-	else if (ft_strcmp(input, "env") == 0)
-		printf("history\n");
 	else if (ft_strcmp(input, "history") == 0)
 		printf_history(data);
 	else
@@ -39,9 +37,8 @@ void ft_commands(char *input, char **envp, t_history *data)
 				curr=curr->next;
 				cmd_child(curr, envp);
 			}
-			run_cmd(curr, envp);
+			last_cmd_child(curr, envp);
 		}
-		
 	}
 }
 
