@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/22 13:51:54 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 16:50:11 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	last_cmd_child(t_cmd *cmd, char **envp)
 
 	id = fork();
 	if (id == -1)
-		exit(1);
+		print_error();
 	if (id == 0)
 		run_cmd(cmd, envp);
 	else

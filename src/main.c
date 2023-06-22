@@ -6,26 +6,26 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/22 13:44:32 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 17:27:06 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+
+
 int main(int argc, char **argv, char **envp)
 {
-	char *input;
-	t_history *data;
+	t_data all;
 
 	(void)argc;
 	(void)argv;
 	while (1)
 	{
-		//display_prompt();
-		input = readline("minishell-> ");
-		add_history(input);
-		create_history(input, &data);
-		ft_commands(input, envp, data);
+		all.input = readline("minishell-> ");
+		add_history(all.input);
+		create_history(&all);
+		ft_commands(envp, &all);
 	}
 	return (0);
 }

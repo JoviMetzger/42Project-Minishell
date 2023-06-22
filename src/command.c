@@ -6,39 +6,48 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/22 12:22:20 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 17:52:23 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_commands(char *input, char **envp, t_history *data)
+void ft_commands(char **envp, t_data *all)
 {
-	t_cmd *cmd;
 	t_cmd *curr;
-	t_token *token;
 	pid_t	id;
-
-	if (ft_strcmp(input, "exit") == 0)
+	(void)envp;
+	if (ft_strcmp(all->input, "exit") == 0)
 		exit(0);
-	else if (ft_strcmp(input, "history") == 0)
-		printf_history(data);
+	else if (ft_strcmp(all->input, "history") == 0)
+		printf_history(all->history);
 	else
 	{
-		token = tokenized(input);
-		cmd = token_to_cmd(&token);
-		curr = cmd;
+		tokenized(all);
+		token_to_cmd(all);
+		free_token(all);
+		curr = all->cmd;
 		id = fork();
 		if (id == 0)
 		{
-			cmd_child(curr, envp);
+			if (curr->next == NULL)
+			{
+				last_cmd_child(curr, envp);
+				return ;
+			}
 			while (curr->next != NULL)
 			{
-				curr=curr->next;
 				cmd_child(curr, envp);
+				curr=curr->next;
 			}
 			last_cmd_child(curr, envp);
 		}
+		else
+		{
+			waitpid(id, NULL, 0);
+			free_cmd(all);
+		}
+		
 	}
 }
 

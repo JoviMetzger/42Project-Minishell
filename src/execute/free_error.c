@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/22 12:47:52 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 17:51:06 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,35 @@ void	free_2dstr(char **str)
 	i = -1;
 	while (str[++i])
 		free(str[i]);
-	free(str);
+	if (str)
+		free(str);
 }
 
-/* free_cmd
+void	free_token(t_data *all)
+{
+	t_token	*tmp;
 
-free_token
+	while(all->token != NULL)
+	{
+		tmp = all->token;
+		all->token = all->token->next;
+		free(tmp);
+	}
+}
 
-free_history */
+
+
+void	 free_cmd(t_data *all)
+{
+	t_cmd	*tmp;
+
+	while(all->cmd != NULL)
+	{
+		tmp = all->cmd;
+		free_2dstr(tmp->words);
+		all->cmd = all->cmd->next;
+		free(tmp);
+	}
+}
+
+//free_history

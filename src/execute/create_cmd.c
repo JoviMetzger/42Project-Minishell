@@ -6,23 +6,22 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/22 13:17:10 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 16:23:16 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmd	*token_to_cmd(t_token **token)
+void	token_to_cmd(t_data *all)
 {
-	t_cmd	*cmd;
 	t_cmd	*new;
 	t_token *curr;
 	char	**words;
 	int		len;
 	int		i;
 
-	curr = *token;
-	cmd = NULL;
+	curr = all->token;
+	all->cmd = NULL;
 	while(curr != NULL)
 	{
 		i = 0;
@@ -42,11 +41,10 @@ t_cmd	*token_to_cmd(t_token **token)
 				curr = curr->next;
 			}
 			new = new_cmd(words, len);
-			add_cmd_end(&cmd, new);
+			add_cmd_end(&all->cmd, new);
 		}
 		curr = curr->next;
 	}
-	return (cmd);
 }
 
  

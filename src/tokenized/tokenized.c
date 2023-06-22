@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/20 11:33:37 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/22 16:20:09 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,17 @@ int quote_count(char *str, int i,int *quo_nb, char quo)
 	return (i);
 }
 
-t_token	*tokenized(char *str)
+void	tokenized(t_data *all)
 {
-	t_token		*top;
 	t_token		*curr;
 	int		i;
 
 	i = -1;
-	if (quote_check(str) == 1)
-		return (NULL);
-	top = split_token(str);
-	curr = top;
-	while (curr != NULL)//give every token a type
+	if (quote_check(all->input) == 1)
+		return ;
+	all->token = split_token(all->input);
+	curr = all->token;
+	while (curr != NULL)
 	{
 		if (ft_strcmp(curr->str, "|") == 0)
 			curr->type = PIPE;
@@ -85,15 +84,14 @@ t_token	*tokenized(char *str)
 			curr->type = APPEND_REDIRECTION;
 		else if ((curr->prev == NULL || curr->prev->type == PIPE) && curr->type == EMPTY)
 			curr->type = CMD;
-		else if (curr->prev->type == CMD || curr->prev->type == ARG || curr->type == EMPTY)
+		else if ((curr->prev->type == CMD || curr->prev->type == ARG) && curr->type == EMPTY)
 			curr->type = ARG;
-		else if (curr->prev->type == INPUT_REDIRECTION || curr->type == EMPTY)
+		else if (curr->prev->type == INPUT_REDIRECTION && curr->type == EMPTY)
 			curr->type = INFILE;
-		else if (curr->prev->type == OUTPUT_REDIRECTION || curr->type == EMPTY)
+		else if (curr->prev->type == OUTPUT_REDIRECTION && curr->type == EMPTY)
 			curr->type = OUTFILE;
 		curr = curr->next;
 	}
-	return (top);
 }
 
 //test:gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
@@ -105,16 +103,17 @@ t_token	*tokenized(char *str)
 	char *str;
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
 	//str = " cmd arg| cmd";
-	str = "  chkhk df";
+	//str = "  chkhk df";
+	str = "  chkhk df >outfile <infile";
 	
 	test = tokenized(str);
 	curr = test;
 	printf("test:%s\n", str);
 	while (curr != NULL)
 	{
-		printf("%i:%s, ", curr->type, curr->str);
+		printf("%i:%s\n", curr->type, curr->str);
 		curr = curr->next;
-	}printf("\n");
+	}//printf("\n");
 	return 0;
 } */
 
