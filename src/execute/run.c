@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/22 16:50:11 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/28 09:57:22 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@ void	run_cmd(t_cmd *cmd, char **envp)
 	char *path;
 	
 	path = find_path(cmd->words[0], envp);
-	if (execve(path, cmd->words, envp) == -1)
+	if( ft_strcmp(cmd->words[0], "exit" )== 0)
+	{
+		printf("it's exit");
+		exit(0);
+	}
+	else if (execve(path, cmd->words, envp) == -1)
 		print_error();
 }
 

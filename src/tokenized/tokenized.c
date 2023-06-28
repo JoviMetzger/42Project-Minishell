@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/22 16:20:09 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/28 11:41:13 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ int	quote_check(char *str)
 	if (s_quo % 2 != 0 || d_quo % 2 != 0)
 	{
 		printf("unclosed quote error \n");
-		return (1);
+		exit (1);
 	}
 	return (0);
 }
 
 int quote_count(char *str, int i,int *quo_nb, char quo)
 {
-	quo_nb++;
+	*quo_nb += 1;
 	i++;
 	while(str[i])
 	{
 		if (str[i] == quo)
 		{
-			quo_nb++;;
+			*quo_nb += 1;
 			break ;
 		}
 		i++;
@@ -65,7 +65,8 @@ void	tokenized(t_data *all)
 
 	i = -1;
 	if (quote_check(all->input) == 1)
-		return ;
+		exit (1);
+	printf("didn't exit");
 	all->token = split_token(all->input);
 	curr = all->token;
 	while (curr != NULL)
@@ -96,24 +97,24 @@ void	tokenized(t_data *all)
 
 //test:gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
 
-/* int main(void)
+int main(void)
 {
-	t_token *test;
 	t_token *curr;
+	t_data	all;
 	char *str;
-	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
-	//str = " cmd arg| cmd";
-	//str = "  chkhk df";
-	str = "  chkhk df >outfile <infile";
+	all.input = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
+	//all.input = " cmd arg| cmd";
+	//all.input = "  chkhk df";
+	//all.input = "  chkhk df >outfile <infile";
 	
-	test = tokenized(str);
-	curr = test;
-	printf("test:%s\n", str);
+	tokenized(&all);
+	curr = all.token;
+	printf("test:%s\n", all.input);
 	while (curr != NULL)
 	{
 		printf("%i:%s\n", curr->type, curr->str);
 		curr = curr->next;
 	}//printf("\n");
 	return 0;
-} */
+}
 
