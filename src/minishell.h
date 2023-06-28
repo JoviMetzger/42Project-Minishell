@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/22 17:51:19 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/28 14:48:14 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ enum type
 	CMD,
 	ARG,
 	PIPE,
+	INPUT_REDIRECTION,
 	INFILE,
+	OUTPUT_REDIRECTION,
 	OUTFILE,
 	AT,
-	INPUT_REDIRECTION,
-	OUTPUT_REDIRECTION,
 	APPEND_REDIRECTION,
 	HERE_DOCUMENT,
 	ENV_VAR,
+	WORDS,
 };
 
 typedef struct s_history
@@ -49,14 +50,15 @@ typedef struct s_data
 	struct s_token		*token;
 	struct	s_history	*history;
 	char				*input;
-	int					infile;
-	int					outfile;
+	int					pipe_have_cmd;
 }t_data;
 
 typedef struct s_cmd
 {
 	char			**words;
 	int				len;
+	int				infile;
+	int				outfile;
 	struct s_cmd	*next;
 }t_cmd;
 
@@ -105,7 +107,7 @@ void	cmd_child(t_cmd *cmd, char **envp);
 void	print_error(void);
 void	free_2dstr(char **str);
 void	free_token(t_data *all);
-void	 free_cmd(t_data *all);
+void	free_cmd(t_data *all);
 
 //void free_history(t_history *history); //
 void ft_commands(char **envp, t_data *data);

@@ -6,7 +6,7 @@
 #    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/06/20 11:56:57 by yizhang       #+#    #+#                  #
-#    Updated: 2023/06/20 12:14:15 by yizhang       ########   odam.nl          #
+#    Updated: 2023/06/28 14:32:08 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,4 +32,22 @@ fil: No such file or directory
 outhers:empty
 new1:output
 
-7.
+7.ls k wc
+ls: k: No such file or directory
+ls: wc: No such file or directory
+
+8.ls "|" wc
+ls: wc: No such file or directory
+ls: |: No such file or directory
+
+9.|cat
+bash: syntax error near unexpected token `|'
+
+10.|cat|
+bash: syntax error near unexpected token `|'
+
+11."echo" hello
+hello
+
+12."echo -n" hello
+bash: echo -n: command not found
