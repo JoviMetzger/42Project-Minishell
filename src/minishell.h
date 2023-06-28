@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/28 14:48:14 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/28 16:14:54 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>//open
 
 enum type
 {
@@ -93,6 +94,8 @@ int		cmd_len(t_token **token, int index);
 void	add_cmd_end(t_cmd **top, t_cmd *new);
 t_cmd	*new_cmd(char **words, int len);
 void	token_to_cmd(t_data *all);
+t_cmd	*ft_new_cmd(void);
+void	add_inout_file(t_data *all);
 
 //run
 char	*find_path(char *cmd, char **envp);

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/28 14:52:33 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/28 17:52:23 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,29 @@ void	token_to_cmd(t_data *all)
 		}
 		curr = curr->next;
 	}
+	add_inout_file(all);
 }
 
- 
+void	add_inout_file(t_data *all)
+{
+	t_token *curr;
+	t_cmd	*cmd;
+
+
+	curr = all->token;
+	cmd = all->cmd;
+	while(curr != NULL)
+	{
+		if (curr->type == INFILE)
+			cmd->infile = open(curr->str, O_RDONLY);
+		else if (curr->type == OUTFILE)
+			cmd->outfile = open(curr->str, O_WRONLY | O_CREAT, 0777);
+		if (curr->type == PIPE)
+			cmd = cmd->next;
+		curr = curr->next;
+	}
+}
+
 int	cmd_len(t_token **token, int index)
 {
 	int	i;
@@ -88,6 +108,7 @@ t_cmd	*new_cmd(char **words, int len)
 	new->next = NULL;
 	new->len = len;
 	new->infile = -1;
+	new->outfile = -1;
 	return (new);
 }
 
@@ -184,3 +205,38 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	} 
 	return 0;
 }  */
+
+//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
+//test2:token_to_cmd && cmd_len
+
+/* int main(int argc, char **argv, char **envp)
+{
+	t_data all;
+	char *str;
+	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
+	str = " <outfile <outfile cmd arg>outfile| cmd1 aa a a a >1outfile|";
+	//str = " cmd arg|";
+	//str = "  chkhk df ";//have segmentation fault
+	//str = "  chkhk ";
+	all.input = str;
+
+	tokenized(&all);
+	int len = cmd_len(&all.token, 0);
+	printf("len : %i \n",len);
+	token_to_cmd(&all);
+	add_inout_file(&all);
+	t_cmd *curr = all.cmd;
+	while (curr != NULL)
+	{
+		int i = 0;
+		while (i < curr->len)
+		{
+			printf("%s ",curr->words[i]);
+			i++;
+		}
+		printf("infile: %i, outfile: %i\n", curr->infile, curr->outfile);
+		curr=curr->next;
+	} 
+	return 0;
+} 
+ */

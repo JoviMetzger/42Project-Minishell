@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/28 09:57:22 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/28 16:59:03 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ void	cmd_child(t_cmd *cmd, char **envp)
 		exit(1);
 	if (id == 0)
 	{
-		dup2(fd[1], 1);
+		dup2(fd[1],1);
 		run_cmd(cmd, envp);
 		close(fd[1]);
 		close(fd[0]);
 	}
 	else
 	{
+		dup2(fd[0],0);
 		close(fd[1]);
-		dup2(fd[0], 0);
 		close(fd[0]);
 		waitpid(id, NULL, 0);
 	}
