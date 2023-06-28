@@ -1,36 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_pwd.c                                           :+:    :+:            */
+/*   display_prompt.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/06 16:38:26 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/23 08:35:48 by jmetzger      ########   odam.nl         */
+/*   Created: 2023/06/05 13:54:49 by jmetzger      #+#    #+#                 */
+/*   Updated: 2023/06/27 15:39:49 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_pwd()
+void    display_prompt()
 {
-    char *buf;
-    
-    buf = (char *)malloc(sizeof(char) * 1000);
-    if (getcwd(buf, 1000) != NULL)
-        printf("%s\n", buf);
-    else 
-        perror("getcwd() error");
-    free(buf);
+    printf("minishell" RED BOLD " ➔  " RESET);
 }
-
-
-// // ---MAIN-------------
-// #include <stdio.h>
-// #include <string.h>
-
-// int main(void)
-// {
-//     ft_pwd();
-//     return (0);
-// }

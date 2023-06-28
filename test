@@ -1,0 +1,42 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    test                                               :+:    :+:             #
+#                                                      +:+                     #
+#    By: yizhang <yizhang@student.codam.nl>           +#+                      #
+#                                                    +#+                       #
+#    Created: 2023/06/20 11:56:57 by yizhang       #+#    #+#                  #
+#    Updated: 2023/06/23 12:49:57 by jmetzger      ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
+
+
+1. ls > out | < out wc >file1
+create two file
+out:output, file 1 empty
+
+2.ls > out2 | < out3 wc >file1
+No such file or directory
+
+3.ls > out >file2
+create two file
+out:empty , file2:output
+
+4. < file3 < out2 cat
+only out cat
+
+5. < fil < ot2 cat
+fil: No such file or directory
+
+6.ls >out > 9out < out  >new1
+outhers:empty
+new1:output
+
+7.
+
+
+// - Jovi NOTE:
+- "env" doesn't display anything.
+- "echo" works, but doesn't do the exact correct thing.
+- "exit" works, but only if you repeat it.
+- Signals are not working a 100%.

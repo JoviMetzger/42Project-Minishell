@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/14 10:51:00 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/27 14:49:37 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,11 @@ int	quote_check(char *str)
 
 int quote_count(char *str, int i,int *quo_nb, char quo)
 {
-	(void)quo;
 	quo_nb++;
 	i++;
 	while(str[i])
 	{
-		if (str[i] == '\"')
+		if (str[i] == quo)
 		{
 			quo_nb++;;
 			break ;
@@ -59,22 +58,19 @@ int quote_count(char *str, int i,int *quo_nb, char quo)
 	return (i);
 }
 
-t_token	*tokenized(char *str)
+void	tokenized(t_data *all)
 {
-	t_token		*top;
 	t_token		*curr;
 	int		i;
 
 	i = -1;
-	if (quote_check(str) == 1)
-		return (NULL);
-	top = split_token(str);
-	curr = top;
-	while (curr != NULL)//give every token a type
+	if (quote_check(all->input) == 1)
+		return ;
+	all->token = split_token(all->input);
+	curr = all->token;
+	while (curr != NULL)
 	{
-		if (curr->prev == NULL || curr->prev->type == PIPE)
-			curr->type = CMD;
-		else if (ft_strcmp(curr->str, "|") == 0)
+		if (ft_strcmp(curr->str, "|") == 0)
 			curr->type = PIPE;
 		else if (ft_strcmp(curr->str, "&") == 0)
 			curr->type = AT;
@@ -86,35 +82,37 @@ t_token	*tokenized(char *str)
 			curr->type = HERE_DOCUMENT;
 		else if (ft_strcmp(curr->str, ">>") == 0)
 			curr->type = APPEND_REDIRECTION;
-		else if (curr->prev->type == CMD || curr->prev->type == ARG || curr->type == EMPTY)
+		else if ((curr->prev == NULL || curr->prev->type == PIPE) && curr->type == EMPTY)
+			curr->type = CMD;
+		else if ((curr->prev->type == CMD || curr->prev->type == ARG) && curr->type == EMPTY)
 			curr->type = ARG;
-		else if (curr->prev->type == INPUT_REDIRECTION || curr->type == EMPTY)
+		else if (curr->prev->type == INPUT_REDIRECTION && curr->type == EMPTY)
 			curr->type = INFILE;
-		else if (curr->prev->type == OUTPUT_REDIRECTION || curr->type == EMPTY)
+		else if (curr->prev->type == OUTPUT_REDIRECTION && curr->type == EMPTY)
 			curr->type = OUTFILE;
 		curr = curr->next;
 	}
-	return (top);
 }
 
 //test:gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
 
-// int main(void)
-// {
-// 	t_token *test;
-// 	t_token *curr;
-// 	char *str;
-// 	str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
-// 	//str = " cmd arg| cmd";
-// 	//str = "  chkhk df";
+/* int main(void)
+{
+	t_token *test;
+	t_token *curr;
+	char *str;
+	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
+	//str = " cmd arg| cmd";
+	//str = "  chkhk df";
+	str = "  chkhk df >outfile <infile";
 	
-// 	test = tokenized(str);
-// 	curr = test;
-// 	printf("test:%s\n", str);
-// 	while (curr != NULL)
-// 	{
-// 		printf("%i:%s, ", curr->type, curr->str);
-// 		curr = curr->next;
-// 	}printf("\n");
-// 	return 0;
-// }
+	test = tokenized(str);
+	curr = test;
+	printf("test:%s\n", str);
+	while (curr != NULL)
+	{
+		printf("%i:%s\n", curr->type, curr->str);
+		curr = curr->next;
+	}//printf("\n");
+	return 0;
+} */

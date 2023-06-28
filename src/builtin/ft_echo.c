@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:40 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 15:07:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/24 13:07:28 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void ft_echo(char **input)
             printf("\n");
     }
 }
+
 
 
 // // ---MAIN-------------

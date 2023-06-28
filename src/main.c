@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 18:29:09 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/28 11:07:36 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,22 @@
 
 int main(int argc, char **argv, char **envp)
 {
-    char *input;
-    t_history *data;
-    //t_token *tokens;
+    t_data all;
     
     (void)argc;
     (void)argv;
-    (void)envp;
-    ft_signal_handler(1);
+    //ft_signal_handler(1);
     while (1)
     {
+        //signals_wait_cmd();
         display_prompt();
-        input = readline(NULL);
-        if (!input)
-        {
-            printf("\n");
-            exit(0);
-        }
-        create_history(input, &data);
-        if (ft_strcmp(&input[0], "exit") == 0) 
-            ft_exit(1, 0);     //ft_exit
-        if (ft_strcmp(&input[0], "history") == 0)
-            printf_history(data);
-        //tokens = tokenize(input);
-        //parse_and_execute(tokens, envp);
-        // free_tokens(tokens);
+        all.input = readline(NULL);
+       // signals_run_cmd();
+        create_history(&all);
+        // env_init(&all, envp);
+        ft_commands(envp, &all);
     }
+    //free_env();
     return (0);
 }
 

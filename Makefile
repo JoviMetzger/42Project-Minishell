@@ -16,19 +16,26 @@ Include		= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
 
 # Sources files
 SRC			= ./src/main.c \
-				./src/prompt_sig_history/display_prompt.c \
-				./src/prompt_sig_history/create_history.c \
-				./src/prompt_sig_history/signals.c \
+				./src/utils/display_prompt.c \
+				./src/utils/create_history.c \
+				./src/utils/signals.c \
+				./src/utils/commands.c \
+				./src/tokenized/split_token.c \
+				./src/tokenized/token_util.c \
+				./src/tokenized/tokenized.c \
+				./src/execute/create_cmd.c \
+				./src/execute/find_path.c \
+				./src/execute/free_error.c \
+				./src/execute/run.c \
 				./src/builtin/ft_exit.c \
-				# ./src/builtin/ft_pwd.c \
-				# ./src/builtin/ft_env.c \
-				# ./src/builtin/ft_echo.c \
-				# ./src/builtin/ft_cd.c \
+				./src/builtin/ft_cd.c \
+				./src/builtin/ft_pwd.c \
+				./src/builtin/ft_echo.c \
+				./src/builtin/ft_env.c \
+				./src/env/env.c \
 				# ./src/builtin/ft_export.c \
 				# ./src/builtin/ft_unset.c \
-				# ./src/tokenized/split_token.c \
-				# ./src/tokenized/token_util.c \
-				# ./src/tokenized/tokenized.c \
+
 
 
 # Objects files
@@ -60,7 +67,7 @@ $(OBJDIR)/%.o: ./src/%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) $(INC_FILE) $(Include) -c -o $@ $<
 
-$(OBJDIR)/%.o: ./src/prompt_sig_history/%.c
+$(OBJDIR)/%.o: ./src/utils/%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
@@ -69,6 +76,14 @@ $(OBJDIR)/%.o: ./src/tokenized/%.c
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/builtin/%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/%.o: ./src/execute/%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/%.o: ./src/env/%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 

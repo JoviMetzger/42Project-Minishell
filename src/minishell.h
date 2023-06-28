@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 18:38:31 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/28 11:02:05 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_token
 {
 	char			*str;
 	int				type;
+	int				index;
 	struct s_token	*next;
 	struct s_token	*prev;
 }   t_token;
@@ -65,17 +66,31 @@ typedef struct s_history
 // Struct for command
 typedef struct s_cmd
 {
-	int				index;
 	char			**words;
+	int				len;
 	struct s_cmd	*next;
-}   t_cmd;
+}t_cmd;
 
 // Struct for environment
 typedef struct s_env
 {
+	char            *name;
 	char            *value;
     struct s_env    *next;
 }   t_env;
+
+
+// main struct
+typedef struct s_data
+{
+	struct s_cmd		*cmd;
+	struct s_token		*token;
+	struct	s_history	*history;
+	struct s_env		*env;
+	char				*input;
+	int					infile;
+	int					outfile;
+} t_data;
 
 // -- Function declaration --
 // OTHER
@@ -84,11 +99,12 @@ void        display_prompt();
 
 // HISTORY
 int         printf_history(t_history *data);
-void        create_history(char *str, t_history **data);
+void		create_history(t_data *all);
 
 // SIGNALS
-void        handle_sig_d(int signal);
-void        ft_signal_handler(int sig);
+// void        ft_signal_handler();
+void signals_wait_cmd(void);
+void signals_run_cmd(void);
 
 // TOKEN
 int			quote_count(char *str, int i,int *quo_nb, char quo);
@@ -98,20 +114,42 @@ void		add_token_end(t_token **top, t_token *new);
 t_history   *create_newnode(char *str);
 t_token		*new_token(char *str);
 t_token		*split_token(char *str);
-t_token		*tokenized(char *str);
+void		tokenized(t_data *all);
 
-// // BUILTIN
-void        ft_cd(const char **arg);
+// CMD
+int		cmd_len(t_token **token, int index);
+void	add_cmd_end(t_cmd **top, t_cmd *new);
+t_cmd	*new_cmd(char **words, int len);
+void	token_to_cmd(t_data *all);
+char	*find_path(char *cmd, char **envp);
+int		path_index(char **envp);
+void	run_cmd(t_cmd *cmd, char **envp);
+void	last_cmd_child(t_cmd *cmd, char **envp);
+void	cmd_child(t_cmd *cmd, char **envp);
+
+// ENV
+void env_init(t_env *env_list, char **input);
+void free_env(t_env *env);
+char *expand_env_vars(const char *input, t_env *env_list);
+
+// BUILTIN
+void        ft_cd(char **arg);
 void        ft_echo(char **input);
-// void        ft_env(t_env *env, char **arg);
-//void        ft_exit(char **argv, char *cmd); //rm
-void ft_exit(int exit_status, int argc);
-// void        ft_export(t_env **env, char **arg);
+void        ft_env(t_env *env);
+void        ft_exit(char **argv);
+void        ft_export(char **arg);
 void        ft_pwd();
-// void        ft_unset(t_env **env, char **arg);
+void        ft_unset(char **arg);
 
-// // EXEXUTE
-// void        parse_and_execute(t_token *token, char **envp);
+// FREE AND PRINT_ERROR: cmd && token && str
+void	print_error(void);
+void	free_2dstr(char **str);
+void	free_token(t_data *all);
+void	 free_cmd(t_data *all);
 
+// EXEXUTE
+void ft_commands(char **input, t_data *all);
+void    exec_builtin_cmd(char **input);
+//void    exec_builtin_cmd(char **input) ; //, t_data *data);
 
 #endif

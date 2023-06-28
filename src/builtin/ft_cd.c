@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:26 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 15:51:04 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/23 08:19:13 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // chdir();
 //  used to change the current working directory of the calling process.
-void ft_cd(const char *path)
+void ft_cd(char **path)
 {
     const char *home;
     int result;
@@ -27,7 +27,7 @@ void ft_cd(const char *path)
     }
     else
     {
-        result = chdir(path);
+        result = chdir(*path);
         if (result != 0)
             perror("cd");
     }
