@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/28 14:11:10 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/29 15:20:35 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*split_token(char *str)
 	top = NULL;
 	while (str[i] && str[i] == ' ')
 		i++;
-	while (str[i])//split str to token based on different types(etc: deal with metacharacter), can add more...
+	while (str[i])
 	{
 		if (str[i] == '\'')
 		{
@@ -38,7 +38,7 @@ t_token	*split_token(char *str)
 			i = len + start + 1;
 			//printf("2.%s$, len:%i\n",line,len);
 			new = new_token(line);
-			new->type = WORDS;
+			new->type = WORD;
 			add_token_end(&top, new);
 		}
 		else if (str[i] == '\"')
@@ -49,15 +49,15 @@ t_token	*split_token(char *str)
 			i = len + start + 1;
 			//printf("3.%s$, len:%i\n",line,len);
 			new = new_token(line);
-			new->type = WORDS;
+			new->type = WORD;
 			add_token_end(&top, new);
 		}
-		else if (str[i] == '|' || str[i] == '&' || (str[i] == '<' && str[i+1] != '<') || (str[i] == '>'&& str[i+1] != '>'))
+		else if (str[i] == '|' || str[i] == '&' || (str[i] == '<' && str[i+1] != '<') || (str[i] == '>'&& str[i + 1] != '>'))
 		{
 			line = ft_substr(str, i, 1);
 			//printf("4.%s$, len:%i\n",line,1);
 			add_token_end(&top, new_token(line));
-			i+=1;
+			i += 1;
 		}
 		else if ((str[i] == '<' && str[i+1] == '<' && str[i+2] != '<') || (str[i] == '>'&& str[i+1] == '>' && str[i+2] != '>'))
 		{
@@ -66,7 +66,7 @@ t_token	*split_token(char *str)
 			add_token_end(&top, new_token(line));
 			i+=2;
 		}
-		else if (str[i] != ' ' && str[i] != '\"' &&str[i] != '\''&& str[i] != '|')
+		else if (str[i] != ' ' && str[i] != '\"' && str[i] != '\''&& str[i] != '|' )
 		{
 			len = strlen_char(&str[i], ' ');
 			line = ft_substr(str, i, len);
@@ -94,6 +94,7 @@ t_token	*split_token(char *str)
 	//str = "  c\"\'\'\" <<<< c\'\"\"\' b\"cd\" c \"\'\'\" | \'hello world>\'>>";
 	//str = "  chkhk df";
 	//str = " cmd arg| cmd";
+	str = " <infile as<infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	test = split_token(str);
 	printf("%s ", "test");
 	//str = " cmd arg| cmd";

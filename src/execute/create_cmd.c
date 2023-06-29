@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/28 17:52:23 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/29 15:20:07 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,33 @@ void	token_to_cmd(t_data *all)
 	int		i;
 
 	curr = all->token;
+	words = NULL;
 	all->cmd = NULL;
 	while(curr != NULL)
 	{
 		i = 0;
-		if (curr->type == CMD)
+		
+		if (curr->index == 0 || (curr->prev && curr->prev->type == PIPE))
 		{
 			len = cmd_len(&curr, curr->index);
 			words = malloc(sizeof(char *) * len);
 			if (!words)
-				print_error();
+				print_error(NULL);
 			words[len - 1] = NULL;
-			while (i < len - 1)
+			while (curr->type != PIPE && curr != NULL)
 			{
-				words[i] = curr->str;
-				i++;
-				if (curr->next == NULL)
-					break ;
+				if (curr->type == WORD)
+				{
+					words[i] = curr->str;
+					i++;
+				}
 				curr = curr->next;
 			}
 			new = new_cmd(words, len);
 			add_cmd_end(&all->cmd, new);
 		}
+		if (!curr->next)
+			return ;
 		curr = curr->next;
 	}
 	add_inout_file(all);
@@ -75,19 +80,14 @@ int	cmd_len(t_token **token, int index)
 
 	i = 1;
 	curr = *token;
-	while(curr != NULL)
+	while(curr != NULL )
 	{
-		if (curr->index == index && curr->type == CMD && curr!= NULL)
+		if (curr->index == index)
 		{
-			i++;
-			if(curr->next == NULL)
-				return (i);
-			curr = curr->next;
-			while (curr->type == ARG && curr != NULL)
+			while (curr->type != PIPE && curr != NULL)
 			{
-				i++;
-				if(curr->next == NULL)
-					return(i);
+				if (curr->type == WORD)
+					i++;
 				curr = curr->next;
 			}
 			return(i);
@@ -214,7 +214,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	t_data all;
 	char *str;
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
-	str = " <outfile <outfile cmd arg>outfile| cmd1 aa a a a >1outfile|";
+	str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
 	//str = " cmd arg|";
 	//str = "  chkhk df ";//have segmentation fault
 	//str = "  chkhk ";
@@ -224,7 +224,6 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	int len = cmd_len(&all.token, 0);
 	printf("len : %i \n",len);
 	token_to_cmd(&all);
-	add_inout_file(&all);
 	t_cmd *curr = all.cmd;
 	while (curr != NULL)
 	{
@@ -234,9 +233,8 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 			printf("%s ",curr->words[i]);
 			i++;
 		}
-		printf("infile: %i, outfile: %i\n", curr->infile, curr->outfile);
+		//printf("infile: %i, outfile: %i\n", curr->infile, curr->outfile);
 		curr=curr->next;
 	} 
 	return 0;
-} 
- */
+}  */

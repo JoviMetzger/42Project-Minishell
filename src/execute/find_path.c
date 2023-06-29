@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/20 12:25:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/22 17:37:21 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/29 10:31:41 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*find_path(char *cmd, char **envp)
 	{
 		path_undone = ft_strjoin(all_path[i], "/");
 		path = ft_strjoin(path_undone, cmd);
+		free(path_undone);
 		if (access(path, F_OK) == 0)
 		{
 			free_2dstr(all_path);

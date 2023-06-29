@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/28 16:14:54 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/29 15:18:36 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,23 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>//open
+#include <errno.h>//errno
 
 enum type
 {
 	EMPTY,
-	CMD,
-	ARG,
+	WORD,
 	PIPE,
-	INPUT_REDIRECTION,
+	INPUT_RE,
 	INFILE,
-	OUTPUT_REDIRECTION,
+	OUTPUT_RE,
 	OUTFILE,
 	AT,
-	APPEND_REDIRECTION,
+	APPEND_RE,
+	APPFILE,
 	HERE_DOCUMENT,
+	DELIMITER,
 	ENV_VAR,
-	WORDS,
 };
 
 typedef struct s_history
@@ -51,13 +52,17 @@ typedef struct s_data
 	struct s_token		*token;
 	struct	s_history	*history;
 	char				*input;
-	int					pipe_have_cmd;
 }t_data;
 
 typedef struct s_cmd
 {
 	char			**words;
 	int				len;
+	//char			*in;
+	//char			*out;
+	//char			*app;
+	//char			*deli;
+	int				appfile;
 	int				infile;
 	int				outfile;
 	struct s_cmd	*next;
@@ -107,7 +112,7 @@ void	last_cmd_child(t_cmd *cmd, char **envp);
 void	cmd_child(t_cmd *cmd, char **envp);
 
 //free and print error : cmd && token && str
-void	print_error(void);
+void	print_error(char *str);
 void	free_2dstr(char **str);
 void	free_token(t_data *all);
 void	free_cmd(t_data *all);
