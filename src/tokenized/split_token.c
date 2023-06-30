@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/29 15:20:35 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/29 15:40:59 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ t_token	*split_token(char *str)
 	//str = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
 	//str = "&&&cmd "; //break pipe
 	//str = "  c\"\'\'\" <<<< c\'\"\"\' b\"cd\" c \"\'\'\" | \'hello world>\'>>";
-	//str = "  chkhk df";
+	str = "  chkhk df";
 	//str = " cmd arg| cmd";
-	str = " <infile as<infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
+	//str = " <infile as<infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	test = split_token(str);
 	printf("%s ", "test");
 	//str = " cmd arg| cmd";
@@ -105,4 +105,5 @@ t_token	*split_token(char *str)
 		curr = curr->next;
 	}printf("\n");
 	return 0;
-} */
+}
+ */

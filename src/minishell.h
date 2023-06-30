@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/29 15:18:36 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/30 11:06:57 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,7 @@ typedef struct s_cmd
 {
 	char			**words;
 	int				len;
-	//char			*in;
-	//char			*out;
-	//char			*app;
-	//char			*deli;
-	int				appfile;
-	int				infile;
-	int				outfile;
+	struct s_token	*redi;
 	struct s_cmd	*next;
 }t_cmd;
 
@@ -93,6 +87,7 @@ void		tokenized(t_data *all);
 void		add_token_end(t_token **top, t_token *new);
 t_token		*new_token(char *str);
 t_token		*split_token(char *str);
+t_token	*copy_token(t_token *old);
 
 //cmd
 int		cmd_len(t_token **token, int index);
@@ -100,22 +95,29 @@ void	add_cmd_end(t_cmd **top, t_cmd *new);
 t_cmd	*new_cmd(char **words, int len);
 void	token_to_cmd(t_data *all);
 t_cmd	*ft_new_cmd(void);
-void	add_inout_file(t_data *all);
+
 
 //run
 char	*find_path(char *cmd, char **envp);
 int		path_index(char **envp);
 void	run_cmd(t_cmd *cmd, char **envp);
-void	last_cmd_child(t_cmd *cmd, char **envp);
 
 //child
 void	cmd_child(t_cmd *cmd, char **envp);
+void	last_cmd_child(t_cmd *cmd, char **envp);
 
 //free and print error : cmd && token && str
 void	print_error(char *str);
 void	free_2dstr(char **str);
 void	free_token(t_data *all);
 void	free_cmd(t_data *all);
+
+//redi
+void	redi_in(t_cmd *cmd);
+void	redi_out(t_cmd *cmd);
+void	redi_app(t_cmd *cmd);
+void	add_redirection(t_data *all);
+
 
 //void free_history(t_history *history); //
 void ft_commands(char **envp, t_data *data);

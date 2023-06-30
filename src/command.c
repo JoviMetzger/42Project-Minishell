@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/29 09:51:22 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/29 17:20:36 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,40 +32,19 @@ void ft_commands(char **envp, t_data *all)
 		{
 			if (curr->next == NULL)
 			{
-				if (curr->infile != -1)
-					dup2(curr->infile,0);
-				if (curr->outfile != -1)
-					dup2(curr->outfile,1);
+				//redi_in(curr);
+				//redi_out(curr);
 				last_cmd_child(curr, envp);
-				if (curr->infile != -1)
-					close(curr->infile);
-				if (curr->outfile != -1)
-					close(curr->outfile);
 				return ;
 			}
 			while (curr->next != NULL)
 			{
-				if (curr->infile != -1)
-					dup2(curr->infile,0);
-				if (curr->outfile != -1)
-					dup2(curr->outfile,1);
 				cmd_child(curr, envp);
-				if (curr->infile != -1)
-					close(curr->infile);
-				if (curr->outfile != -1)
-					close(curr->outfile);
 				curr=curr->next;
 			}
-			if (curr->infile != -1)
-				dup2(curr->infile,0);
-			if (curr->outfile != -1)
-				dup2(curr->outfile,1);
+			//redi_in(curr);
+			//redi_out(curr);
 			last_cmd_child(curr, envp);
-			if (curr->infile != -1)
-				close(curr->infile);
-			if (curr->outfile != -1)
-				close(curr->outfile);
-			
 		}
 		else
 		{

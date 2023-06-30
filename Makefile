@@ -6,7 +6,7 @@
 #    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/06/22 12:30:01 by yizhang       #+#    #+#                  #
-#    Updated: 2023/06/22 12:30:02 by yizhang       ########   odam.nl          #
+#    Updated: 2023/06/29 16:58:42 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC			= ./src/main.c \
 				./src/execute/create_cmd.c\
 				./src/execute/find_path.c\
 				./src/execute/free_error.c\
-
+				./src/execute/redirection.c\
+				
 OBJ			= $(SRC:.c=.o)
 
 # Object Directory
