@@ -96,7 +96,6 @@ void		create_history(t_data *all);
 t_history	*create_newnode(char *str);
 
 // SIGNALS
-void		ft_signal_handler();
 void		signals_wait(void);
 void		signals_run(void);
 
