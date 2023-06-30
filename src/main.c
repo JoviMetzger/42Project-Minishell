@@ -31,13 +31,12 @@ int main(int argc, char **argv, char **envp)
 		printf(RED "!" RESET " This program does not accept arguments" RED "!\n" RESET);
 		exit(0);
 	}
-    // signal(SIGINT, handle_ctrl_c);
-	// signal(SIGQUIT, handle_ctrl_bs);
     while (1)
     {
+        signals_wait();
         prompt = display_prompt();
-        ft_signal_handler(3);
         all.input = readline(prompt);
+        signals_run();
         ft_free(prompt);
         add_history(all.input);
         //create_history(&all);
