@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/29 17:20:36 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/30 12:28:04 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void ft_commands(char **envp, t_data *all)
 		{
 			if (curr->next == NULL)
 			{
-				//redi_in(curr);
-				//redi_out(curr);
+
 				last_cmd_child(curr, envp);
 				return ;
 			}
@@ -42,8 +41,6 @@ void ft_commands(char **envp, t_data *all)
 				cmd_child(curr, envp);
 				curr=curr->next;
 			}
-			//redi_in(curr);
-			//redi_out(curr);
 			last_cmd_child(curr, envp);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/30 11:08:15 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/30 12:26:56 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	token_to_cmd(t_data *all)
 			break ;
 		curr = curr->next;
 	}
-	add_redirection(all);
+	add_redirection(all);//segv
 }
 
-void	add_redirection(t_data *all)
+void	add_redirection(t_data *all)//segv
 {
 	t_token *curr;
 	t_cmd	*cmd;
@@ -63,7 +63,7 @@ void	add_redirection(t_data *all)
 	curr = all->token;
 	cmd = all->cmd;
 	cmd->redi = NULL;
-	while(cmd != NULL)
+	while(cmd != NULL && curr != NULL)
 	{
 		if (curr->type == INFILE || curr->type == OUTFILE)
 			add_token_end(&cmd->redi, copy_token(curr));
@@ -71,7 +71,6 @@ void	add_redirection(t_data *all)
 			cmd = cmd->next;
 		curr = curr->next;
 	}
-	curr =NULL;
 }
 
 int	cmd_len(t_token **token, int index)
@@ -224,7 +223,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	t_token *curr = all.cmd->redi;
 	printf("%s ",curr->str);
 	int i =0;
-	while (curr != NULL )
+	while (curr != NULL)
 	{
 		i++;
 		printf("%s ",curr->str);

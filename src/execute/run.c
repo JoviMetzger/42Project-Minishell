@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/29 17:20:40 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/30 12:31:08 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ void	cmd_child(t_cmd *cmd, char **envp)
 		exit(1);
 	if (id == 0)
 	{
-		//redi_in(cmd);
-		//redi_out(cmd);
-		dup2(fd[1],1);
+		if (cmd->redi)
+			do_redirection(cmd);
+		else
+			dup2(fd[1],1);
 		close(fd[1]);
 		run_cmd(cmd, envp);
 		
@@ -52,6 +53,7 @@ void	cmd_child(t_cmd *cmd, char **envp)
 	}
 	else
 	{
+		if (cmd->redi)
 		dup2(fd[0],0);
 		close(fd[1]);
 		close(fd[0]);
@@ -68,8 +70,7 @@ void	last_cmd_child(t_cmd *cmd, char **envp)
 		print_error(NULL);
 	if (id == 0)
 	{
-		redi_in(cmd);
-		redi_out(cmd);
+		do_redirection(cmd);
 		run_cmd(cmd, envp);
 	}
 	else

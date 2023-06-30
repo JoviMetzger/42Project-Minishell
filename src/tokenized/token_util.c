@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:04:23 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/30 11:07:16 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/30 12:24:20 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token	*copy_token(t_token *old)
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
-	new->str = old->str;
+	new->str = ft_strdup(old->str);
 	new->type = old->type;
 	new->next = NULL;
 	new->prev = NULL;

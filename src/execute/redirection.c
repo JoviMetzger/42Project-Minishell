@@ -6,37 +6,54 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/29 10:51:55 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/29 17:22:26 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/30 12:35:01 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	redi_in(t_cmd *cmd)
+void	do_redirection(t_cmd *cmd)
 {
-	if (!cmd->in)
-		return ;
-	cmd->infile = open(cmd->in, O_RDONLY);
-	dup2(cmd->infile, 0);
-	close(cmd->infile);
+	t_token	*redi;
+
+	redi = cmd->redi;
+	while(redi)
+	{
+		if(redi->type == INFILE)
+			redi_in(redi);
+		else if (redi->type == OUTFILE)
+			redi_out(redi);
+		else if (redi->type == APPFILE)
+			redi_app(redi);
+		redi = redi->next;
+	}
 }
 
-void	redi_out(t_cmd *cmd)
+void	redi_in(t_token *redi)
 {
-	if (!cmd->out)
-		return ;
-	cmd->outfile = open(cmd->out, O_WRONLY | O_CREAT , 0777);
-	dup2(cmd->outfile, 0);
-	close(cmd->outfile);
+	int	file;
+	
+	file = open(redi->str, O_RDONLY);
+	dup2(file, 0);
+	close(file);
 }
 
-void	redi_app(t_cmd *cmd)
+void	redi_out(t_token *redi)
 {
-	if (!cmd->app)
-		return ;
-	cmd->appfile = open(cmd->app, O_WRONLY | O_APPEND | O_CREAT , 0777);
-	dup2(cmd->appfile, 0);
-	close(cmd->appfile);
+	int	file;
+	
+	file = open(redi->str, O_WRONLY | O_CREAT |O_TRUNC, 0777);
+	dup2(file, 1);
+	close(file);
+}
+
+void	redi_app(t_token *redi)
+{
+	int	file;
+	
+	file = open(redi->str, O_WRONLY | O_APPEND | O_CREAT , 0777);
+	dup2(file, 1);
+	close(file);
 }
 
 //mini_pipe

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/30 11:06:57 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/06/30 12:14:37 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		tokenized(t_data *all);
 void		add_token_end(t_token **top, t_token *new);
 t_token		*new_token(char *str);
 t_token		*split_token(char *str);
-t_token	*copy_token(t_token *old);
+t_token		*copy_token(t_token *old);
 
 //cmd
 int		cmd_len(t_token **token, int index);
@@ -113,11 +113,11 @@ void	free_token(t_data *all);
 void	free_cmd(t_data *all);
 
 //redi
-void	redi_in(t_cmd *cmd);
-void	redi_out(t_cmd *cmd);
-void	redi_app(t_cmd *cmd);
+void	redi_in(t_token *redi);
+void	redi_out(t_token *redi);
+void	redi_app(t_token *redi);
 void	add_redirection(t_data *all);
-
+void	do_redirection(t_cmd *cmd);
 
 //void free_history(t_history *history); //
 void ft_commands(char **envp, t_data *data);
