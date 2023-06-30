@@ -6,16 +6,19 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/23 07:53:48 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/30 14:26:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_error(void)
+void	print_error(char *str)
 {
-	printf("error!\n");
-	exit(1);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	exit(errno);
 }
 
 void	free_2dstr(char **str)
@@ -40,8 +43,6 @@ void	free_token(t_data *all)
 		free(tmp);
 	}
 }
-
-
 
 void	 free_cmd(t_data *all)
 {

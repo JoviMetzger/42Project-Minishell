@@ -27,12 +27,13 @@ SRC			= ./src/main.c \
 				./src/execute/find_path.c \
 				./src/execute/free_error.c \
 				./src/execute/run.c \
+				./src/execute/redirection.c \
+				./src/builtin/builtin_cmd.c \
 				./src/builtin/ft_exit.c \
 				./src/builtin/ft_cd.c \
 				./src/builtin/ft_pwd.c \
 				./src/builtin/ft_echo.c \
 				./src/builtin/ft_env.c \
-				./src/env/env.c \
 				# ./src/builtin/ft_export.c \
 				# ./src/builtin/ft_unset.c \
 
@@ -80,10 +81,6 @@ $(OBJDIR)/%.o: ./src/builtin/%.c
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/execute/%.c
-		@mkdir -p $(OBJDIR)
-		$(CC) $(CFLAGS) -c -o $@ $<
-
-$(OBJDIR)/%.o: ./src/env/%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 

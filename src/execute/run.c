@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/28 11:00:45 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/30 14:27:02 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,19 @@ void	run_cmd(t_cmd *cmd, char **envp)
 {
 	char *path;
 	
-	path = find_path(cmd->words[0], envp);
-	if ((is_builtin_cmd(cmd->words[0])) == 1) 
-		exec_builtin_cmd(cmd->words);
+	if( ft_strcmp(cmd->words[0], "builtin" )== 0)
+	{
+		printf("it's builtin");
+		exit(0);
+	}
+	if (access(cmd->words[0], F_OK) == 0)
+		path = cmd->words[0];
+	else
+		path = find_path(cmd->words[0], envp);
+	if (!path)
+		print_error(cmd->words[0]);
 	else if (execve(path, cmd->words, envp) == -1)
-		print_error();
+		print_error(cmd->words[0]);
 }
 
 void	cmd_child(t_cmd *cmd, char **envp)
@@ -29,21 +37,25 @@ void	cmd_child(t_cmd *cmd, char **envp)
 	int		fd[2];
 	pid_t	id;
 
-	pipe(fd);
 	id = fork();
 	if (id == -1)
 		exit(1);
 	if (id == 0)
 	{
-		dup2(fd[1], 1);
-		run_cmd(cmd, envp);
+		if (cmd->redi)
+			do_redirection(cmd);
+		else
+			dup2(fd[1],1);
 		close(fd[1]);
+		run_cmd(cmd, envp);
+		
 		close(fd[0]);
 	}
 	else
 	{
+		if (cmd->redi)
+		dup2(fd[0],0);
 		close(fd[1]);
-		dup2(fd[0], 0);
 		close(fd[0]);
 		waitpid(id, NULL, 0);
 	}
@@ -55,9 +67,12 @@ void	last_cmd_child(t_cmd *cmd, char **envp)
 
 	id = fork();
 	if (id == -1)
-		print_error();
+		print_error(NULL);
 	if (id == 0)
+	{
+		do_redirection(cmd);
 		run_cmd(cmd, envp);
+	}
 	else
 		waitpid(id, NULL, 0);
 }

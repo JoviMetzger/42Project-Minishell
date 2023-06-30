@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/27 14:49:37 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/30 14:25:47 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,20 @@ int	quote_check(char *str)
 	if (s_quo % 2 != 0 || d_quo % 2 != 0)
 	{
 		printf("unclosed quote error \n");
-		return (1);
+		exit (1);
 	}
 	return (0);
 }
 
 int quote_count(char *str, int i,int *quo_nb, char quo)
 {
-	quo_nb++;
+	*quo_nb += 1;
 	i++;
 	while(str[i])
 	{
 		if (str[i] == quo)
 		{
-			quo_nb++;;
+			*quo_nb += 1;
 			break ;
 		}
 		i++;
@@ -61,35 +61,33 @@ int quote_count(char *str, int i,int *quo_nb, char quo)
 void	tokenized(t_data *all)
 {
 	t_token		*curr;
-	int		i;
 
-	i = -1;
 	if (quote_check(all->input) == 1)
-		return ;
+		exit (1);
 	all->token = split_token(all->input);
 	curr = all->token;
 	while (curr != NULL)
 	{
-		if (ft_strcmp(curr->str, "|") == 0)
+		if (ft_strcmp(curr->str, "|") == 0 && curr->type == EMPTY)
 			curr->type = PIPE;
-		else if (ft_strcmp(curr->str, "&") == 0)
+		else if (ft_strcmp(curr->str, "&") == 0&& curr->type == EMPTY)
 			curr->type = AT;
-		else if (ft_strcmp(curr->str, "<") == 0)
-			curr->type = INPUT_REDIRECTION;
-		else if (ft_strcmp(curr->str, ">") == 0)
-			curr->type = OUTPUT_REDIRECTION;
-		else if (ft_strcmp(curr->str, "<<") == 0)
+		else if (ft_strcmp(curr->str, "<") == 0&& curr->type == EMPTY)
+			curr->type = INPUT_RE;
+		else if (ft_strcmp(curr->str, ">") == 0&& curr->type == EMPTY)
+			curr->type = OUTPUT_RE;
+		else if (ft_strcmp(curr->str, "<<") == 0&& curr->type == EMPTY)
 			curr->type = HERE_DOCUMENT;
-		else if (ft_strcmp(curr->str, ">>") == 0)
-			curr->type = APPEND_REDIRECTION;
-		else if ((curr->prev == NULL || curr->prev->type == PIPE) && curr->type == EMPTY)
-			curr->type = CMD;
-		else if ((curr->prev->type == CMD || curr->prev->type == ARG) && curr->type == EMPTY)
-			curr->type = ARG;
-		else if (curr->prev->type == INPUT_REDIRECTION && curr->type == EMPTY)
+		else if (ft_strcmp(curr->str, ">>") == 0&& curr->type == EMPTY)
+			curr->type = APPEND_RE;
+		else if (curr->prev && curr->prev->type == INPUT_RE && curr->type == EMPTY)
 			curr->type = INFILE;
-		else if (curr->prev->type == OUTPUT_REDIRECTION && curr->type == EMPTY)
+		else if (curr->prev && curr->prev->type == OUTPUT_RE && curr->type == EMPTY)
 			curr->type = OUTFILE;
+		else if (curr->prev &&curr->prev->type == APPEND_RE && curr->type == EMPTY)
+			curr->type = DELIMITER;
+		else if (curr->type == EMPTY)
+			curr->type = WORD;
 		curr = curr->next;
 	}
 }
@@ -98,21 +96,34 @@ void	tokenized(t_data *all)
 
 /* int main(void)
 {
-	t_token *test;
 	t_token *curr;
+	t_data	all;
 	char *str;
-	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" ";
-	//str = " cmd arg| cmd";
-	//str = "  chkhk df";
-	str = "  chkhk df >outfile <infile";
+
+	all.cmd =NULL;
+	all.history =NULL;
+	//all.input = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
+	//all.input = " cmd arg| cmd";
+	//all.input = "  chkhk df";
+	//all.input = "  chkhk df >outfile <infile";
+	//all.input = " cmd <file  >outfile | \"|\"<infile";
+	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
+	all.input = " <infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
+	//all.input = "||\"|\"cmd "; //break pipe
+	//all.input = " \"echo\" hello ";
+	//all.input = " \"echo\" hello | wc";
+	//all.input = "<file1 cat > out \"|\" <infile "; //works 
+	//all.input = " <infile cmd >outfile | <infile";
+
 	
-	test = tokenized(str);
-	curr = test;
-	printf("test:%s\n", str);
+	tokenized(&all);
+	curr = all.token;
+	printf("test:%s\n", all.input);
 	while (curr != NULL)
 	{
-		printf("%i:%s\n", curr->type, curr->str);
+		printf(" %i: type :%i :%s\n", curr->index, curr->type , curr->str);
 		curr = curr->next;
 	}//printf("\n");
+	//printf("%s\n", curr->str);
 	return 0;
 } */

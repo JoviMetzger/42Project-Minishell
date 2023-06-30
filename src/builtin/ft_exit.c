@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 12:31:04 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/28 09:39:52 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/28 17:38:58 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int static ft_argc(char **input)
 
 void ft_exit(char **argv)
 {
-    exit(1);
-    int argc = ft_argc(argv);
+    exit(0);
+    int argc;
+    
+    argc = ft_argc(argv);
     printf("exit\n");
     if (argv == NULL)
     {
