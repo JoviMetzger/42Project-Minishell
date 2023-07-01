@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/30 14:44:12 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/01 13:26:55 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ typedef struct s_data
 
 // -- Function declaration --
 // OTHER
-//int         ft_strcmp(char *s1, char *s2);
 char    	*display_prompt();
 void		ft_commands(char **envp, t_data *data);
 void		ft_free(void *ptr);
@@ -141,10 +140,12 @@ void		do_redirection(t_cmd *cmd);
 // BUILTIN
 void        ft_cd(char *path);
 void        ft_echo(char **input);
-void        ft_env(t_data *data);
-void        ft_exit(char **argv);
-void        ft_export(char **arg);
+void		ft_env(char **envp);
+void        ft_exit(char **input);
+void		ft_export(char **input, char **envp);
 void        ft_pwd();
-void        ft_unset(char **arg);
+void		ft_unset(char **input, char **envp);
+void		exec_builtin_cmd(char **input, char **envp);
+int			is_builtin_cmd(char *command);
 
 #endif

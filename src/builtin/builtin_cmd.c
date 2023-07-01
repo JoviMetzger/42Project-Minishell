@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/30 14:22:31 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/30 14:32:43 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/01 13:26:14 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,25 @@ int    is_builtin_cmd(char *command)
         return (1);
     if (ft_strcmp(command, "unset") == 0) 
         return (1);
-	// if (ft_strcmp(command, "exit") == 0)
-	// 	return (1);
+	if (ft_strcmp(command, "exit") == 0)
+		return (1);
     return (0);
 }
 
-void    exec_builtin_cmd(char **input, t_data *all)
+void    exec_builtin_cmd(char **input, char **envp) //, t_data *all)
 {
 	if (ft_strcmp(input[0], "cd") == 0) 
         ft_cd(input[1]);
     else if (ft_strcmp(input[0], "echo") == 0) 
         ft_echo(input);
     else if (ft_strcmp(input[0], "env") == 0) 
-        ft_env(all);
-    // else if (ft_strcmp(input[0], "export") == 0) 
-    //     ft_export(input);
+        ft_env(envp);
+    else if (ft_strcmp(input[0], "export") == 0) 
+        ft_export(input, envp); //printf("eeexxx\n");
     else if (ft_strcmp(input[0], "pwd") == 0) 
         ft_pwd();
-    // else if (ft_strcmp(input[0], "unset") == 0) 
-    //     ft_unset(input);
-	// else if (ft_strcmp(input[0], "exit") == 0)
-	// 	ft_exit(input);
+    else if (ft_strcmp(input[0], "unset") == 0) 
+        ft_unset(input, envp);
+	else if (ft_strcmp(input[0], "exit") == 0)
+		ft_exit(input);
 }

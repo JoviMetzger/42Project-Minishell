@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/30 14:27:02 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/01 11:39:16 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void	run_cmd(t_cmd *cmd, char **envp)
 {
 	char *path;
 	
-	if( ft_strcmp(cmd->words[0], "builtin" )== 0)
-	{
-		printf("it's builtin");
-		exit(0);
-	}
+	// if( ft_strcmp(cmd->words[0], "builtin" )== 0)
+	// {
+	// 	// printf("it's builtin");
+	// 	// exit(0);
+	// }
+	if ((is_builtin_cmd(cmd->words[0])) == 1) 
+		exec_builtin_cmd(cmd->words, envp);
 	if (access(cmd->words[0], F_OK) == 0)
 		path = cmd->words[0];
 	else

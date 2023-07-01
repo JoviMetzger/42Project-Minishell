@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:40 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/28 17:35:09 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/01 17:49:29 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void ft_echo(char **input)
     n = 0;
     if (ft_argc(input) > 1)
     {
-        if (input[i] && ft_strcmp(input[i], "-n") == 0)
+        while (input[i] && ft_strcmp(input[i], "-n") == 0)
         {
             n = 1;
             i++;
@@ -50,8 +50,6 @@ void ft_echo(char **input)
             printf("\n");
     }
 }
-
-
 
 // // ---MAIN-------------
 // int	ft_strcmp(char *s1, char *s2)
@@ -81,3 +79,4 @@ void ft_echo(char **input)
 //     return (0);
     
 // }
+

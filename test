@@ -54,6 +54,5 @@ bash: echo -n: command not found
 
 
 // - Jovi NOTE:
-- "env" doesn't display anything.
 - "exit" works, but only if you repeat it.
 - Signals are not working a 100%.
