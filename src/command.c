@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 16:39:26 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 17:45:28 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ void ft_commands(char **envp, t_data *all)
 			while (curr && curr->next != NULL)
 			{
 				cmd_child(curr, envp);
-				dup2(stdin, 0);
-				dup2(stdout, 1);
-				close(stdin);
-				close(stdout);
+				//dup2(stdin, 0);
+				//dup2(stdout, 1);
+				//close(stdin);
+				//close(stdout);
 				if (!curr->next)
 					exit(0);
 				curr=curr->next;
