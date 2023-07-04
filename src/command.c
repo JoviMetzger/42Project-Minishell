@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 13:11:31 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 13:22:35 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ void ft_commands(char **envp, t_data *all)
 {
 	t_cmd *curr;
 	pid_t	id;
-	(void)envp;
 	if (ft_strcmp(all->input, "exit") == 0)
 		exit(0);
-	else if (ft_strcmp(all->input, "history") == 0)
-		printf_history(all->history);
+	//else if (ft_strcmp(all->input, "history") == 0)
+	//	printf_history(all->history);
 	else if (ft_strcmp(all->input, "") != 0)
 	{
 		tokenized(all);
@@ -33,18 +32,18 @@ void ft_commands(char **envp, t_data *all)
 			if (curr && curr->next == NULL)
 			{
 				last_cmd_child(curr, envp);
-				exit(0);//return ;//
+				exit(0);
 			}
 			while (curr && curr->next != NULL)
 			{
 				cmd_child(curr, envp);
 				if (!curr->next)
-					exit(0);//return ;
+					exit(0);
 				curr=curr->next;
 			}
 			if (curr)
 				last_cmd_child(curr, envp);
-			exit(0);//return ;//
+				exit(0);
 		}
 		else
 		{
