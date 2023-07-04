@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 15:09:50 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 16:37:26 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	run_cmd(t_cmd *cmd, char **envp)
 	else
 		path = find_path(cmd->words[0], envp);
 	if (!path)
-		print_error(cmd->words[0], 0);
+		print_error(cmd->words[0], 127);
 	else if (execve(path, cmd->words, envp) == -1)
 		print_error(cmd->words[0], 0);
 }

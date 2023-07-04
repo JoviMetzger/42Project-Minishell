@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 15:09:21 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 16:43:03 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void	redi_app(t_token *redi);
 void	redi_here_doc(t_token *redi);
 void	add_redirection(t_data *all);
 void	do_redirection(t_cmd *cmd);
-char	*get_next_line(int fd);
 void	here_doc(int in, char *limiter);
 
 //void free_history(t_history *history); //
