@@ -12,7 +12,7 @@ CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # Readline Files
 INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
 Include		= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
-#Include		= -lreadline
+# Include		= -lreadline
 
 # Sources files
 SRC			= ./src/main.c \
@@ -93,7 +93,7 @@ clean:
 fclean: clean
 		@$(MAKE) fclean -C ./libft
 		@rm -f $(NAME)
-		@echo "$(GREEN) $(ITALIC)	  ✅ ✅ ✅$(RESET)"
+		@echo "$(GREEN) $(ITALIC)   ✅ Cleaned executer ✅$(RESET)"
 
 re:		fclean all
 

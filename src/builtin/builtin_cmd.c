@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/30 14:22:31 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/01 13:26:14 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/03 13:08:14 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int    is_builtin_cmd(char *command)
     return (0);
 }
 
-void    exec_builtin_cmd(char **input, char **envp) //, t_data *all)
+void    exec_builtin_cmd(char **input, char **envp)
 {
 	if (ft_strcmp(input[0], "cd") == 0) 
         ft_cd(input[1]);
@@ -40,7 +40,7 @@ void    exec_builtin_cmd(char **input, char **envp) //, t_data *all)
     else if (ft_strcmp(input[0], "env") == 0) 
         ft_env(envp);
     else if (ft_strcmp(input[0], "export") == 0) 
-        ft_export(input, envp); //printf("eeexxx\n");
+        ft_export(input, envp);
     else if (ft_strcmp(input[0], "pwd") == 0) 
         ft_pwd();
     else if (ft_strcmp(input[0], "unset") == 0) 

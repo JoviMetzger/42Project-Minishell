@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/14 09:06:10 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 10:55:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/29 12:34:52 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*ft_strrchr(const char *str, int n);
 size_t	ft_strlen(char const *str);
 size_t	ft_strlcpy(char *dest, char const *src, size_t n);
 char	*ft_strcpy(char *s1, char *s2);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
 size_t	ft_strlcat(char *dest, const char *src, size_t n);
 char	*ft_strcat(char *dest, char *src);
 char	*ft_strncat(char *dest, char *src, unsigned int nb);

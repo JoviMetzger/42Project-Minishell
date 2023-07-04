@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:40 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/01 17:49:29 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/04 11:19:28 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void ft_echo(char **input)
 
 // int main(void)
 // {
-//     char *input[] = {"echo", "-n", "hello", NULL};
+//     char *input[] = {"echo", "-n", "-n", "hello", NULL};
 //     ft_echo(input);
 //     return (0);
     

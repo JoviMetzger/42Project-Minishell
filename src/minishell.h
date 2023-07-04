@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/01 13:26:55 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/04 13:23:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,9 @@ void		create_history(t_data *all);
 t_history	*create_newnode(char *str);
 
 // SIGNALS
-void		signals_wait(void);
-void		signals_run(void);
+void		signals_wait(int *status);
+void		signals_run(int *status);
+void		rl_replace_line(const char *text, int clear_undo);
 
 // TOKEN
 int			quote_check(char *str);
