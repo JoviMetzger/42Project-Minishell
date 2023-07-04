@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/30 12:14:37 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 14:23:58 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ enum type
 	AT,
 	APPEND_RE,
 	APPFILE,
-	HERE_DOCUMENT,
-	DELIMITER,
+	HERE_DOC,
+	DELIMI,
 	ENV_VAR,
 };
 
@@ -109,7 +109,7 @@ void	last_cmd_child(t_cmd *cmd, char **envp);
 //free and print error : cmd && token && str
 void	print_error(char *str);
 void	free_2dstr(char **str);
-void	free_token(t_data *all);
+void	free_token(t_token *token);
 void	free_cmd(t_data *all);
 
 //redi

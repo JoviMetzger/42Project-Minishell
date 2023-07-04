@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 13:03:01 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 14:26:42 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	tokenized(t_data *all)
 		else if (ft_strcmp(curr->str, ">") == 0&& curr->type == EMPTY)
 			curr->type = OUTPUT_RE;
 		else if (ft_strcmp(curr->str, "<<") == 0&& curr->type == EMPTY)
-			curr->type = HERE_DOCUMENT;
+			curr->type = HERE_DOC;
 		else if (ft_strcmp(curr->str, ">>") == 0&& curr->type == EMPTY)
 			curr->type = APPEND_RE;
 		else if (curr->prev && curr->prev->type == INPUT_RE && curr->type == EMPTY)
@@ -87,7 +87,9 @@ void	tokenized(t_data *all)
 		else if (curr->prev && curr->prev->type == OUTPUT_RE && curr->type == EMPTY)
 			curr->type = OUTFILE;
 		else if (curr->prev &&curr->prev->type == APPEND_RE && curr->type == EMPTY)
-			curr->type = DELIMITER;
+			curr->type = APPFILE;
+		else if (curr->prev &&curr->prev->type == HERE_DOC && curr->type == EMPTY)
+			curr->type = DELIMI;
 		else if (curr->type == EMPTY)
 			curr->type = WORD;
 		curr = curr->next;

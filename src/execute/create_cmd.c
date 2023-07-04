@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 13:04:46 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 14:26:14 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	token_to_cmd(t_data *all)
 			{
 				if (curr->type == WORD)
 				{
-					words[i] = curr->str;
+					words[i] = ft_strdup(curr->str);
 					i++;
 				}
 				if (!curr->next)
@@ -51,10 +51,10 @@ void	token_to_cmd(t_data *all)
 			break ;
 		curr = curr->next;
 	}
-	add_redirection(all);//segv
+	add_redirection(all);
 }
 
-void	add_redirection(t_data *all)//segv
+void	add_redirection(t_data *all)
 {
 	t_token *curr;
 	t_cmd	*cmd;
@@ -67,7 +67,7 @@ void	add_redirection(t_data *all)//segv
 	cmd->redi = NULL;
 	while(cmd != NULL && curr != NULL)
 	{
-		if (curr->type == INFILE || curr->type == OUTFILE)
+		if (curr->type == INFILE || curr->type == OUTFILE || curr->type == APPFILE || curr->type == HERE_DOC)
 			add_token_end(&cmd->redi, copy_token(curr));
 		else if (curr->type == PIPE)
 			cmd = cmd->next;
