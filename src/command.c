@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/30 12:28:04 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 13:06:48 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,43 @@
 void ft_commands(char **envp, t_data *all)
 {
 	t_cmd *curr;
-	pid_t	id;
+	//pid_t	id;
 	(void)envp;
 	if (ft_strcmp(all->input, "exit") == 0)
 		exit(0);
 	else if (ft_strcmp(all->input, "history") == 0)
 		printf_history(all->history);
-	else
+	else if (ft_strcmp(all->input, "") != 0)
 	{
 		tokenized(all);
 		token_to_cmd(all);
 		free_token(all);
 		curr = all->cmd;
-		id = fork();
+/* 		id = fork();
 		if (id == 0)
-		{
-			if (curr->next == NULL)
+		{ */
+			if (curr && curr->next == NULL)
 			{
-
 				last_cmd_child(curr, envp);
-				return ;
+				return ;//exit(0);
 			}
 			while (curr->next != NULL)
 			{
 				cmd_child(curr, envp);
+				if (!curr->next)
+					return ;//exit(0);;
 				curr=curr->next;
 			}
-			last_cmd_child(curr, envp);
+			if (curr)
+				last_cmd_child(curr, envp);
+			return ;//exit(0);
 		}
-		else
+/* 		else
 		{
 			waitpid(id, NULL, 0);
 			free_cmd(all);
-		}
-		
-	}
+		} */
+	//}
 }
 
 

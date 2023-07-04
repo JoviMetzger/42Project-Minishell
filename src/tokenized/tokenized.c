@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/29 15:10:39 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 13:03:01 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	quote_check(char *str)
 	s_quo = 0;
 	len =0;
 	start = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '\'')

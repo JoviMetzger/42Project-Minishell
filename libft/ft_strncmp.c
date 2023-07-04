@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/06 12:18:27 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/03/07 17:28:32 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/04 13:02:07 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
+	if (!s1 && !s2)
+		return (0);
+	if (!s1 && s2)
+		return (-1);
+	if (s1 && !s2)
+		return (1);
 	while (s1[i] != '\0' || s2[i] != '\0')
 	{
 		if (s1[i] == s2[i])

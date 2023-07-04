@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/30 12:26:56 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 13:04:46 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	add_redirection(t_data *all)//segv
 	t_cmd	*cmd;
 
 
+	if (!all->cmd || !all->token)
+		return ;
 	curr = all->token;
 	cmd = all->cmd;
 	cmd->redi = NULL;

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/29 15:40:59 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 13:03:58 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_token	*split_token(char *str)
 	start = 0;
 	len = 0;
 	top = NULL;
+	if (!str)
+		return (NULL);
 	while (str[i] && str[i] == ' ')
 		i++;
 	while (str[i])
