@@ -31,18 +31,14 @@ void ft_commands(char **envp, t_data *all)
 			if (curr && curr->next == NULL)
 			{
 				last_cmd_child(curr, envp);
-				exit(0);//return ;//
+				return ;
 			}
 			while (curr && curr->next != NULL)
 			{
 				cmd_child(curr, envp);
-				if (!curr->next)
-					exit(0);//return ;
 				curr=curr->next;
 			}
-			if (curr)
-				last_cmd_child(curr, envp);
-			exit(0);//return ;//
+			last_cmd_child(curr, envp);
 		}
 		else
 		{
