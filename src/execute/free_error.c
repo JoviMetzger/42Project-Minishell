@@ -6,19 +6,30 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 14:08:01 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 15:07:24 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_error(char *str)
+void	print_error(char *str, int errcode)
 {
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(errno), 2);
-	ft_putstr_fd("\n", 2);
-	exit(errno);
+	if (errcode == 127)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd("command not found", 2);
+		ft_putstr_fd("\n", 2);
+		exit(errcode);
+	}
+	else
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		exit(errno);
+	}
 }
 
 void	free_2dstr(char **str)

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 14:26:14 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 15:28:27 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	token_to_cmd(t_data *all)
 			len = cmd_len(&curr, curr->index);
 			words = malloc(sizeof(char *) * len);
 			if (!words)
-				print_error(NULL);
+				print_error(NULL, 0);
 			words[len - 1] = NULL;
 			while (curr->type != PIPE && curr != NULL)
 			{
@@ -67,7 +67,7 @@ void	add_redirection(t_data *all)
 	cmd->redi = NULL;
 	while(cmd != NULL && curr != NULL)
 	{
-		if (curr->type == INFILE || curr->type == OUTFILE || curr->type == APPFILE || curr->type == HERE_DOC)
+		if (curr->type == INFILE || curr->type == OUTFILE || curr->type == APPFILE || curr->type == DELIMI)
 			add_token_end(&cmd->redi, copy_token(curr));
 		else if (curr->type == PIPE)
 			cmd = cmd->next;

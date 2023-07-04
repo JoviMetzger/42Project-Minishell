@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/30 14:56:17 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 15:09:50 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	run_cmd(t_cmd *cmd, char **envp)
 	else
 		path = find_path(cmd->words[0], envp);
 	if (!path)
-		print_error(cmd->words[0]);
+		print_error(cmd->words[0], 0);
 	else if (execve(path, cmd->words, envp) == -1)
-		print_error(cmd->words[0]);
+		print_error(cmd->words[0], 0);
 }
 
 void	cmd_child(t_cmd *cmd, char **envp)
@@ -54,8 +54,6 @@ void	cmd_child(t_cmd *cmd, char **envp)
 			close(fd[0]);
 		}
 		run_cmd(cmd, envp);
-		
-		
 	}
 	else
 	{
@@ -75,7 +73,7 @@ void	last_cmd_child(t_cmd *cmd, char **envp)
 
 	id = fork();
 	if (id == -1)
-		print_error(NULL);
+		print_error(NULL, 0);
 	if (id == 0)
 	{
 		if (cmd->redi)

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 14:26:42 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 15:22:32 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ void	tokenized(t_data *all)
 			curr->type = INFILE;
 		else if (curr->prev && curr->prev->type == OUTPUT_RE && curr->type == EMPTY)
 			curr->type = OUTFILE;
-		else if (curr->prev &&curr->prev->type == APPEND_RE && curr->type == EMPTY)
+		else if (curr->prev && curr->prev->type == APPEND_RE && curr->type == EMPTY)
 			curr->type = APPFILE;
-		else if (curr->prev &&curr->prev->type == HERE_DOC && curr->type == EMPTY)
+		else if (curr->prev && curr->prev->type == HERE_DOC && curr->type == EMPTY)
 			curr->type = DELIMI;
 		else if (curr->type == EMPTY)
 			curr->type = WORD;
@@ -112,7 +112,7 @@ void	tokenized(t_data *all)
 	//all.input = "  chkhk df >outfile <infile";
 	//all.input = " cmd <file  >outfile | \"|\"<infile";
 	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
-	all.input = " <infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
+	all.input = " <<infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	//all.input = "||\"|\"cmd "; //break pipe
 	//all.input = " \"echo\" hello ";
 	//all.input = " \"echo\" hello | wc";

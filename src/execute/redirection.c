@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/29 10:51:55 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 14:30:31 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/04 16:01:52 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	do_redirection(t_cmd *cmd)
 			redi_out(redi);
 		else if (redi->type == APPFILE)
 			redi_app(redi);
-		//else if (redi->type == HERE_DOC)
-		//	redi_here_doc(redi);
+		else if (redi->type == DELIMI)
+			redi_here_doc(redi);
+		if (!redi->next)
+			return ;
 		redi = redi->next;
 	}
 }
@@ -57,8 +59,3 @@ void	redi_app(t_token *redi)
 	dup2(file, 1);
 	close(file);
 }
-
-/* void	redi_here_doc(t_token *redi)
-{
-
-} */
