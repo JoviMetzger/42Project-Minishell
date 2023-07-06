@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 13:18:34 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 13:49:07 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,17 @@ void	tokenized(t_data *all)
 		else if (ft_strcmp(curr->str, ">") == 0&& curr->type == EMPTY)
 			curr->type = OUTPUT_RE;
 		else if (ft_strcmp(curr->str, "<<") == 0&& curr->type == EMPTY)
-			curr->type = HERE_DOCUMENT;
+			curr->type = HERE_DOC;
 		else if (ft_strcmp(curr->str, ">>") == 0&& curr->type == EMPTY)
 			curr->type = APPEND_RE;
 		else if (curr->prev && curr->prev->type == INPUT_RE && curr->type == EMPTY)
 			curr->type = INFILE;
 		else if (curr->prev && curr->prev->type == OUTPUT_RE && curr->type == EMPTY)
 			curr->type = OUTFILE;
-		else if (curr->prev &&curr->prev->type == APPEND_RE && curr->type == EMPTY)
-			curr->type = DELIMITER;
+		else if (curr->prev && curr->prev->type == APPEND_RE && curr->type == EMPTY)
+			curr->type = APPFILE;
+		else if (curr->prev && curr->prev->type == HERE_DOC && curr->type == EMPTY)
+			curr->type = DELIMI;
 		else if (curr->type == EMPTY)
 			curr->type = WORD;
 		curr = curr->next;
@@ -110,7 +112,7 @@ void	tokenized(t_data *all)
 	//all.input = "  chkhk df >outfile <infile";
 	//all.input = " cmd <file  >outfile | \"|\"<infile";
 	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
-	all.input = " <infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
+	all.input = " <<infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	//all.input = "||\"|\"cmd "; //break pipe
 	//all.input = " \"echo\" hello ";
 	//all.input = " \"echo\" hello | wc";

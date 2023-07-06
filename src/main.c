@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/06 11:27:58 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 13:47:03 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(int argc, char **argv, char **envp)
         //signals_run();
         ft_free(prompt);
         add_history(all.input);
-        create_history(&all);
+        //create_history(&all);
         ft_commands(envp, &all);
         free(all.input);
     }

@@ -12,29 +12,30 @@ CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # Readline Files
 INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
 Include		= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
-# Include		= -lreadline
+#Include		= -lreadline
 
 # Sources files
 SRC			= ./src/main.c \
-				./src/utils/display_prompt.c \
-				./src/utils/create_history.c \
-				./src/utils/signals.c \
 				./src/utils/commands.c \
+				./src/utils/create_history.c \
+				./src/utils/display_prompt.c \
+				./src/utils/signals.c \
 				./src/tokenized/split_token.c \
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c \
 				./src/execute/create_cmd.c \
 				./src/execute/find_path.c \
 				./src/execute/free_error.c \
-				./src/execute/run.c \
+				./src/execute/redi_here_doc.c \
 				./src/execute/redirection.c \
+				./src/execute/run.c \
 				./src/builtin/builtin_cmd.c \
-				./src/builtin/ft_exit.c \
 				./src/builtin/ft_cd.c \
-				./src/builtin/ft_pwd.c \
 				./src/builtin/ft_echo.c \
 				./src/builtin/ft_env.c \
+				./src/builtin/ft_exit.c \
 				./src/builtin/ft_export.c \
+				./src/builtin/ft_pwd.c \
 				./src/builtin/ft_unset.c \
 
 

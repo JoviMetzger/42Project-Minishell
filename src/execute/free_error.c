@@ -6,19 +6,28 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 13:19:48 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 13:50:43 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_error(char *str)
+void	print_error(char *str, int errcode)
 {
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(errno), 2);
-	ft_putstr_fd("\n", 2);
-	exit(errno);
+	if (errcode == 127)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit(errcode);
+	}
+	else
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		exit(errno);
+	}
 }
 
 void	free_2dstr(char **str)
@@ -32,15 +41,18 @@ void	free_2dstr(char **str)
 		free(str);
 }
 
-void	free_token(t_data *all)
+void	free_token(t_token *token)
 {
 	t_token	*tmp;
 
-	while(all->token != NULL)
+	while(token != NULL)
 	{
-		tmp = all->token;
-		all->token = all->token->next;
+		tmp = token;
+		free(tmp->str);
 		free(tmp);
+		if (!token->next)
+			return ;
+		token = token->next;
 	}
 }
 
@@ -52,8 +64,11 @@ void	 free_cmd(t_data *all)
 	{
 		tmp = all->cmd;
 		free_2dstr(tmp->words);
-		all->cmd = all->cmd->next;
+		free_token(tmp->redi);
 		free(tmp);
+		if (!all->cmd->next)
+			return ;
+		all->cmd = all->cmd->next;
 	}
 }
 
