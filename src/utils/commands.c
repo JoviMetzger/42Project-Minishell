@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:42:34 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 13:17:26 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 11:24:52 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void ft_commands(char **envp, t_data *all)
 	pid_t	id;
 	
 	if (ft_strcmp(all->input, "history") == 0)
-		printf("history\n");
+		printf_history(all->history);
 	else if (ft_strcmp(all->input, "") != 0)
 	{
 		tokenized(all);

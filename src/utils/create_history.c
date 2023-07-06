@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:06:01 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/06/30 14:45:51 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 11:26:55 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	create_history(t_data *all)
 	t_history	*tmp;
 	int			i;
 
-	tmp = all->cmd->history;
+	tmp = all->history;
 	i = 2;
 	if (!tmp)
 	{
-		all->cmd->history = create_newnode(all->input);
+		all->history = create_newnode(all->input);
 		return ;
 	}
 	while (tmp->next != NULL)

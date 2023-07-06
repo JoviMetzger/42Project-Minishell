@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 11:20:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 10:48:31 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void ft_export(char **input, char **envp)
         i = 0;
         while (envp[i] != NULL) 
         {
-            printf("%s\n", envp[i]);
+            printf("declare -x %s\n", envp[i]);
             i++;
         }
     }

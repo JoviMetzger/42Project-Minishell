@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 13:23:46 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 11:23:58 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_cmd
 {
 	char				**words;
 	int					len;
-	struct s_history	*history;
 	struct s_cmd		*next;
 	struct s_token		*redi;
 } t_cmd;
@@ -80,6 +79,7 @@ typedef struct s_data
 {
 	struct s_cmd		*cmd;
 	struct s_token		*token;
+	struct s_history	*history;
 	char				*input;
 } t_data;
 

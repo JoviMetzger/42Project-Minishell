@@ -6,11 +6,20 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 13:54:49 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/30 12:36:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/04 15:28:55 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void ft_free(void *ptr)
+{
+    if (ptr)
+    {
+        free(ptr);
+        ptr = NULL;
+    }
+}
 
 static char *ft_color(char *str, char *color)
 {
