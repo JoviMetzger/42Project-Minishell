@@ -6,7 +6,7 @@
 #    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/06/20 11:56:57 by yizhang       #+#    #+#                  #
-#    Updated: 2023/06/28 14:32:08 by yizhang       ########   odam.nl          #
+#    Updated: 2023/07/06 17:19:03 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,3 +51,19 @@ hello
 
 12."echo -n" hello
 bash: echo -n: command not found
+
+13.echo adf $adfas asd
+adf asd
+
+13.$asa
+
+
+14.$
+$: command not found
+
+15.$|$
+bash: $: command not found
+bash: $: command not found
+
+16.$$
+bash: 27770: command not found

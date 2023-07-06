@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 15:28:27 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/06 17:33:24 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	token_to_cmd(t_data *all)
 	int		i;
 
 	curr = all->token;
-	words = NULL;
 	all->cmd = NULL;
 	while(curr)
 	{
@@ -33,9 +32,9 @@ void	token_to_cmd(t_data *all)
 			if (!words)
 				print_error(NULL, 0);
 			words[len - 1] = NULL;
-			while (curr->type != PIPE && curr != NULL)
+			while (curr->type != PIPE && curr != NULL && i < len)
 			{
-				if (curr->type == WORD)
+				if (curr->type == WORD &&curr->str)
 				{
 					words[i] = ft_strdup(curr->str);
 					i++;
@@ -88,7 +87,7 @@ int	cmd_len(t_token **token, int index)
 		{
 			while (curr->type != PIPE && curr)
 			{
-				if (curr->type == WORD)
+				if (curr->type == WORD && curr->str)
 					i++;
 				if (!curr->next)
 					return(i);
@@ -133,7 +132,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 }
 
 
-//complie:gcc create_cmd.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
+//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
 
 //test1:add_cmd_end && new_cmd
 /* int main(int argc, char **argv, char **envp)
@@ -171,7 +170,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	return 0;
 } */
 
-//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
+//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
 //test2:token_to_cmd && cmd_len
 
 /* int main(int argc, char **argv, char **envp)
@@ -181,11 +180,11 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
 	//str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
 	//str = " cmd arg|";
-	str = "  chkhk df ";//have segmentation fault
+	str = " $PATH ADS $$ $chkhk df ";//have segmentation fault
 	//str = "  chkhk ";
 	all.input = str;
 
-	tokenized(&all);
+	tokenized(&all, envp);
 	int len = cmd_len(&all.token, 0);
 	printf("len : %i \n",len);
 	token_to_cmd(&all);
@@ -193,18 +192,17 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	while (curr != NULL)
 	{
 		int i = 0;
-		while (i < curr->len)
+		while (i < len)
 		{
-			printf("%s ",curr->words[i]);
+			printf("%s\n",curr->words[i]);
 			i++;
 		}
-		printf("infile: %i, outfile: %i\n", curr->infile, curr->outfile);
 		curr=curr->next;
-	} 
+	}  
 	return 0;
-}  */
+} */
 
-//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
+//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
 //test3:add_redirection
 
 /* int main(int argc, char **argv, char **envp)
@@ -218,7 +216,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	//str = "  chkhk ";
 	all.input = str;
 
-	tokenized(&all);
+	tokenized(&all, envp);
 	int len = cmd_len(&all.token, 0);
 	printf("len : %i \n",len);
 	token_to_cmd(&all);

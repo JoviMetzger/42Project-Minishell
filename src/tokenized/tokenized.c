@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 15:22:32 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/06 17:07:31 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ int quote_count(char *str, int i,int *quo_nb, char quo)
 	return (i);
 }
 
-void	tokenized(t_data *all)
+void	tokenized(t_data *all, char **envp)
 {
 	t_token		*curr;
+	char	*tmp;
 
+	tmp = NULL;
 	if (quote_check(all->input) == 1)
 		exit (1);
 	all->token = split_token(all->input);
@@ -72,16 +74,23 @@ void	tokenized(t_data *all)
 	{
 		if (ft_strcmp(curr->str, "|") == 0 && curr->type == EMPTY)
 			curr->type = PIPE;
-		else if (ft_strcmp(curr->str, "&") == 0&& curr->type == EMPTY)
-			curr->type = AT;
-		else if (ft_strcmp(curr->str, "<") == 0&& curr->type == EMPTY)
+		else if (ft_strcmp(curr->str, "<") == 0 && curr->type == EMPTY)
 			curr->type = INPUT_RE;
-		else if (ft_strcmp(curr->str, ">") == 0&& curr->type == EMPTY)
+		else if (ft_strcmp(curr->str, ">") == 0 && curr->type == EMPTY)
 			curr->type = OUTPUT_RE;
-		else if (ft_strcmp(curr->str, "<<") == 0&& curr->type == EMPTY)
+		else if (ft_strcmp(curr->str, "<<") == 0 && curr->type == EMPTY)
 			curr->type = HERE_DOC;
-		else if (ft_strcmp(curr->str, ">>") == 0&& curr->type == EMPTY)
+		else if (ft_strcmp(curr->str, ">>") == 0 && curr->type == EMPTY)
 			curr->type = APPEND_RE;
+		else if (curr->str[0] == '$' && curr->type == EMPTY)
+		{
+			tmp = find_env(&curr, envp);
+			if (tmp)
+				curr->str = ft_strdup(tmp);
+			else
+				curr->str = NULL;
+			curr->type = WORD;
+		}
 		else if (curr->prev && curr->prev->type == INPUT_RE && curr->type == EMPTY)
 			curr->type = INFILE;
 		else if (curr->prev && curr->prev->type == OUTPUT_RE && curr->type == EMPTY)
@@ -92,13 +101,15 @@ void	tokenized(t_data *all)
 			curr->type = DELIMI;
 		else if (curr->type == EMPTY)
 			curr->type = WORD;
+		if (!curr->next)
+			return ;
 		curr = curr->next;
 	}
 }
 
-//test:gcc split_token.c token_util.c tokenized.c ../../libft/libft.a
+//test:gcc split_token.c token_util.c tokenized.c ../env/find_env.c ../../libft/libft.a
 
-/* int main(void)
+/* int main(int argc, char **argv,char **envp)
 {
 	t_token *curr;
 	t_data	all;
@@ -106,29 +117,30 @@ void	tokenized(t_data *all)
 
 	all.cmd =NULL;
 	all.history =NULL;
+	(void)argc;
+	(void)argv;
 	//all.input = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
 	//all.input = " cmd arg| cmd";
 	//all.input = "  chkhk df";
 	//all.input = "  chkhk df >outfile <infile";
 	//all.input = " cmd <file  >outfile | \"|\"<infile";
 	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
-	all.input = " <<infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
+	//all.input = " $PATH $$<< infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";//$$ error
+	all.input = " $PATH ADS  $sdf $ df ";
+	//all.input = " $PATH ";
 	//all.input = "||\"|\"cmd "; //break pipe
 	//all.input = " \"echo\" hello ";
 	//all.input = " \"echo\" hello | wc";
 	//all.input = "<file1 cat > out \"|\" <infile "; //works 
 	//all.input = " <infile cmd >outfile | <infile";
-
-	
-	tokenized(&all);
+	tokenized(&all, envp);
 	curr = all.token;
 	printf("test:%s\n", all.input);
-	while (curr != NULL)
+	 while (curr != NULL)
 	{
 		printf(" %i: type :%i :%s\n", curr->index, curr->type , curr->str);
 		curr = curr->next;
-	}//printf("\n");
-	//printf("%s\n", curr->str);
+	} 
 	return 0;
 } */
 

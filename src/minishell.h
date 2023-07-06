@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 16:43:03 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/06 15:08:29 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ enum type
 	INFILE,
 	OUTPUT_RE,
 	OUTFILE,
-	AT,
 	APPEND_RE,
 	APPFILE,
 	HERE_DOC,
 	DELIMI,
-	ENV_VAR,
+	DOLLAR,
+	ENV,
 };
 
 typedef struct s_history
@@ -48,6 +48,7 @@ typedef struct s_history
 
 typedef struct s_data
 {
+	char				**envp;
 	struct s_cmd		*cmd;
 	struct s_token		*token;
 	struct	s_history	*history;
@@ -58,7 +59,7 @@ typedef struct s_cmd
 {
 	char			**words;
 	int				len;
-	struct s_token	*redi;
+	struct	s_token	*redi;
 	struct s_cmd	*next;
 }t_cmd;
 
@@ -83,7 +84,7 @@ int			quote_count(char *str, int i,int *quo_nb, char quo);
 int 		strlen_char(char *str, char c);
 
 //token
-void		tokenized(t_data *all);
+void		tokenized(t_data *all, char **envp);
 void		add_token_end(t_token **top, t_token *new);
 t_token		*new_token(char *str);
 t_token		*split_token(char *str);
@@ -120,6 +121,11 @@ void	redi_here_doc(t_token *redi);
 void	add_redirection(t_data *all);
 void	do_redirection(t_cmd *cmd);
 void	here_doc(int in, char *limiter);
+
+//env
+int		all_upper(char *str);
+int		env_index(t_token *token, char **envp);
+char	*find_env(t_token **token, char **envp);
 
 //void free_history(t_history *history); //
 void ft_commands(char **envp, t_data *data);
