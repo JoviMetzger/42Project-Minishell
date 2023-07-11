@@ -6,44 +6,83 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:26 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 11:19:00 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/11 15:29:34 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// chdir();
-//  used to change the current working directory of the calling process.
-void ft_cd(char *path)
+static int ft_error_msg(char *path)
 {
-    const char *home;
-    int result;
-    
-    if (path == NULL)
-    {
-        home = getenv("HOME");
-        if (home != NULL)
-            chdir(home);
-    }
-    else
-    {
-        result = chdir(path);
-        if (result != 0)
-            perror("cd");
-    }
+    char *error_msg;
+
+    error_msg = ft_strjoin("minishell: cd: ", path);
+    perror(error_msg);
+    free(error_msg);
+    return (EXIT_FAILURE);
 }
 
-// // ---MAIN-------------
+int cd_previous_pwd(char *tmp, t_data *data)
+{
+    char *oldpwd;
 
-// #include <stdio.h>
-// #include <string.h>
+    oldpwd = get_from_env("OLDPWD", &data->env);
+    if (!oldpwd)
+    {
+        ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+        return (EXIT_FAILURE);
+    }
+    if (chdir(oldpwd) == 0)
+    {
+        ft_putendl_fd(oldpwd, STDOUT_FILENO);
+        update_oldpwd(&tmp[0], data);
+        update_pwd(data);
+        return(EXIT_SUCCESS);
+    }
+    return (ft_error_msg(oldpwd));
+}
 
-// int main(void)
-// {
-//     char cwd[256]; 
+void update_pwd(t_data *data)
+{
+    char cwd[1024];
+    char *updated_var;
     
-//     printf("%s\n", getcwd(cwd, sizeof(cwd)));
-//     ft_cd("path"); 
-//     printf("%s\n", getcwd(cwd, sizeof(cwd))); 
-//     return 0;
-// }
+    getcwd(cwd, 1024);
+    updated_var = ft_strjoin("PWD=", cwd);
+    add_new_env_var(updated_var, &data->env, true);
+    free(updated_var);
+}
+
+void update_oldpwd(char *tmp, t_data *data)
+{
+     char *oldpwd;
+     
+     oldpwd = ft_strjoin("OLDPWD=", tmp);
+     add_new_env_var(oldpwd, &data->env, true);
+     free(oldpwd);
+}
+
+// chdir();
+//  used to change the current working directory of the calling process.
+int ft_cd(char *path, t_data *data)
+{
+    char tmp[1024];
+    
+    getcwd(tmp, 1024);
+    if (path == NULL || ft_strcmp(path, "~") == 0)
+    {
+        update_oldpwd(&tmp[0], data);
+        chdir(getenv("HOME"));
+        update_pwd(data);
+        return (EXIT_SUCCESS);
+    }
+    if (ft_strcmp(path, "-") == 0)
+        return (cd_previous_pwd(&tmp[0], data));
+    if (chdir(path) == 0)
+    {
+        update_oldpwd(&tmp[0], data);
+        update_pwd(data);
+        return (EXIT_SUCCESS);
+    }
+    return (ft_error_msg(path));
+}

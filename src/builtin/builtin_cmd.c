@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/30 14:22:31 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/03 13:08:14 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/11 14:14:56 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int    is_builtin_cmd(char *command)
 {
-    if (ft_strcmp(command, "cd") == 0) 
+    if ((ft_strcmp(command, "cd") == 0)) 
         return (1);
     if (ft_strcmp(command, "echo") == 0) 
         return (1);
@@ -31,20 +31,24 @@ int    is_builtin_cmd(char *command)
     return (0);
 }
 
-void    exec_builtin_cmd(char **input, char **envp)
+bool   exec_builtin_cmd(char **input, t_data *data)
 {
 	if (ft_strcmp(input[0], "cd") == 0) 
-        ft_cd(input[1]);
+        g_exit_status = ft_cd(input[1], data);
     else if (ft_strcmp(input[0], "echo") == 0) 
-        ft_echo(input);
+        g_exit_status = ft_echo(input);
     else if (ft_strcmp(input[0], "env") == 0) 
-        ft_env(envp);
+        g_exit_status = ft_env(data);
     else if (ft_strcmp(input[0], "export") == 0) 
-        ft_export(input, envp);
+        g_exit_status = ft_export(input, data);
     else if (ft_strcmp(input[0], "pwd") == 0) 
-        ft_pwd();
+        g_exit_status = ft_pwd();
     else if (ft_strcmp(input[0], "unset") == 0) 
-        ft_unset(input, envp);
+        g_exit_status = ft_unset(input, &data->env);
 	else if (ft_strcmp(input[0], "exit") == 0)
-		ft_exit(input);
+		g_exit_status = ft_exit(input);
+    else
+        return (false);
+    printf("EXIS_STATUS_BUILTINS: %ld\n",g_exit_status);
+    return (true);
 }

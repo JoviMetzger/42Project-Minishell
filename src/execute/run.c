@@ -6,19 +6,19 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/06 13:52:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/10 19:58:58 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	run_cmd(t_cmd *cmd, char **envp)
+void	run_cmd(t_cmd *cmd, char **envp, t_data *data)
 {
 	char *path;
 	
 	if ((is_builtin_cmd(cmd->words[0])) == 1)
 	{
-		exec_builtin_cmd(cmd->words, envp);
+		exec_builtin_cmd(cmd->words, data);
 		return ;
 	}
 	if (access(cmd->words[0], F_OK) == 0)
@@ -31,42 +31,43 @@ void	run_cmd(t_cmd *cmd, char **envp)
 		print_error(cmd->words[0], 0);
 }
 
-void	cmd_child(t_cmd *cmd, char **envp)
+void	cmd_child(t_cmd *cmd, char **envp, t_data *data)
 {
 	int		fd[2];
 	pid_t	id;
 	
 
-	//if (!cmd->redi)
 	pipe(fd);
-	if (cmd->redi)
-		do_redirection(cmd);
+	do_redirection(cmd);
 	id = fork();
 	if (id == -1)
 		exit(1);
-	
 	if (id == 0)
 	{
 		dup2(fd[1],1);
 		close(fd[1]);
-		close(fd[0]);//
-		
-		//close()
-		run_cmd(cmd, envp);
+		close(fd[0]);
+		do_redirection(cmd);
+		run_cmd(cmd, envp, data);
 	}
 	else
 	{
-		//if (!cmd->redi)
-		//{
+		if (!cmd->redi)
+		{
 			dup2(fd[0],0);
 			close(fd[1]);
 			close(fd[0]);
-		//}
+		}
+		else
+		{
+			close(fd[1]);
+			close(fd[0]);
+		}
 		waitpid(id, NULL, 0);
 	}
 }
 
-void	last_cmd_child(t_cmd *cmd, char **envp)
+void	last_cmd_child(t_cmd *cmd, char **envp, t_data *data)
 {
 	pid_t	id;
 
@@ -77,7 +78,7 @@ void	last_cmd_child(t_cmd *cmd, char **envp)
 	{
 		if (cmd->redi)
 			do_redirection(cmd);
-		run_cmd(cmd, envp);
+		run_cmd(cmd, envp, data);
 	}
 	else
 		waitpid(id, NULL, 0);

@@ -6,20 +6,22 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 11:19:49 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/11 10:42:57 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_env(char **envp)
+int ft_env(t_data *data)
 {
-   int i;
+   t_env *env;
 
-   i = 0;
-   while (envp[i] != NULL)
+   env = data->env;
+   while (env != NULL)
    {
-      printf("%s\n", envp[i]);
-      i++;
+      if (env->for_export)
+         printf("%s=%s\n", env->name, env->value);
+      env = env->next;
    }
+   return (EXIT_SUCCESS);
 }

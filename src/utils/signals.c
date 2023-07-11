@@ -6,22 +6,22 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/06 11:04:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/11 14:14:04 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int g_status;
+//int g_status;
 static void new_line(int signal)
 {
-    g_status = 128 + signal;
+    g_exit_status = 128 + signal;
     rl_on_new_line();
 }
 
 static void restore_prompt(int signal)
 {
-    g_status = 128 + signal;
+    g_exit_status = 128 + signal;
     ft_putchar_fd('\n', STDOUT_FILENO);
     rl_replace_line("", 0);
     rl_on_new_line();

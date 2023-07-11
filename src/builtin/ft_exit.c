@@ -6,11 +6,27 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 12:31:04 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 11:18:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/11 10:43:02 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+long int g_exit_status;
+
+bool ft_is_digit(char *str) 
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (!(str[i] >= '0' && str[i] <= '9') && str[i] != '-' && str[i] != '+')
+            return false;
+        i++;
+    }
+    return true;
+}
 
 int static ft_argc(char **input)
 {
@@ -22,24 +38,31 @@ int static ft_argc(char **input)
     return (len);
 }
 
-void ft_exit(char **input)
-{
-    int argc;
-    int exit_status;
-    
-    argc = ft_argc(input);
-    exit_status = 0;
-    if (argc > 2)
-        printf("Error: exit: too many arguments\n");
-    if (input[1] != NULL)
+int ft_exit(char **input)
+{    
+    ft_putstr_fd("exit\n", STDOUT_FILENO);
+    if (ft_argc(input) == 2)
     {
-        exit_status = atoi(input[1]);
-        if (!ft_isdigit(exit_status))
+        if (ft_is_digit(input[1]))
         {
-            printf("Error: exit: numeric argument required\n");
-            exit(1);
+            g_exit_status = ft_atoi(input[1]);
+        }
+        else
+        {
+            ft_putstr_fd("minishell: exit: numeric argument required\n", STDERR_FILENO);
+            g_exit_status = EXIT_FAILURE;
+            exit(g_exit_status);
         }
     }
-    printf("exit\n");
-    exit(exit_status);
+    else if (ft_argc(input) > 2)
+    {
+        g_exit_status = EXIT_FAILURE;
+        ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+    }
+    else
+    {
+        g_exit_status = EXIT_SUCCESS;
+        exit(g_exit_status);
+    }
+    return (0);
 }

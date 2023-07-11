@@ -12,7 +12,7 @@ CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # Readline Files
 INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
 Include		= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
-#Include		= -lreadline
+# Include		= -lreadline
 
 # Sources files
 SRC			= ./src/main.c \
@@ -37,6 +37,9 @@ SRC			= ./src/main.c \
 				./src/builtin/ft_export.c \
 				./src/builtin/ft_pwd.c \
 				./src/builtin/ft_unset.c \
+				./src/env/find_env.c \
+				./src/env/init_env.c \
+				./src/env/env_list.c \
 
 
 
@@ -85,6 +88,10 @@ $(OBJDIR)/%.o: ./src/execute/%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
+$(OBJDIR)/%.o: ./src/env/%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c -o $@ $<
+
 # Clean
 clean:
 		@$(MAKE) clean -C ./libft
@@ -99,3 +106,6 @@ fclean: clean
 re:		fclean all
 
 .PHONY: all clean fclean re
+
+run: all
+	./minishell
