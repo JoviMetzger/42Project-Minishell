@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/06 15:08:29 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/12 11:39:38 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_data
 	struct s_cmd		*cmd;
 	struct s_token		*token;
 	struct	s_history	*history;
+	int					status;
 	char				*input;
 }t_data;
 
@@ -104,8 +105,8 @@ int		path_index(char **envp);
 void	run_cmd(t_cmd *cmd, char **envp);
 
 //child
-void	cmd_child(t_cmd *cmd, char **envp);
-void	last_cmd_child(t_cmd *cmd, char **envp);
+void	cmd_child(t_cmd *cmd, char **envp, t_data *all);
+void	last_cmd_child(t_cmd *cmd, char **envp, t_data *all);
 
 //free and print error : cmd && token && str
 void	print_error(char *str, int errcode);
@@ -117,15 +118,23 @@ void	free_cmd(t_data *all);
 void	redi_in(t_token *redi);
 void	redi_out(t_token *redi);
 void	redi_app(t_token *redi);
-void	redi_here_doc(t_token *redi);
 void	add_redirection(t_data *all);
-void	do_redirection(t_cmd *cmd);
-void	here_doc(int in, char *limiter);
+void	do_redirection(t_cmd *cmd, t_data *all, char **envp);
+void	redi_here_doc(t_token *redi, t_data *all, char **envp);
+void	here_doc(int out, char *limiter,t_data *all, char **envp);
 
 //env
 int		all_upper(char *str);
 int		env_index(t_token *token, char **envp);
 char	*find_env(t_token **token, char **envp);
+
+//dollar
+t_token *dollar_split(char *str);
+int	dollar_len(char *str);
+int	have_dollar(char *str);
+void	swap_val(t_token **top, char **envp, t_data *all);
+char *token_to_str(t_token **top);
+int	space_len(char *str);
 
 //void free_history(t_history *history); //
 void ft_commands(char **envp, t_data *data);

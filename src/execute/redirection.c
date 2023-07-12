@@ -6,13 +6,13 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/29 10:51:55 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/04 16:01:52 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/12 10:34:31 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	do_redirection(t_cmd *cmd)
+void	do_redirection(t_cmd *cmd, t_data *all, char **envp)
 {
 	t_token	*redi;
 
@@ -26,7 +26,7 @@ void	do_redirection(t_cmd *cmd)
 		else if (redi->type == APPFILE)
 			redi_app(redi);
 		else if (redi->type == DELIMI)
-			redi_here_doc(redi);
+			redi_here_doc(redi, all, envp);
 		if (!redi->next)
 			return ;
 		redi = redi->next;

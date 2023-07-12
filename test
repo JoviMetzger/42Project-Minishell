@@ -6,7 +6,7 @@
 #    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/06/20 11:56:57 by yizhang       #+#    #+#                  #
-#    Updated: 2023/07/06 17:19:03 by yizhang       ########   odam.nl          #
+#    Updated: 2023/07/12 11:03:02 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,3 +67,15 @@ bash: $: command not found
 
 16.$$
 bash: 27770: command not found
+
+17.$?l
+bash: 127l: command not found
+
+18.<<
+bash: syntax error near unexpected token `newline'
+
+19.<<stop cat
+> $PATH $$<< infile hgjgh$dsf$sdfd$?$$$$$
+> stop
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin 10383<< infile hgjgh01038310383$
+

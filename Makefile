@@ -6,7 +6,7 @@
 #    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/06/22 12:30:01 by yizhang       #+#    #+#                  #
-#    Updated: 2023/07/06 11:35:52 by yizhang       ########   odam.nl          #
+#    Updated: 2023/07/11 12:51:18 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC			= ./src/main.c \
 				./src/execute/redirection.c\
 				./src/execute/redi_here_doc.c\
 				./src/env/find_env.c\
+				./src/env/handle_dollar_sign.c\
 				
 OBJ			= $(SRC:.c=.o)
 

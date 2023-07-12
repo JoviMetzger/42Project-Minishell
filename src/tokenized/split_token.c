@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/06 16:37:36 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/11 15:53:48 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,7 @@ t_token	*split_token(char *str)
 				i += 1;
 			}
 		}
-		else if (str[i] == '$')
-		{
-			len = strlen_char(&str[i + 1], ' ') + 1;
-			line = ft_substr(str, i, len);
-			//printf("6.%s, len:%i\n",line,len);
-			add_token_end(&top, new_token(line));
-			i = len+i;
-		}
-		else if (str[i] != ' ' && str[i] != '\"' && str[i] != '\''&& str[i] != '|' && str[i] != '$')
+		else if (str[i] != ' ' && str[i] != '\"' && str[i] != '\''&& str[i] != '|')
 		{
 			len = strlen_char(&str[i], ' ');
 			line = ft_substr(str, i, len);
@@ -132,7 +124,7 @@ t_token	*split_token(char *str)
 	str = "$PATH $$<< infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	//str = "$ adisad  $PATH  a\"\'\'\"a <<<";
 	//str = " $ $chkhk$$$ df";
-	str = " $PATH ADS $$ $chkhk df ";//have segmentation fault
+	str = " $PATH ADS asd$ads$ads $chkhk df ";//have segmentation fault
 	//str = " cmd arg| cmd";
 	//str = " <infile as<infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	test = split_token(str);
@@ -145,5 +137,4 @@ t_token	*split_token(char *str)
 		curr = curr->next;
 	}
 	return 0;
-}
- */
+} */
