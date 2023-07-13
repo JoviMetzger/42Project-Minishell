@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:38 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/11 10:41:17 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/12 09:26:30 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int unset_var(char *name, t_env **head)
     }
     while (tmp && tmp->next != NULL)
     {
-        if (ft_strcmp(name, tmp->next->name))
+        if (ft_strcmp(name, tmp->next->name) == 0)
         {
             next = tmp->next->next;
             free(tmp->next->name);

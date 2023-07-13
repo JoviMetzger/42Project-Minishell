@@ -6,9 +6,11 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/10 19:58:58 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/12 12:18:48 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../minishell.h"
 
 #include "../minishell.h"
 
@@ -31,14 +33,15 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *data)
 		print_error(cmd->words[0], 0);
 }
 
-void	cmd_child(t_cmd *cmd, char **envp, t_data *data)
+void	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 {
 	int		fd[2];
 	pid_t	id;
+	int		status;
 	
 
 	pipe(fd);
-	do_redirection(cmd);
+	do_redirection(cmd, all, envp);
 	id = fork();
 	if (id == -1)
 		exit(1);
@@ -47,8 +50,8 @@ void	cmd_child(t_cmd *cmd, char **envp, t_data *data)
 		dup2(fd[1],1);
 		close(fd[1]);
 		close(fd[0]);
-		do_redirection(cmd);
-		run_cmd(cmd, envp, data);
+		do_redirection(cmd, all, envp);
+		run_cmd(cmd, envp, all);
 	}
 	else
 	{
@@ -63,13 +66,15 @@ void	cmd_child(t_cmd *cmd, char **envp, t_data *data)
 			close(fd[1]);
 			close(fd[0]);
 		}
-		waitpid(id, NULL, 0);
+		waitpid(id, &status, 0);
+		all->status = WEXITSTATUS(status);
 	}
 }
 
-void	last_cmd_child(t_cmd *cmd, char **envp, t_data *data)
+void	last_cmd_child(t_cmd *cmd, char **envp, t_data *all)
 {
 	pid_t	id;
+	int status;
 
 	id = fork();
 	if (id == -1)
@@ -77,11 +82,12 @@ void	last_cmd_child(t_cmd *cmd, char **envp, t_data *data)
 	if (id == 0)
 	{
 		if (cmd->redi)
-			do_redirection(cmd);
-		run_cmd(cmd, envp, data);
+			do_redirection(cmd, all, envp);
+		run_cmd(cmd, envp, all);
 	}
 	else
-		waitpid(id, NULL, 0);
+		waitpid(id, &status, 0);
+		all->status = WEXITSTATUS(status);
 }
 
 //complie:gcc find_path.c create_cmd.c run.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a

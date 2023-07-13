@@ -6,25 +6,11 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:56 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/11 10:41:33 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/12 13:07:23 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*get_from_env(char *name, t_env **head)
-{
-	t_env	*tmp;
-
-	tmp = *head;
-	while (tmp != NULL)
-	{
-		if (ft_strcmp(name, tmp->name))
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 void	env_lstadd_back(t_env **head, t_env *new)
 {
@@ -45,7 +31,6 @@ void	env_lstadd_back(t_env **head, t_env *new)
 	}
 }
 
-
 t_env	*env_lstlast(t_env *lst)
 {
 	if (!lst)
@@ -58,7 +43,6 @@ t_env	*env_lstlast(t_env *lst)
 	}
 	return (lst);
 }
-
 
 t_env	*env_lstnew(char *name, char *value, bool for_export)
 {

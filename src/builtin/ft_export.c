@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/11 10:41:13 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/12 13:18:25 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,6 @@ bool	ft_is_valid(char *str)
 		i++;
 	}
 	return (true);
-}
-
-bool is_onstr(const char *str, int c)
-{
-    int i;
-    
-    if (!str)
-        return (NULL);
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == c)
-            return (true);
-        i++;   
-    }
-    return (false);
 }
 
 static int empty_export(t_data *data)
@@ -106,7 +90,7 @@ int ft_export(char **input, t_data *data)
     {
         if (!ft_is_valid(input[i]))
             exit_status = ft_error_msg(input[i]);
-        else if (is_onstr(input[i], '='))
+        else if (ft_strchr(input[i], '='))
         {
             add_new_env_var(input[i], &data->env, true);
             continue ;

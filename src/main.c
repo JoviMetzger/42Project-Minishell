@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/11 10:52:44 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/13 16:09:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **envp)
 	}
     all.envp = envp;
     all.env = init_env(envp);
-    // 
+    all.status = 0;
     while (1)
     {
         signals_wait();

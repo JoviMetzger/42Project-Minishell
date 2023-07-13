@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/30 14:22:31 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/11 14:14:56 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/13 19:31:11 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,20 @@ int    is_builtin_cmd(char *command)
 bool   exec_builtin_cmd(char **input, t_data *data)
 {
 	if (ft_strcmp(input[0], "cd") == 0) 
-        g_exit_status = ft_cd(input[1], data);
+        data->status = ft_cd(input[1], data);
     else if (ft_strcmp(input[0], "echo") == 0) 
-        g_exit_status = ft_echo(input);
+        data->status = ft_echo(input);
     else if (ft_strcmp(input[0], "env") == 0) 
-        g_exit_status = ft_env(data);
+        data->status = ft_env(data);
     else if (ft_strcmp(input[0], "export") == 0) 
-        g_exit_status = ft_export(input, data);
+        data->status = ft_export(input, data);
     else if (ft_strcmp(input[0], "pwd") == 0) 
-        g_exit_status = ft_pwd();
+        data->status = ft_pwd();
     else if (ft_strcmp(input[0], "unset") == 0) 
-        g_exit_status = ft_unset(input, &data->env);
+        data->status = ft_unset(input, &data->env);
 	else if (ft_strcmp(input[0], "exit") == 0)
-		g_exit_status = ft_exit(input);
+		data->status = ft_exit(input, data);
     else
         return (false);
-    printf("EXIS_STATUS_BUILTINS: %ld\n",g_exit_status);
     return (true);
 }
