@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/30 14:22:31 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/13 19:31:11 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/17 11:49:23 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int    is_builtin_cmd(char *command)
 
 bool   exec_builtin_cmd(char **input, t_data *data)
 {
-	if (ft_strcmp(input[0], "cd") == 0) 
+   	if (ft_strcmp(input[0], "cd") == 0) 
         data->status = ft_cd(input[1], data);
     else if (ft_strcmp(input[0], "echo") == 0) 
         data->status = ft_echo(input);

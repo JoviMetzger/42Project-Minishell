@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/12 15:24:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/17 11:32:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_data
 char    	*display_prompt();
 void		ft_commands(char **envp, t_data *data);
 void		ft_free(void *ptr);
+char *ft_converter(char *input);
 
 // SIGNALS
 void		signals_wait();
@@ -101,7 +102,7 @@ void		signals_run();
 void		rl_replace_line(const char *text, int clear_undo);
 
 // TOKEN
-int			quote_check(char *str);
+int			quote_check(char *str, t_data *all);
 int			quote_count(char *str, int i,int *quo_nb, char quo);
 char		*token_to_str(t_token **top);
 void		tokenized(t_data *all, char **envp);

@@ -6,26 +6,22 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/12 14:27:05 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/17 12:33:02 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
 
-int	quote_check(char *str)
+int	quote_check(char *str, t_data *all)
 {
 	int	i;
 	int	d_quo;
 	int	s_quo;
-	int	start;
-	int	len;
 
 	i = 0;
 	d_quo = 0;
 	s_quo = 0;
-	len =0;
-	start = 0;
 	if (!str)
 		return (0);
 	while (str[i])
@@ -41,10 +37,11 @@ int	quote_check(char *str)
 		printf("unclosed quote error \n");
 		exit (1);
 	}
+	all->input = ft_converter(str);
 	return (0);
 }
 
-int quote_count(char *str, int i,int *quo_nb, char quo)
+int quote_count(char *str, int i, int *quo_nb, char quo)
 {
 	*quo_nb += 1;
 	i++;
@@ -68,7 +65,7 @@ void	tokenized(t_data *all, char **envp)
 
 	tmp = NULL;
 	to_tmp = NULL;
-	if (quote_check(all->input) == 1)
+	if (quote_check(all->input, all) == 1)
 		exit (1);
 	all->token = split_token(all->input);
 	curr = all->token;

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/13 16:09:46 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/17 11:14:07 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int main(int argc, char **argv, char **envp)
     all.status = 0;
     while (1)
     {
-        signals_wait();
+        //signals_wait();
         prompt = display_prompt();
         all.input = readline(prompt);
-        signals_run();
+        //signals_run();
         ft_free(prompt);
         add_history(all.input);
         ft_commands(all.envp, &all);
