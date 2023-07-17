@@ -18,6 +18,7 @@ SRC			= ./src/main.c \
 				./src/utils/commands.c \
 				./src/utils/display_prompt.c \
 				./src/utils/signals.c \
+				./src/tokenized/removing_quotes.c \
 				./src/tokenized/split_token.c \
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c \
@@ -39,8 +40,6 @@ SRC			= ./src/main.c \
 				./src/env/find_env.c \
 				./src/env/handle_dollar_sign.c \
 				./src/env/init_env.c \
-
-
 
 # Objects files
 OBJ			= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
