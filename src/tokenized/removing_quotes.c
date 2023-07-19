@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/17 11:48:38 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/17 13:33:00 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/18 13:24:10 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ char *ft_quotes(char *str, char c)
 
     while (str[i])
     {
-		if (str[i] == c && str[i - 1] == ' ')
+		if (str[i] == c && str[i - 1] == ' ' && str[i - 1] == '=')
 			return (str);
-        else if (str[i] == c && str[i - 1] != ' ')
-        {
+		else if (str[i] == c && str[i - 1] != ' ' && str[i - 1] != '=' && str[i + 1] != '\0')
+		{
             ret = remove_quotes(str, c);
 			return (ret);
         }
@@ -75,7 +75,7 @@ char *ft_converter(char *input)
 	if (s_quo % 2 == 0)
         str = ft_quotes(input, '\'');
     if (d_quo % 2 == 0)
-        str = ft_quotes(input, '\"');
+	    str = ft_quotes(input, '\"');
     //printf("T: %s\n", str);
     return (str);
 }

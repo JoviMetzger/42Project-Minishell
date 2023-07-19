@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/12 11:57:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/19 12:31:04 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_token	*split_token(char *str)
 	int	start;
 	int	len;
 	char	*line;
-	t_token	*new;
 	t_token	*top;
 	
 
@@ -28,74 +27,19 @@ t_token	*split_token(char *str)
 	top = NULL;
 	if (!str)
 		return (NULL);
-	while (str[i] && str[i] == ' ')
+	while (str[i] && ft_isspace(str[i]))
 		i++;
 	while (str[i])
 	{
 		if (str[i] == '\'')
-		{
-			start = i + 1;
-			len = strlen_char(&str[start], '\'');
-			line = ft_substr(str, start, len);
-			i = len + start + 1;
-			//printf("2.%s, len:%i\n",line,len);
-			new = new_token(line);
-			new->type = WORD;
-			add_token_end(&top, new);
-		}
+			i = split_quote(str, i, '\'', &top);
 		else if (str[i] == '\"')
-		{
-			start = i + 1;
-			len = strlen_char(&str[start], '\"');
-			line = ft_substr(str, start, len);
-			i = len + start + 1;
-			//printf("3.%s, len:%i\n",line,len);
-			new = new_token(line);
-			new->type = WORD;
-			add_token_end(&top, new);
-		}
-		else if (str[i] == '<')
-		{
-			if (str[i + 1] == '<')
-			{
-				line = ft_substr(str, i, 2);
-				//printf("5.%s, len:%i\n",line,1);
-				add_token_end(&top, new_token(line));
-				i+=2;
-			}
-			else
-			{
-				line = ft_substr(str, i, 1);
-				//printf("4.%s, len:%i\n",line,1);
-				add_token_end(&top, new_token(line));
-				i += 1;
-			}
-		}
+			i = split_quote(str, i, '\"', &top);
+		else if (str[i] == '<' || str[i] == '>')
+			i = split_redi(str, i, str[i], &top);
 		else if (str[i] == '|')
-		{
-			line = ft_substr(str, i, 1);
-			//printf("4.%s, len:%i\n",line,1);
-			add_token_end(&top, new_token(line));
-			i += 1;
-		}
-		else if (str[i] == '>')
-		{
-			if (str[i + 1] == '>')
-			{
-				line = ft_substr(str, i, 2);
-				//printf("5.%s, len:%i\n",line,1);
-				add_token_end(&top, new_token(line));
-				i+=2;
-			}
-			else
-			{
-				line = ft_substr(str, i, 1);
-				//printf("4.%s, len:%i\n",line,1);
-				add_token_end(&top, new_token(line));
-				i += 1;
-			}
-		}
-		else if (str[i] != ' ' && str[i] != '\"' && str[i] != '\''&& str[i] != '|')
+			i = split_char(str, i, &top);
+		else if (!ft_isspace(str[i]) && str[i] != '\"' && str[i] != '\''&& str[i] != '|')
 		{
 			len = strlen_char(&str[i], ' ');
 			line = ft_substr(str, i, len);
@@ -109,7 +53,52 @@ t_token	*split_token(char *str)
 	return (top);
 }
 
-//test :  gcc split_token.c token_util.c  ../../libft/libft.a
+int	split_quote(char *str, int	i, char c, t_token **top)
+{
+	int		start;
+	int		len;
+	char	*line;
+	t_token	*new;
+
+	start = i + 1;
+	len = strlen_char(&str[start], c);
+	line = ft_substr(str, start, len);
+	i = len + start + 1;
+	new = new_token(line);
+	if (c == '\'')
+		new->type = SQUO;
+	else
+		new->type = WORD;
+	add_token_end(top, new);
+	return (i);
+}
+
+int	split_char(char *str, int i, t_token **top)
+{
+	char	*line;
+
+	line = ft_substr(str, i, 1);
+	add_token_end(top, new_token(line));
+	i += 1;
+	return (i);
+}
+
+int	split_redi(char *str, int	i, char c, t_token **top)
+{
+	char	*line;
+
+	if (str[i + 1] == c)
+	{
+		line = ft_substr(str, i, 2);
+		add_token_end(top, new_token(line));
+		i += 2;
+	}
+	else
+		i = split_char(str, i, top);
+	return (i);
+}
+
+//test :  gcc split_token.c token_util.c ../tool/tool_utils.c ../../libft/libft.a
 
 /* int main(void)
 {
@@ -124,7 +113,7 @@ t_token	*split_token(char *str)
 	str = "$PATH $$<< infile <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	//str = "$ adisad  $PATH  a\"\'\'\"a <<<";
 	//str = " $ $chkhk$$$ df";
-	str = " $PATH ADS asd$ads$ads $chkhk df ";//have segmentation fault
+	str = " $PATH| |ADS asd$ads$ads $chkhk df ";//have segmentation fault
 	//str = " cmd arg| cmd";
 	//str = " <infile as<infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
 	test = split_token(str);

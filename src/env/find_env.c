@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/06 08:56:25 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/12 12:04:37 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/19 12:27:47 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	all_upper(char *str)
 	return (1);
 }
 
-int	env_index(t_token *token, char **envp)
+static int	env_index(t_token *token, char **envp)
 {
 	int	i;
 	char	*tmp;
@@ -45,16 +45,21 @@ int	env_index(t_token *token, char **envp)
 	return (-1);
 }
 
+
 char	*find_env(t_token **token, char **envp)
 {
 	int	index;
+	int	i;
 
+	i = 0;
 	if (!*token)
 		return (NULL);
 	index = env_index(*token, envp);
 	if (index == -1 || !envp[index])
 		return (NULL);
-	return (envp[index]);
+	while (envp[index][i] != '=')
+		i++;
+	return (&envp[index][i + 1]);
 }
 
 

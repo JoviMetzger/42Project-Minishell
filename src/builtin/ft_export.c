@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/12 13:18:25 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/19 10:57:32 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,23 @@ int static ft_argc(char **input)
     return (len);
 }
 
-bool	ft_is_valid(char *str)
+int	ft_is_name_valid(char *str)
 {
 	int	i;
 
-	i = 0;
-	if (ft_strcmp(str, "=") == 0)
-		return (false);
+    i = 0;
+    if (str[0] == '=')
+        return (1);
 	while (str[i] && str[i] != '=')
 	{
-		if ((str[i] >= '0' && str[i] <= '9') || str[i] == '!' || str[i] == '@'
-			|| str[i] == '{' || str[i] == '}' || str[i] == '-')
-			return (false);
+        
+        if (!((str[0] == '_') || (str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z')))
+            return (1);
+        if (!((str[i] == '_') || (str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= '0' && str[i] <= '9')))
+            return (1);
 		i++;
 	}
-	return (true);
+	return (0);
 }
 
 static int empty_export(t_data *data)
@@ -57,24 +59,8 @@ static int ft_error_msg(char *input)
 {
     ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 	ft_putstr_fd(input, STDERR_FILENO);
-	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+    ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 	return (EXIT_FAILURE);
-}
-
-static void loop_and_export(char *name, t_data *data)
-{
-    t_env *tmp;
-    
-    tmp = data->env;
-    while (tmp)
-    {
-        if (ft_strcmp(name, tmp->name) == 0)
-        {
-            tmp->for_export = true;
-            break ;
-        }
-        tmp = tmp->next;
-    }
 }
 
 int ft_export(char **input, t_data *data)
@@ -84,19 +70,14 @@ int ft_export(char **input, t_data *data)
     
     if (ft_argc(input) == 1) 
         return (empty_export(data));
-    exit_status = EXIT_SUCCESS;
     i = 0;
+    exit_status = EXIT_SUCCESS;
+    if (ft_is_name_valid(input[1]) == 1)
+            exit_status = ft_error_msg(input[i]);
     while (input[++i])
     {
-        if (!ft_is_valid(input[i]))
-            exit_status = ft_error_msg(input[i]);
-        else if (ft_strchr(input[i], '='))
-        {
+        if (ft_strchr(input[i], '='))
             add_new_env_var(input[i], &data->env, true);
-            continue ;
-        }
-        else
-            loop_and_export(input[i], data);
     }
     return (exit_status);
 }

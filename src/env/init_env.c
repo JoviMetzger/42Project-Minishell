@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:41 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/11 15:25:05 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/19 10:50:52 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char **split_envp(char *env)
     char **split;
     int idx_equal;
 
-    split = (char **)malloc(sizeof(char *) * 3); //split = malloc(3 * sizeof(char *));
+    split = (char **)malloc(sizeof(char *) * 3);
     idx_equal = ft_strchr(env, '=') - env;
     split[0] = ft_substr(env, 0, idx_equal);
     split[1] = ft_substr(env, idx_equal + 1, ft_strlen(&env[idx_equal]));

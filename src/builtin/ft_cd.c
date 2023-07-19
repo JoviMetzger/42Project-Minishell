@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:26 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/12 12:54:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/19 10:57:59 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void update_oldpwd(char *tmp, t_data *data)
      free(oldpwd);
 }
 
-// chdir();
-//  used to change the current working directory of the calling process.
 int ft_cd(char *path, t_data *data)
 {
     char tmp[1024];

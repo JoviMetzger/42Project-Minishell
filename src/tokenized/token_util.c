@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:04:23 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/12 11:57:59 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/19 11:54:01 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int strlen_char(char *str, char c)
 			i++;
 		return (i);
 	}
-	while (str[i] && str[i] != c && str[i] != '\''
+	while (str[i] && str[i] != c && !ft_isspace(str[i]) && str[i] != '\''
 		&& str[i] != '\"' && str[i] != '|'
 		&& str[i] != '<' && str[i] != '>')
 		i++;
