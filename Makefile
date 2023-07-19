@@ -6,7 +6,7 @@
 #    By: yizhang <yizhang@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/06/22 12:30:01 by yizhang       #+#    #+#                  #
-#    Updated: 2023/07/11 12:51:18 by yizhang       ########   odam.nl          #
+#    Updated: 2023/07/13 10:41:08 by yizhang       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,13 @@ SRC			= ./src/main.c \
 				./src/execute/run.c\
 				./src/execute/create_cmd.c\
 				./src/execute/find_path.c\
-				./src/execute/free_error.c\
 				./src/execute/redirection.c\
 				./src/execute/redi_here_doc.c\
 				./src/env/find_env.c\
 				./src/env/handle_dollar_sign.c\
+				./src/tool/free_error.c\
+				./src/tool/protection.c\
+				./src/tool/tool_utils.c\
 				
 OBJ			= $(SRC:.c=.o)
 

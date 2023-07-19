@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/06 08:56:25 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/11 17:18:48 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/12 13:30:15 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,21 @@ int	env_index(t_token *token, char **envp)
 	return (-1);
 }
 
+
 char	*find_env(t_token **token, char **envp)
 {
 	int	index;
+	int	i;
 
+	i = 0;
 	if (!*token)
 		return (NULL);
 	index = env_index(*token, envp);
 	if (index == -1 || !envp[index])
 		return (NULL);
-	return (envp[index]);
+	while (envp[index][i] != '=')
+		i++;
+	return (&envp[index][i + 1]);
 }
 
 

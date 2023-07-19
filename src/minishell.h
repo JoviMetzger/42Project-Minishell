@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/12 11:39:38 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/19 11:23:52 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ enum type
 	DELIMI,
 	DOLLAR,
 	ENV,
+	SQUO
 };
 
 typedef struct s_history
@@ -90,14 +91,16 @@ void		add_token_end(t_token **top, t_token *new);
 t_token		*new_token(char *str);
 t_token		*split_token(char *str);
 t_token		*copy_token(t_token *old);
+int			split_quote(char *str, int i, char c, t_token **top);
+int			split_redi(char *str, int	i, char c, t_token **top);
+int			split_char(char *str, int i, t_token **top);
 
 //cmd
 int		cmd_len(t_token **token, int index);
 void	add_cmd_end(t_cmd **top, t_cmd *new);
-t_cmd	*new_cmd(char **words, int len);
 void	token_to_cmd(t_data *all);
+t_cmd	*new_cmd(char **words, int len);
 t_cmd	*ft_new_cmd(void);
-
 
 //run
 char	*find_path(char *cmd, char **envp);
@@ -113,6 +116,14 @@ void	print_error(char *str, int errcode);
 void	free_2dstr(char **str);
 void	free_token(t_token *token);
 void	free_cmd(t_data *all);
+
+//protect
+void	protect_waitpid(pid_t id, int *status, int options);
+void	protect_dup2(int file, int file2);
+void	protect_close(int file);
+void	protect_write(int fd, char *buf, int count);
+void	protect_pipe(int fd[2]);
+//void	protect_open(int fd[2]);
 
 //redi
 void	redi_in(t_token *redi);
@@ -130,13 +141,17 @@ char	*find_env(t_token **token, char **envp);
 
 //dollar
 t_token *dollar_split(char *str);
-int	dollar_len(char *str);
-int	have_dollar(char *str);
+int		dollar_len(char *str);
+int		have_dollar(char *str);
+int		space_len(char *str);
 void	swap_val(t_token **top, char **envp, t_data *all);
-char *token_to_str(t_token **top);
-int	space_len(char *str);
+char	*token_to_str(t_token **top);
 
 //void free_history(t_history *history); //
 void ft_commands(char **envp, t_data *data);
+
+//tool
+int	ft_isspace(char c);
+
 
 #endif

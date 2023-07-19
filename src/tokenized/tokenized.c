@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/12 10:14:28 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/19 11:26:03 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,15 @@ void	tokenized(t_data *all, char **envp)
 	curr = all->token;
 	while (curr != NULL)
 	{
+		if (have_dollar(curr->str) && curr->type != SQUO)//segv
+		{
+			to_tmp = dollar_split(curr->str);
+			swap_val(&to_tmp, envp, all);
+			tmp = curr->str;
+			curr->str = token_to_str(&to_tmp);
+			free(tmp);
+			//free_token(to_tmp);
+		}
 		if (ft_strcmp(curr->str, "|") == 0 && curr->type == EMPTY)
 			curr->type = PIPE;
 		else if (ft_strcmp(curr->str, "<") == 0 && curr->type == EMPTY)
@@ -84,16 +93,6 @@ void	tokenized(t_data *all, char **envp)
 			curr->type = HERE_DOC;
 		else if (ft_strcmp(curr->str, ">>") == 0 && curr->type == EMPTY)
 			curr->type = APPEND_RE;
-		else if (have_dollar(curr->str) && (curr->type == EMPTY || curr->type == WORD))//segv
-		{
-			to_tmp = dollar_split(curr->str);
-			swap_val(&to_tmp, envp, all);
-			tmp = curr->str;
-			curr->str = token_to_str(&to_tmp);
-			free(tmp);
-			//free_token(to_tmp);
-			curr->type = WORD;
-		}
 		else if (curr->prev && curr->prev->type == INPUT_RE && curr->type == EMPTY)
 			curr->type = INFILE;
 		else if (curr->prev && curr->prev->type == OUTPUT_RE && curr->type == EMPTY)
@@ -102,7 +101,7 @@ void	tokenized(t_data *all, char **envp)
 			curr->type = APPFILE;
 		else if (curr->prev && curr->prev->type == HERE_DOC && curr->type == EMPTY)
 			curr->type = DELIMI;
-		else if (curr->type == EMPTY)
+		else if (curr->type == EMPTY || curr->type == SQUO)
 			curr->type = WORD;
 		if (!curr->next)
 			return ;

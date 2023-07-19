@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 15:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/11 12:25:25 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/13 10:21:45 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void ft_commands(char **envp, t_data *all)
 		free_token(all->token);
 		curr = all->cmd;
 		id = fork();
+		if (id == -1)
+			exit(WEXITSTATUS(status));
 		if (id == 0)
 		{
 			if (curr && curr->next == NULL)
@@ -39,7 +41,7 @@ void ft_commands(char **envp, t_data *all)
 				{
 					cmd_child(curr, envp, all);
 					if (!curr->next)
-						exit(0);
+						exit(WEXITSTATUS(status));
 					curr=curr->next;
 				}
 				if (curr)
@@ -50,7 +52,7 @@ void ft_commands(char **envp, t_data *all)
 		}
 		else
 		{
-			waitpid(id, &status, 0);
+			protect_waitpid(id, &status, 0);
 			all->status = WEXITSTATUS(status);
 			free_cmd(all);
 		}

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/11 12:46:14 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/12 11:42:13 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/07/13 10:48:10 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	dollar_len(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' || str[i] == ' ')
+		if (str[i] == '$' || ft_isspace(str[i]))
 			break ;
 		i++;
 	}
@@ -44,7 +44,7 @@ int	space_len(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] && ft_isspace(str[i]))
 		i++;
 	return (i);
 }
@@ -83,7 +83,7 @@ t_token *dollar_split(char *str)
 				j++;
 			}
 		}
-		else if(str[i] != ' ')
+		else if(!ft_isspace(str[i]))
 		{
 			one_len = dollar_len(&str[i]);
 			line = ft_substr(str, i, one_len);
@@ -91,7 +91,7 @@ t_token *dollar_split(char *str)
 			i += one_len;
 			j++;
 		}
-		else if(str[i] == ' ')
+		else if(ft_isspace(str[i]))
 		{
 			one_len = space_len(&str[i]);
 			line = ft_substr(str, i, one_len);
