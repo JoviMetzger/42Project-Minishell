@@ -24,7 +24,6 @@ SRC			= ./src/main.c \
 				./src/tokenized/tokenized.c \
 				./src/execute/create_cmd.c \
 				./src/execute/find_path.c \
-				./src/execute/free_error.c \
 				./src/execute/redi_here_doc.c \
 				./src/execute/redirection.c \
 				./src/execute/run.c \
@@ -40,6 +39,11 @@ SRC			= ./src/main.c \
 				./src/env/find_env.c \
 				./src/env/handle_dollar_sign.c \
 				./src/env/init_env.c \
+				./src/tool/free_error.c \
+				./src/tool/protection.c \
+				./src/tool/tool_utils.c \
+
+
 
 # Objects files
 OBJ			= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
@@ -87,6 +91,10 @@ $(OBJDIR)/%.o: ./src/execute/%.c
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/env/%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -c -o $@ $<
+
+$(OBJDIR)/%.o: ./src/tool/%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
