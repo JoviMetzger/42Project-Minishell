@@ -18,9 +18,7 @@ void ft_commands(char **envp, t_data *all)
 	pid_t	id;
 	int		status;
 
-	if (ft_strcmp(all->input, "history") == 0)
-		printf("HISTORY\n");
-	else if (ft_strcmp(all->input, "") != 0)
+	if (ft_strcmp(all->input, "") != 0)
 	{
 		tokenized(all, envp);
 		token_to_cmd(all);
