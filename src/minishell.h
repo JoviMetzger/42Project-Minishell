@@ -99,8 +99,8 @@ void		ft_commands(char **envp, t_data *data);
 void		ft_free(void *ptr);
 
 // SIGNALS
-void		signals_wait();
-void		signals_run();
+void		handle_sig(void);
+void		child_signals(int signal);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // TOKEN
