@@ -36,6 +36,7 @@ void ft_commands(char **envp, t_data *all)
 			exit(WEXITSTATUS(status));
 		if (id == 0)
 		{
+			signal(SIGINT, child_signals);
 			if (curr && curr->next == NULL)
 				last_cmd_child(curr, envp, all);
 			else
