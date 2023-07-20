@@ -15,7 +15,8 @@
 void	run_cmd(t_cmd *cmd, char **envp, t_data *data)
 {
 	char *path;
-	
+
+	signal(SIGINT, child_signals); //????
 	if ((is_builtin_cmd(cmd->words[0])) == 1)
 	{
 		exec_builtin_cmd(cmd->words, data);
