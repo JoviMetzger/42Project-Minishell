@@ -87,7 +87,6 @@ typedef struct s_data
 	struct s_env		*env;
 	struct s_cmd		*cmd;
 	struct s_token		*token;
-	// struct s_history	*history;
 }t_data;
 
 
