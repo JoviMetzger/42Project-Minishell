@@ -6,65 +6,57 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/12 12:24:59 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/20 14:29:28 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-long int g_exit_status;
-static void new_line(int signal)
+long long int g_exit_status;
+
+void child_signals(int signal)
 {
-    g_exit_status = 128 + signal;
-    rl_on_new_line();
+    if (signal == SIGINT)
+    {
+        ft_putchar_fd('\n', STDOUT_FILENO);
+        g_exit_status = 128 + signal;
+        exit(g_exit_status);
+    }
 }
 
-static void restore_prompt(int signal)
+void restore_prompt(int signal)
 {
-    g_exit_status = 128 + signal;
-    ft_putchar_fd('\n', STDOUT_FILENO);
-    rl_replace_line("", 0);
-    rl_on_new_line();
-    rl_redisplay();
+    if (signal == SIGINT)
+    {
+        ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_exit_status = 128 + signal;
+    }
 }
 
-void signals_wait()
+void handle_sig(void)
 {
-    signal(SIGINT, restore_prompt);
+    struct sigaction sig;
+    
+    sig.sa_handler = &restore_prompt;
+    sig.sa_flags = SA_RESTART;
+    sigemptyset(&sig.sa_mask);
+    sigaddset(&sig.sa_mask, SIGINT);
+    sigaction(SIGINT, &sig, NULL);
     signal(SIGQUIT, SIG_IGN);
 }
 
-void signals_run()
-{
-    signal(SIGINT, new_line);
-    signal(SIGQUIT, new_line);
-}
+/* The value 130 is calculated by adding 128 to the signal number. 
+*   When a process receives a SIGINT signal, the default action is to terminate the process. 
+*   By convention, the shell uses an exit status of 128 + signal number to indicate 
+*   that the process was terminated due to a signal. In the case of SIGINT (signal number 2), 
+*   adding 128 gives 130.
+*/
 
-// static void new_line(int signal, int *status)
-// {
-//     *status = 128 + signal;
-//     rl_on_new_line();
-// }
-
-// static void restore_prompt(int signal, int *status)
-// {
-//     *status = 128 + signal;
-//     ft_putchar_fd('\n', STDOUT_FILENO);
-//     rl_replace_line("", 0);
-//     rl_on_new_line();
-//     rl_redisplay();
-// }
-
-// void signals_wait(int *status)
-// {
-//     signal(SIGINT, (void (*)(int))restore_prompt);
-//     signal(SIGQUIT, SIG_IGN);
-//     *status = 0;
-// }
-
-// void signals_run(int *status)
-// {
-//     signal(SIGINT, (void (*)(int))new_line);
-//     signal(SIGQUIT, (void (*)(int))new_line);
-//     *status = 0;
-// }
+/* Ctrl-C tells the terminal to send a SIGINT to the current foreground process, 
+*   which by default translates into terminating the application. 
+*   Ctrl-D tells the terminal that it should register a EOF on standard input, 
+*   which bash interprets as a desire to exit.
+*/
