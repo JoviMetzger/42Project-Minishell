@@ -14,38 +14,48 @@
 
 long long int g_exit_status;
 
-void child_signals(int signal)
+void	restore_prompt(int sig)
 {
-    if (signal == SIGINT)
-    {
-        ft_putchar_fd('\n', STDOUT_FILENO);
-        g_exit_status = 128 + signal;
-        exit(g_exit_status);
-    }
-}
-
-void restore_prompt(int signal)
-{
-    if (signal == SIGINT)
+	if (sig == SIGINT)
     {
         ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_exit_status = 128 + signal;
+		g_exit_status = 128 + sig;
     }
 }
 
-void handle_sig(void)
+void	ctrl_c(int sig)
 {
-    struct sigaction sig;
-    
-    sig.sa_handler = &restore_prompt;
-    sig.sa_flags = SA_RESTART;
-    sigemptyset(&sig.sa_mask);
-    sigaddset(&sig.sa_mask, SIGINT);
-    sigaction(SIGINT, &sig, NULL);
-    signal(SIGQUIT, SIG_IGN);
+	if (sig == SIGINT)
+    {
+        ft_putchar_fd('\n', STDOUT_FILENO);
+        g_exit_status = 128 + sig;
+    }
+}
+
+void	backslash(int sig)
+{
+    if (sig == SIGQUIT)
+    {
+	    printf("Quit\n");
+        g_exit_status = 128 + sig;
+    }
+}
+
+void	handle_signal(int num)
+{
+	if (num == 1)
+	{
+		signal(SIGINT, restore_prompt);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	if (num == 2)
+	{
+		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, backslash);
+	}
 }
 
 /* The value 130 is calculated by adding 128 to the signal number. 
