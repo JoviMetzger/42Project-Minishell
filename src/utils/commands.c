@@ -30,11 +30,11 @@ void ft_commands(char **envp, t_data *all)
 			return ;
 		}
 		id = fork();
+		handle_signal(2); //rm
 		if (id == -1)
 			exit(WEXITSTATUS(status));
 		if (id == 0)
 		{
-			signal(SIGINT, child_signals);
 			if (curr && curr->next == NULL)
 				last_cmd_child(curr, envp, all);
 			else
