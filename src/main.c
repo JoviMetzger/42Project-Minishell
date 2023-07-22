@@ -25,17 +25,17 @@ int main(int argc, char **argv, char **envp)
     all.envp = envp;
     all.env = init_env(envp);
     all.status = 0;
-    handle_sig();
     while (1)
     {
         prompt = display_prompt();
+        handle_signal(1);
         all.input = readline(prompt);
+        ft_free(prompt);
         if (all.input == NULL)
         {
             printf("exit\n");
-            break;
+            exit(0);
         }
-        ft_free(prompt);
         if (all.input[0] != '\0')
             add_history(all.input);
         ft_commands(all.envp, &all);
