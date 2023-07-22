@@ -98,8 +98,7 @@ void		ft_commands(char **envp, t_data *data);
 void		ft_free(void *ptr);
 
 // SIGNALS
-void		handle_sig(void);
-void		child_signals(int signal);
+void		handle_signal(int sig);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // TOKEN
