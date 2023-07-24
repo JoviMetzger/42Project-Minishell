@@ -31,9 +31,9 @@ t_token	*split_token(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			i = split_with_quote(str, i, '\'', &top);
+			i = split_without_quote(str, i, '\'', &top);
 		else if (str[i] == '\"')
-			i = split_with_quote(str, i, '\"', &top);
+			i = split_without_quote(str, i, '\"', &top);
 		else if (str[i] == '<' || str[i] == '>')
 			i = split_redi(str, i, str[i], &top);
 		else if (str[i] == '|')
@@ -79,11 +79,11 @@ t_token	*split_again_token(char *str)
 		i++;
 	while (str[i])
 	{
-		if (str[i] == '\'')
+		/* if (str[i] == '\'')
 			i = split_without_quote(str, i, '\'', &top);
 		else if (str[i] == '\"')
-			i = split_without_quote(str, i, '\"', &top);
-		else if (str[i] == '<' || str[i] == '>')
+			i = split_without_quote(str, i, '\"', &top); */
+		if (str[i] == '<' || str[i] == '>')
 			i = split_redi(str, i, str[i], &top);
 		else if (str[i] == '|')
 			i = split_char(str, i, &top);

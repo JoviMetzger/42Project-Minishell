@@ -56,20 +56,15 @@ int quote_count(char *str, int i,int *quo_nb, char quo)
 	return (i);
 }
 
-void	tokenized(t_data *all, char **envp)
+void	add_env(t_data *all, t_token **top, char **envp)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
 	char	*tmp;
 
+	curr = *top;
 	tmp = NULL;
 	to_tmp = NULL;
-	if (quote_check(all->input) == 1)
-		exit (1);
-	all->token = split_token(all->input);//env
-	all->input = token_to_str(&all->token);
-	all->token = split_again_token(all->input);
-	curr = all->token;
 	while (curr != NULL)
 	{
 		 if (curr->str && have_dollar(curr->str) && curr->type != SQUO)//segv
@@ -81,6 +76,35 @@ void	tokenized(t_data *all, char **envp)
 			free(tmp);
 			//free_token(to_tmp);
 		} 
+		if (!curr->next)
+			return ;
+		curr = curr->next;
+	}
+}
+
+void	tokenized(t_data *all, char **envp)
+{
+	t_token		*curr;
+
+	curr = NULL;
+	if (quote_check(all->input) == 1)
+		exit (1);
+	all->token = split_token(all->input);//env
+	add_env(all, &all->token, envp);
+	all->input = token_to_str(&all->token);
+	all->token = split_again_token(all->input);
+	curr = all->token;
+	while (curr != NULL)
+	{
+		 /* if (curr->str && have_dollar(curr->str) && curr->type != SQUO)//segv
+		{
+			to_tmp = dollar_split(curr->str);
+			swap_val(&to_tmp, envp, all);
+			tmp = curr->str;
+			curr->str = token_to_str(&to_tmp);
+			free(tmp);
+			//free_token(to_tmp);
+		}  */
 		if (curr->str && ft_strcmp(curr->str, "|") == 0 && curr->type == EMPTY)
 			curr->type = PIPE;
 		else if (curr->str && ft_strcmp(curr->str, "<") == 0 && curr->type == EMPTY)

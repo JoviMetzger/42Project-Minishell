@@ -102,6 +102,7 @@ int			split_general_char(char *str, int i, t_token **top);
 t_token		*split_again_token(char *str);
 int			split_with_quote(char *str, int i, char c, t_token **top);
 int			split_without_quote(char *str, int	i, char c, t_token **top);
+void	add_env(t_data *all, t_token **top, char **envp);
 
 //cmd
 int		cmd_len(t_token **token, int index);
