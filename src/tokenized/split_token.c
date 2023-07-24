@@ -40,10 +40,8 @@ t_token	*split_token(char *str)
 			i = split_char(str, i, &top);
 		else if (!ft_isspace(str[i]) && str[i] != '\"' && str[i] != '\''&& str[i] != '|')
 		{
-			// split_general_char(str, i, &top);
 			len = strlen_char(&str[i], ' ');
 			line = ft_substr(str, i, len);
-			//printf("1.%s, len:%i\n",line,len);
 			add_token_end(&top, new_token(line));
 			i = len + i;
 		}
@@ -79,18 +77,18 @@ t_token	*split_again_token(char *str)
 		i++;
 	while (str[i])
 	{
-		/* if (str[i] == '\'')
+		if (str[i] == '\'')
 			i = split_without_quote(str, i, '\'', &top);
 		else if (str[i] == '\"')
-			i = split_without_quote(str, i, '\"', &top); */
-		if (str[i] == '<' || str[i] == '>')
+			i = split_without_quote(str, i, '\"', &top);
+		else if (str[i] == '<' || str[i] == '>')
 			i = split_redi(str, i, str[i], &top);
 		else if (str[i] == '|')
 			i = split_char(str, i, &top);
-		else if (!ft_isspace(str[i]) && str[i] != '\"' && str[i] != '\''&& str[i] != '|')
+		else if (!ft_isspace(str[i]) && str[i] != '|')
 		{
 			//split_general_char(str, i, &top);
-			len = strlen_char(&str[i], ' ');
+			len = again_strlen_char(&str[i], ' ');
 			line = ft_substr(str, i, len);
 			//printf("1.%s, len:%i\n",line,len);
 			add_token_end(&top, new_token(line));
@@ -152,6 +150,10 @@ int	split_with_quote(char *str, int	i, char c, t_token **top)
 		line = ft_substr(str, start, len);
 	i = len + start + 1;
 	new = new_token(line);
+	if (c == '\'')
+		new->type = SQUO;
+	else
+		new->type = WORD;
 	add_token_end(top, new);
 	return (i);
 }

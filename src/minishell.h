@@ -103,6 +103,8 @@ t_token		*split_again_token(char *str);
 int			split_with_quote(char *str, int i, char c, t_token **top);
 int			split_without_quote(char *str, int	i, char c, t_token **top);
 void	add_env(t_data *all, t_token **top, char **envp);
+int again_strlen_char(char *str, char c);
+int	non_dollar_len(char *str);
 
 //cmd
 int		cmd_len(t_token **token, int index);
@@ -110,6 +112,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new);
 void	token_to_cmd(t_data *all);
 t_cmd	*new_cmd(char **words, int len);
 t_cmd	*ft_new_cmd(void);
+char *token_to_cmdstr(t_token **top , int index);
 
 //run
 char	*find_path(char *cmd, char **envp);

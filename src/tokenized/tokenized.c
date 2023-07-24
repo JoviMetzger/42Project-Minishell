@@ -74,7 +74,6 @@ void	add_env(t_data *all, t_token **top, char **envp)
 			tmp = curr->str;
 			curr->str = token_to_str(&to_tmp);
 			free(tmp);
-			//free_token(to_tmp);
 		} 
 		if (!curr->next)
 			return ;
@@ -85,26 +84,23 @@ void	add_env(t_data *all, t_token **top, char **envp)
 void	tokenized(t_data *all, char **envp)
 {
 	t_token		*curr;
+	t_token		*to_tmp;
+	char	*tmp;
 
 	curr = NULL;
 	if (quote_check(all->input) == 1)
 		exit (1);
-	all->token = split_token(all->input);//env
-	add_env(all, &all->token, envp);
-	all->input = token_to_str(&all->token);
-	all->token = split_again_token(all->input);
+	
+	tmp = NULL;
+	to_tmp = NULL;
+	to_tmp = dollar_split(all->input);
+	swap_val(&to_tmp, envp, all);
+	tmp = all->input;
+	all->input = token_to_str(&to_tmp);
+	all->token = split_token(all->input);
 	curr = all->token;
 	while (curr != NULL)
 	{
-		 /* if (curr->str && have_dollar(curr->str) && curr->type != SQUO)//segv
-		{
-			to_tmp = dollar_split(curr->str);
-			swap_val(&to_tmp, envp, all);
-			tmp = curr->str;
-			curr->str = token_to_str(&to_tmp);
-			free(tmp);
-			//free_token(to_tmp);
-		}  */
 		if (curr->str && ft_strcmp(curr->str, "|") == 0 && curr->type == EMPTY)
 			curr->type = PIPE;
 		else if (curr->str && ft_strcmp(curr->str, "<") == 0 && curr->type == EMPTY)
@@ -123,7 +119,7 @@ void	tokenized(t_data *all, char **envp)
 			curr->type = APPFILE;
 		else if (curr->str && curr->prev && curr->prev->type == HERE_DOC && curr->type == EMPTY)
 			curr->type = DELIMI;
-		else if (curr->str && (curr->type == EMPTY || curr->type == SQUO))
+		else if (curr->type == EMPTY || curr->type == SQUO)
 			curr->type = WORD;
 		if (!curr->next)
 			return ;
@@ -149,7 +145,10 @@ void	tokenized(t_data *all, char **envp)
 	//all.input = "  chkhk df >outfile <infile";
 	//all.input = " cmd <file  >outfile | \"|\"<infile";
 	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
-	all.input = " \'$PATH\' $$<< infi\'\'le   	  hgjgh$dsf$sdfd$?$$$$$ <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";//$$ error
+	//all.input = " \'$PATH\' $$<< infi\'\'le   	\"$PATH\"  hgjgh$dsf$sdfd$?$$$$$ <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";//$$ error
+	//all.input = " $PATH \'\'\'\"\" ,,kn   \'ADS $$ $chkhk df ";
+	all.input = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df \"HELLO -> \'\"";
+	//all.input = "\'$PATH\'";
 	//all.input = " $PATH ADS  $sdf $ df hgjgh$dsf$sdfd$?$$$$$";
 	//all.input = " $PATH ";
 	//all.input = "||\"|\"cmd "; //break pipe

@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 
+
 void	token_to_cmd(t_data *all)
 {
 	t_cmd	*new;
@@ -34,11 +35,20 @@ void	token_to_cmd(t_data *all)
 			words[len - 1] = NULL;
 			while (curr->type != PIPE && curr != NULL && i < len)
 			{
-				if (curr->type == WORD &&curr->str)
+				while (curr->type == WORD)
 				{
-					words[i] = ft_strdup(curr->str);
-					i++;
+					if (curr->str)
+					{
+						if (!words[i])
+							words[i] = ft_strdup(curr->str);
+						else
+							words[i] = ft_strjoin(words[i], curr->str);
+					}
+					if (!curr->next)
+						break ;
+					curr = curr->next;
 				}
+				i++;
 				if (!curr->next)
 					break ;
 				curr = curr->next;
@@ -87,7 +97,7 @@ int	cmd_len(t_token **token, int index)
 		{
 			while (curr->type != PIPE && curr)
 			{
-				if (curr->type == WORD && curr->str)
+				if (curr->type == WORD && (!curr->next || curr->next->type == SPACES))
 					i++;
 				if (!curr->next)
 					return(i);
@@ -131,7 +141,6 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	curr->next = new;
 }
 
-
 //complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
 
 //test1:add_cmd_end && new_cmd
@@ -170,7 +179,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	return 0;
 } */
 
-//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
+//complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
 //test2:token_to_cmd && cmd_len
 
 /* int main(int argc, char **argv, char **envp)
@@ -179,10 +188,11 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	char *str;
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
 	//str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
-	//str = " cmd arg|";
-	str = " $PATH ADS $$ $chkhk df ";//have segmentation fault
+	str = " cmd arg|";
+	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";//have segmentation fault
 	//str = "  chkhk ";
-	all.input = str;
+	//str = "  chkhk  \"HELLO -> \'\"";
+	//all.input = str;
 
 	tokenized(&all, envp);
 	int len = cmd_len(&all.token, 0);
@@ -194,7 +204,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 		int i = 0;
 		while (i < len)
 		{
-			printf("%s\n",curr->words[i]);
+			printf("%i: %s\n",i, curr->words[i]);
 			i++;
 		}
 		curr=curr->next;
@@ -202,7 +212,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	return 0;
 } */
 
-//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
+//complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
 //test3:add_redirection
 
 /* int main(int argc, char **argv, char **envp)
@@ -213,7 +223,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
 	//str = " cmd arg|";
 	//str = "  chkhk df ";//have segmentation fault
-	//str = "  chkhk ";
+	//str = "  chkhk  \"HELLO -> \'\";
 	all.input = str;
 
 	tokenized(&all, envp);
