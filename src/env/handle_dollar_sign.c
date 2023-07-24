@@ -106,10 +106,8 @@ t_token *dollar_split(char *str)
 void swap_val(t_token **top, char **envp, t_data *all)
 {
 	t_token	*curr;
-	char	*lang_str;
 
 	curr = *top;
-	lang_str = NULL;
 	while(curr != NULL)
 	{
 		if (curr->str)
