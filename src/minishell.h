@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 13:22:41 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/25 21:43:40 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define RESET	 "\033[0m"
 
 // enum for token
-typedef enum e_num
+typedef enum e_num //enum type
 {
 	EMPTY,
 	WORD,
@@ -181,14 +181,14 @@ int			ft_env(t_data *data);
 int			ft_exit(char **input, t_data *data);
 int			ft_export(char **input, t_data *data);
 int			ft_pwd(void);
-int			ft_unset(char **input, t_env **head);
+int			ft_unset(char **input, t_env **env);
 int			is_builtin_cmd(char *command);
 bool		exec_builtin_cmd(char **input, t_data *data);
 
 // BUILTIN (extra functions)
 int			ft_is_digit(char *str);
-int			add_new_env_var(char *statement, t_env **head, bool export);
-int			unset_var(char *name, t_env **head);
+int			add_new_env_var(char *statement, t_env **env, bool export);
+int			unset_var(char *name, t_env **env);
 void		update_oldpwd(char *current, t_data *data);
 void		update_pwd(t_data *data);
 
