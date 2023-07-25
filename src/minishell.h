@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/19 12:34:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/25 13:22:41 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define RESET	 "\033[0m"
 
 // enum for token
-enum type
+typedef enum e_num //enum type
 {
 	EMPTY,
 	WORD,
@@ -48,7 +48,8 @@ enum type
 	DOLLAR,
 	ENV,
 	SQUO,
-};
+	SPACES,
+}	t_enum;
 
 // Struct for token
 typedef struct s_token
@@ -58,7 +59,7 @@ typedef struct s_token
 	int					index;
 	struct s_token		*next;
 	struct s_token		*prev;
-} t_token;
+}	t_token;
 
 // Struct for environment
 typedef struct s_env
@@ -67,7 +68,7 @@ typedef struct s_env
 	char				*value;
 	bool				for_export;
 	struct s_env		*next;
-} t_env;
+}	t_env;
 
 // Struct for command
 typedef struct s_cmd
@@ -76,7 +77,7 @@ typedef struct s_cmd
 	int					len;
 	struct s_token		*redi;
 	struct s_cmd		*next;
-} t_cmd;
+}	t_cmd;
 
 // main struct
 typedef struct s_data
@@ -87,13 +88,13 @@ typedef struct s_data
 	struct s_env		*env;
 	struct s_cmd		*cmd;
 	struct s_token		*token;
-}t_data;
-
+}	t_data;
 
 // -- Function declaration --
 // OTHER
+int			ft_argc(char **input);
 int			ft_isspace(char c);
-char    	*display_prompt();
+char		*display_prompt(void);
 void		ft_commands(char **envp, t_data *data);
 void		ft_free(void *ptr);
 
@@ -102,19 +103,23 @@ void		handle_signal(int sig);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // TOKEN
-int			quote_check(char *str, t_data *all);
-int			quote_count(char *str, int i,int *quo_nb, char quo);
-int			split_quote(char *str, int	i, char c, t_token **top);
+int			quote_check(char *str);
+int			quote_count(char *str, int i, int *quo_nb, char quo);
+int			split_quote(char *str, int i, char c, t_token **top);
 int			split_char(char *str, int i, t_token **top);
-int			split_redi(char *str, int	i, char c, t_token **top);
+int			split_redi(char *str, int i, char c, t_token **top);
+int			split_without_quote(char *str, int i, char c, t_token **top);
+int			split_with_quote(char *str, int i, char c, t_token **top);
 char		*ft_converter(char *input);
 void		tokenized(t_data *all, char **envp);
+t_token		*split_again_token(char *str);
 t_token		*split_token(char *str);
 t_token		*copy_token(t_token *old);
 
 // TOKEN (utils)
-int 		strlen_char(char *str, char c);
+int			strlen_char(char *str, char c);
 void		add_token_end(t_token **top, t_token *new);
+void		check_token(t_data *all);
 t_token		*new_token(char *str);
 t_token		*copy_token(t_token *old);
 
@@ -175,15 +180,16 @@ int			ft_echo(char **input);
 int			ft_env(t_data *data);
 int			ft_exit(char **input, t_data *data);
 int			ft_export(char **input, t_data *data);
-int			ft_pwd();
+int			ft_pwd(void);
 int			ft_unset(char **input, t_env **head);
 int			is_builtin_cmd(char *command);
 bool		exec_builtin_cmd(char **input, t_data *data);
 
 // BUILTIN (extra functions)
+int			ft_is_digit(char *str);
 int			add_new_env_var(char *statement, t_env **head, bool export);
 int			unset_var(char *name, t_env **head);
-void		update_oldpwd(char *tmp, t_data *data);
+void		update_oldpwd(char *current, t_data *data);
 void		update_pwd(t_data *data);
 
 #endif
