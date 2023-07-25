@@ -32,7 +32,7 @@
 # define RESET	 "\033[0m"
 
 // enum for token
-typedef enum e_num //enum type
+typedef enum e_num
 {
 	EMPTY,
 	WORD,
