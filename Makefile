@@ -5,7 +5,7 @@ NAME		= minishell
 LIBFT		= ./libft/libft.a
 
 # Compiler and flags
-CC			= gcc
+CC			= cc
 CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # CFLAGS		+= -Werror
 
@@ -18,7 +18,7 @@ SRC			= ./src/main.c \
 				./src/utils/commands.c \
 				./src/utils/display_prompt.c \
 				./src/utils/signals.c \
-				./src/tokenized/removing_quotes.c \
+				./src/tokenized/check_quotes.c \
 				./src/tokenized/split_token.c \
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c \
@@ -35,6 +35,7 @@ SRC			= ./src/main.c \
 				./src/builtin/ft_export.c \
 				./src/builtin/ft_pwd.c \
 				./src/builtin/ft_unset.c \
+				./src/builtin/utils.c \
 				./src/env/env_list.c \
 				./src/env/find_env.c \
 				./src/env/handle_dollar_sign.c \
@@ -75,27 +76,21 @@ $(OBJDIR)/%.o: ./src/%.c
 		$(CC) $(CFLAGS) $(INC_FILE) $(Include) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/utils/%.c
-		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/tokenized/%.c
-		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/builtin/%.c
-		@mkdir -p $(OBJDIR)
-		$(CC) $(CFLAGS) -c -o $@ $<
+		$(CC) $(CFLAGS) -c -o $@ $<make
 
 $(OBJDIR)/%.o: ./src/execute/%.c
-		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/env/%.c
-		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/tool/%.c
-		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 # Clean
