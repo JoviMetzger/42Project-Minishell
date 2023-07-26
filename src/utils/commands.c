@@ -6,17 +6,17 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:42:34 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/19 11:51:37 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/26 13:02:28 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_commands(char **envp, t_data *all)
+void	ft_commands(char **envp, t_data *all)
 {
-	t_cmd 	*curr;
-	pid_t	id;
 	int		status;
+	t_cmd	*curr;
+	pid_t	id;
 
 	if (ft_strcmp(all->input, "") != 0)
 	{
@@ -30,11 +30,12 @@ void ft_commands(char **envp, t_data *all)
 			return ;
 		}
 		id = fork();
-		handle_signal(2); //rm
+		handle_signal(2, all); //NOT SURE IF THIS IS CORRECT PLACE(1);
 		if (id == -1)
 			exit(WEXITSTATUS(status));
 		if (id == 0)
 		{
+			//handle_signal(2, all); //NOT SURE IF THIS IS CORRECT PLACE(2);
 			if (curr && curr->next == NULL)
 				last_cmd_child(curr, envp, all);
 			else
@@ -44,11 +45,11 @@ void ft_commands(char **envp, t_data *all)
 					cmd_child(curr, envp, all);
 					if (!curr->next)
 						exit(WEXITSTATUS(status));
-					curr=curr->next;
+					curr = curr->next;
 				}
 				if (curr)
 					last_cmd_child(curr, envp, all);
-				all->status = WEXITSTATUS(status);	
+				all->status = WEXITSTATUS(status);
 				exit(WEXITSTATUS(status));
 			}
 		}
