@@ -82,7 +82,7 @@ $(OBJDIR)/%.o: ./src/tokenized/%.c
 		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/builtin/%.c
-		$(CC) $(CFLAGS) -c -o $@ $<make
+		$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/execute/%.c
 		$(CC) $(CFLAGS) -c -o $@ $<
