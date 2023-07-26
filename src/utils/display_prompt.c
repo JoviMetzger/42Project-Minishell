@@ -6,40 +6,46 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/05 13:54:49 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/04 15:28:55 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/26 13:50:12 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_free(void *ptr)
+/* ft_free();
+ *	- Frees the memory pointed to by 'ptr' (*ptr).
+ *	- Used to deallocate dynamically allocated memory in the program.
+ *	- This function is aswell used to free the prompt in the 'main()' function.
+ */
+void	ft_free(void *ptr)
 {
-    if (ptr)
-    {
-        free(ptr);
-        ptr = NULL;
-    }
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
 }
 
-static char *ft_color(char *str, char *color)
+/* display_prompt();
+ *	- Generates the colored prompt string for the minishell.
+ *	- First I create the base part of the prompt "minishell"
+ *	- Then I apply the "RED" color code to the prompt with ft_strjoin().
+ *	- I add the arrow symbol to the colored prompt.
+ *	- Last I apply the "RESET" color code, 
+ *	  otherwise everything after the first prompt would be red.
+ *	- Returns a dynamically allocated string containing the colored prompt.
+ */
+char	*display_prompt(void)
 {
-    return (ft_strjoin(str, color));
-}
+	char	*tmp2;
+	char	*tmp;
 
-char    *display_prompt()
-{
-    char *tmp2;
-    char *tmp;
-    char *color;    
-
-    tmp2 = ft_strjoin(NULL, "minishell");
-	color = ft_color(tmp2, RED);
-	tmp = ft_strjoin(color, " ➔");
-	ft_free(tmp2);
-	ft_free(color);
-	color = ft_color(tmp, RESET);
-	tmp2 = ft_strjoin(color, "  ");
+	tmp2 = ft_strjoin(NULL, "minishell");
+	tmp = ft_strjoin(tmp2, RED);
+	tmp2 = ft_strjoin(tmp, " ➔");
 	ft_free(tmp);
-	ft_free(color);
+	tmp = ft_strjoin(tmp2, RESET);
+	tmp2 = ft_strjoin(tmp, "  ");
+	ft_free(tmp);
 	return (tmp2);
 }
