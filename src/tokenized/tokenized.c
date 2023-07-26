@@ -89,13 +89,11 @@ void	tokenized(t_data *all, char **envp)
 
 	curr = NULL;
 	if (quote_check(all->input) == 1)
-		exit (1);
-	
+		exit (1);	
 	tmp = NULL;
-	to_tmp = NULL;
-	to_tmp = dollar_split(all->input);
-	swap_val(&to_tmp, envp, all);
 	tmp = all->input;
+	to_tmp = dollar_split(tmp);
+	swap_val(&to_tmp, envp, all);
 	all->input = token_to_str(&to_tmp);
 	all->token = split_token(all->input);
 	curr = all->token;
@@ -142,19 +140,22 @@ void	tokenized(t_data *all, char **envp)
 	//all.input = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
 	//all.input = " cmd arg| cmd";
 	//all.input = "  chkhk df";
+	//all.input = "ls";
+	//all.input = "  ls  ";
 	//all.input = "  chkhk df >outfile <infile";
 	//all.input = " cmd <file  >outfile | \"|\"<infile";
 	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
 	//all.input = " \'$PATH\' $$<< infi\'\'le   	\"$PATH\"  hgjgh$dsf$sdfd$?$$$$$ <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";//$$ error
 	//all.input = " $PATH \'\'\'\"\" ,,kn   \'ADS $$ $chkhk df ";
-	all.input = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df \"HELLO -> \'\"";
+	//all.input = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df \"HELLO -> \'\"";
 	//all.input = "\'$PATH\'";
 	//all.input = " $PATH ADS  $sdf $ df hgjgh$dsf$sdfd$?$$$$$";
-	//all.input = " $PATH ";
-	//all.input = "||\"|\"cmd "; //break pipe
-	//all.input = " \"echo\" hello ";
+	//all.input = " $PATH ";//error
+	all.input = "||\"|\"cmd "; //break pipe
+	all.input = " \"echo\" hello ";
 	//all.input = " \"echo\" hello | wc";
-	//all.input = "<file1 cat > out \"|\" <infile "; //works 
+	all.input = "<file1 cat > out \"|\" <infile "; //works 
+	all.input = "    asd   ";
 	//all.input = " <infile cmd >outfile | <infile";
 	tokenized(&all, envp);
 	curr = all.token;
@@ -165,5 +166,5 @@ void	tokenized(t_data *all, char **envp)
 		curr = curr->next;
 	} 
 	return 0;
-} */
-
+}
+ */

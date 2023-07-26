@@ -23,37 +23,41 @@ void	token_to_cmd(t_data *all)
 
 	curr = all->token;
 	all->cmd = NULL;
+	new = NULL;
 	while(curr)
 	{
-		i = 0;
 		if (curr->index == 0 || (curr->prev && curr->prev->type == PIPE))
 		{
-			len = cmd_len(&curr, curr->index);
-			words = malloc(sizeof(char *) * len);
+			len = cmd_len(&curr, curr->index) + 1;
+			//printf ("len:%i \n",len);
+			words = malloc(sizeof(char *) * len + 1);
 			if (!words)
 				print_error(NULL, 0);
-			words[len - 1] = NULL;
-			while (curr->type != PIPE && curr != NULL && i < len)
+			words[len] = NULL;
+			i = 0;
+			while (curr && curr->type != PIPE)
 			{
 				while (curr->type == WORD)
 				{
 					if (curr->str)
 					{
-						if (!words[i])
+						if (!words[i] && curr->str)
 							words[i] = ft_strdup(curr->str);
 						else
 							words[i] = ft_strjoin(words[i], curr->str);
 					}
-					if (!curr->next)
+					if (!curr->next || curr->type == PIPE)
 						break ;
 					curr = curr->next;
 				}
-				i++;
-				if (!curr->next)
+				if (!curr->next || curr->type == PIPE)
 					break ;
 				curr = curr->next;
+				if (words[i])
+					i++;
 			}
 			new = new_cmd(words, len);
+			new->len = len;
 			add_cmd_end(&all->cmd, new);
 		}
 		if (!curr->next)
@@ -89,22 +93,29 @@ int	cmd_len(t_token **token, int index)
 	int	i;
 	t_token *curr;
 
-	i = 1;
+	i = 0;
 	curr = *token;
 	while(curr != NULL)
 	{
 		if (curr->index == index)
 		{
-			while (curr->type != PIPE && curr)
+			while (curr && curr->type != PIPE)
 			{
-				if (curr->type == WORD && (!curr->next || curr->next->type == SPACES))
+				if (curr->type == WORD)
+				{
+					//printf("%i. %s*\n", i, curr->str);
 					i++;
-				if (!curr->next)
-					return(i);
+					while (curr->type == WORD && curr->next)
+						curr = curr->next;
+				}
+				if (!curr->next || curr->type == PIPE)
+					return (i);
 				curr = curr->next;
 			}
-			return(i);
+			return (i);
 		}
+		if (!curr->next)
+			return (i);
 		curr = curr->next;
 	}
 	return (i);
@@ -141,7 +152,7 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	curr->next = new;
 }
 
-//complie:gcc create_cmd.c free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
+//complie:gcc create_cmd.c ../tool/free_error.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../../libft/libft.a
 
 //test1:add_cmd_end && new_cmd
 /* int main(int argc, char **argv, char **envp)
@@ -188,30 +199,43 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	char *str;
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
 	//str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
-	str = " cmd arg|";
+	//str = " cmd arg|";//segv
 	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";//have segmentation fault
-	//str = "  chkhk ";
-	//str = "  chkhk  \"HELLO -> \'\"";
-	//all.input = str;
+	//str = "  chkhk jkjj kk K|adfas asdf";
+	//str = "  chkhk  \"HELLO -> \'\"hjkhjk\'kkk\' ee |SDSDA|";
+	str = "ls | echo \'$PATH\' \"$PATHfs\"sdf | sfgsdf|sfgs";
+	all.input = str;
 
 	tokenized(&all, envp);
-	int len = cmd_len(&all.token, 0);
-	printf("len : %i \n",len);
+	//printf("len : %i \n",len);
 	token_to_cmd(&all);
 	t_cmd *curr = all.cmd;
+	int len = cmd_len(&all.token, 0);
+	//printf("len : %i \n",len);
 	while (curr != NULL)
 	{
 		int i = 0;
-		while (i < len)
+		while (i < curr->len)
 		{
 			printf("%i: %s\n",i, curr->words[i]);
 			i++;
 		}
+		if (!curr->next)
+			break ;
 		curr=curr->next;
-	}  
-	return 0;
-} */
+	}
+	//t_token *curr = all.token;
 
+	 while (curr)
+	{
+		printf("%s ",curr->str);
+		if (!curr->next)
+			break ;
+		curr = curr->next;
+	} 
+	return 0;
+}
+ */
 //complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
 //test3:add_redirection
 
@@ -220,10 +244,10 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	t_data all;
 	char *str;
 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
-	str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
+	str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";//error
 	//str = " cmd arg|";
-	//str = "  chkhk df ";//have segmentation fault
-	//str = "  chkhk  \"HELLO -> \'\";
+	str = "  chkhk df ";//have segmentation fault
+	//str = "  chkhk  \"HELLO -> \'\"";
 	all.input = str;
 
 	tokenized(&all, envp);

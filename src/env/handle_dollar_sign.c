@@ -85,7 +85,6 @@ t_token *dollar_split(char *str)
 			{
 				line = ft_substr(str, i, 2);
 				add_token_end(&top, new_token(line));
-				//printf("2,%s \n", line);
 				i += 2;
 			}
 			else
@@ -93,7 +92,6 @@ t_token *dollar_split(char *str)
 				one_len = dollar_len(&str[i + 1]) + 1;
 				line = ft_substr(str, i, one_len);
 				add_token_end(&top, new_token(line));
-				//printf("1,%s \n", line);
 				i += one_len;
 			}
 		}
@@ -101,20 +99,16 @@ t_token *dollar_split(char *str)
 		{
 			one_len = non_dollar_len(&str[i]);
 			line = ft_substr(str, i, one_len);
-			add_token_end(&top, new_token(line));//segv
-			//printf("3,%s \n", line);
+			add_token_end(&top, new_token(line));
 			i += one_len;
 		}
 		else if(ft_isspace(str[i]))
 		{
 			one_len = space_len(&str[i]);
 			line = ft_substr(str, i, one_len);
-			add_token_end(&top, new_token(line));//segv
-			//printf("4,%s \n", line);
+			add_token_end(&top, new_token(line));
 			i += one_len;
 		}
-		//else
-		//	i++;
 	}
 	return (top);
 }
@@ -122,20 +116,16 @@ t_token *dollar_split(char *str)
 void swap_val(t_token **top, char **envp, t_data *all)
 {
 	t_token	*curr;
-		t_token		*to_tmp;
-	char	*tmp;
 
-	tmp = NULL;
-	to_tmp = NULL;
 	curr = *top;
 	while(curr != NULL)
 	{
 		if (curr->str)
 		{
 			if (ft_strcmp(curr->str, "$") == 0)
-				curr->str  = "$";//swap_str(curr->str, "$");//
+				curr->str  = ft_strdup("$");//swap_str(curr->str, "$");//
 			else if (ft_strcmp(curr->str, "$$") == 0)
-				curr->str  = "id";//swap_str(curr->str, "id");//
+				curr->str  = ft_strdup("id") ;//swap_str(curr->str, "id");//
 			else if (ft_strcmp(curr->str, "$?") == 0)
 				curr->str  = ft_itoa(all->status);//swap_str(curr->str, ft_itoa(all->status)); //
 			else if (curr->str[0] == '$' && curr->str[1] != '$')
@@ -167,6 +157,7 @@ char *token_to_str(t_token **top)
 			break ;
 		curr = curr->next;
 	}
+	//free_token(*top);
 	return (lang_str);
 }
 
@@ -189,27 +180,28 @@ char *token_to_str(t_token **top)
 	str = "$PATH\'\'adasd\'\'\"$PATH\" $$<< \"infile hgjg\"h$dsf$sdfd$?$$$$$\'$PATH\'";
 	str = "\'$PATH\'";
 	str = "\"$PATH\"";
-	str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";
+	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";
+	//str = "$PATH";
 	new = new_token(str);
 	top = dollar_split(new->str);//
-	t_token *curr;
+ 	t_token *curr;
 	curr = top;
 	while (curr!= NULL)
 	{
 		printf("%s\n",curr->str);
 		curr = curr->next;
 	} 
-	swap_val(&top, envp, &all);//
  	printf("\n\n\n");
 	curr = top;
 	while (curr!= NULL)
 	{
 		printf("%s\n",curr->str);
 		curr = curr->next;
-	} 
+	}  
+	swap_val(&top, envp, &all);
 	char *lang_str;
 	lang_str = token_to_str(&top);
 	printf("lang :%s\n",lang_str);
-}
- */
+} */
+
 ///usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin''dasd''"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin" id<< "infile hgjg"h202575872idid$'$PATH'

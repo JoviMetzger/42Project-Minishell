@@ -26,7 +26,7 @@ void ft_commands(char **envp, t_data *all)
 	{
 		tokenized(all, envp);
 		token_to_cmd(all);
-		free_token(all->token);
+		//free_token(all->token);
 		curr = all->cmd;
 		id = fork();
 		if (id == -1)
@@ -54,7 +54,7 @@ void ft_commands(char **envp, t_data *all)
 		{
 			protect_waitpid(id, &status, 0);
 			all->status = WEXITSTATUS(status);
-			free_cmd(all);
+			//free_cmd(all);
 		}
 	}
 }
