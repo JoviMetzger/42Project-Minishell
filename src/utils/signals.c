@@ -19,7 +19,7 @@
  * Since 'signal()' can't directly pass a struct, 
  * using a global variable is a workaround to capture the exit status.
  */
-long long int	g_exit_status;
+int	g_exit_status;
 
 /* restore_prompt();
  *	- Signal handler for SIGINT (Ctrl-C) in the parent process.
