@@ -75,8 +75,8 @@ void	last_cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		print_error(NULL, 0);
 	if (id == 0)
 	{
-		if (cmd->redi)
-			do_redirection(cmd, all, envp);
+		//if (cmd->redi)
+		//	do_redirection(cmd, all, envp);
 		run_cmd(cmd, envp);
 	}
 	else

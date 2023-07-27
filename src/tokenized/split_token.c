@@ -124,7 +124,7 @@ int	split_without_quote(char *str, int	i, char c, t_token **top)
 	start = i + 1;
 	len = strlen_char(&str[start], c);
 	if (len == 0)
-		line = NULL;
+		return (len + start + 1);
 	else
 		line = ft_substr(str, start, len);
 	i = len + start + 1;
@@ -146,8 +146,8 @@ int	split_with_quote(char *str, int	i, char c, t_token **top)
 
 	start = i;
 	len = strlen_char(&str[start + 1], c) + 2;
-	if (len == 0)
-		line = NULL;
+	if (len == 2)
+		return (len + start + 1);
 	else
 		line = ft_substr(str, start, len);
 	i = len + start + 1;

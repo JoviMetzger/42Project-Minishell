@@ -12,18 +12,16 @@
 
 #include "minishell.h"
 
-
-
 int main(int argc, char **argv, char **envp)
 {
 	t_data all;
 
 	(void)argc;
 	(void)argv;
-	all.envp = envp;
+	//all.envp = envp;
 	while (1)
 	{
-		all.input = readline("minishell-> ");
+		
 		add_history(all.input);
 		//create_history(&all);
 		ft_commands(envp, &all);

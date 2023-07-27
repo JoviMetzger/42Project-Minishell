@@ -15,9 +15,10 @@
 void ft_commands(char **envp, t_data *all)
 {
 	t_cmd *curr;
-	pid_t	id;
-	int		status;
+	//pid_t	id;
+	//int		status;
 
+	curr = NULL;
 	if (ft_strcmp(all->input, "exit") == 0)
 		exit(0);
 	//else if (ft_strcmp(all->input, "history") == 0)
@@ -26,9 +27,25 @@ void ft_commands(char **envp, t_data *all)
 	{
 		tokenized(all, envp);
 		token_to_cmd(all);
-		//free_token(all->token);
+		free_token(all->token);
 		curr = all->cmd;
-		id = fork();
+		// 	t_cmd *curr = all.cmd;
+		printf("input: %s\n",all->input);
+	while (curr != NULL)
+	{
+		int i = 0;
+		printf("len:%i \n",curr->len);
+		while (i < curr->len)
+		{
+			printf("%i: %s\n",i, curr->words[i]);
+			i++;
+		}
+		if (!curr->next)
+			break ;
+		curr = curr->next;
+		printf("\n");
+	}
+/* 		id = fork();
 		if (id == -1)
 			exit(WEXITSTATUS(status));
 		if (id == 0)
@@ -55,7 +72,7 @@ void ft_commands(char **envp, t_data *all)
 			protect_waitpid(id, &status, 0);
 			all->status = WEXITSTATUS(status);
 			//free_cmd(all);
-		}
+		} */
 	}
 }
 

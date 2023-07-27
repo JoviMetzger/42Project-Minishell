@@ -125,7 +125,7 @@ void	tokenized(t_data *all, char **envp)
 	}
 }
 
-//test:gcc split_token.c token_util.c tokenized.c ../tool/free_error.c ../tool/protection.c ../tool/tool_utils.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
+//test:gcc split_token.c token_util.c tokenized.c ../tool/free_error.c ../tool/protection.c ../tool/tool_utils.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a -lreadline
 
 /* int main(int argc, char **argv,char **envp)
 {
@@ -151,11 +151,12 @@ void	tokenized(t_data *all, char **envp)
 	//all.input = "\'$PATH\'";
 	//all.input = " $PATH ADS  $sdf $ df hgjgh$dsf$sdfd$?$$$$$";
 	//all.input = " $PATH ";//error
-	all.input = "||\"|\"cmd "; //break pipe
-	all.input = " \"echo\" hello ";
+	all.input = "||\"|\"\'\'\'\'\'\'\'\'\'\'cmd\'$PATH\'  \'$PATH\' $PATH"; //break pipe
+	//all.input = " \"echo\" hello ";
 	//all.input = " \"echo\" hello | wc";
-	all.input = "<file1 cat > out \"|\" <infile "; //works 
-	all.input = "    asd   ";
+	//all.input = "< file1 cat > out \"|\" <infile "; //works 
+	//all.input = "    asd   ";
+	//all.input = readline("minishell-> ");
 	//all.input = " <infile cmd >outfile | <infile";
 	tokenized(&all, envp);
 	curr = all.token;
@@ -166,5 +167,4 @@ void	tokenized(t_data *all, char **envp)
 		curr = curr->next;
 	} 
 	return 0;
-}
- */
+}  */

@@ -16,6 +16,7 @@
 void	token_to_cmd(t_data *all)
 {
 	t_cmd	*new;
+	t_cmd	*top;
 	t_token *curr;
 	char	**words;
 	int		len;
@@ -28,22 +29,21 @@ void	token_to_cmd(t_data *all)
 	{
 		if (curr->index == 0 || (curr->prev && curr->prev->type == PIPE))
 		{
-			len = cmd_len(&curr, curr->index) + 1;
-			//printf ("len:%i \n",len);
-			words = malloc(sizeof(char *) * len + 1);
+			len = cmd_len(&curr, curr->index);
+			words = malloc(sizeof(char *) * (len + 1));
 			if (!words)
 				print_error(NULL, 0);
 			words[len] = NULL;
 			i = 0;
-			while (curr && curr->type != PIPE)
+			while (curr && curr->type != PIPE && i < len)
 			{
-				while (curr->type == WORD)
+				while (curr && curr->type == WORD)
 				{
-					if (curr->str)
+					if (curr && curr->str)
 					{
 						if (!words[i] && curr->str)
 							words[i] = ft_strdup(curr->str);
-						else
+						else if (words[i] && curr->str)
 							words[i] = ft_strjoin(words[i], curr->str);
 					}
 					if (!curr->next || curr->type == PIPE)
@@ -57,7 +57,6 @@ void	token_to_cmd(t_data *all)
 					i++;
 			}
 			new = new_cmd(words, len);
-			new->len = len;
 			add_cmd_end(&all->cmd, new);
 		}
 		if (!curr->next)
@@ -190,46 +189,48 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 	return 0;
 } */
 
-//complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
+//complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a -lreadline
 //test2:token_to_cmd && cmd_len
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_data all;
-// 	char *str;
-// 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
-// 	//str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
-// 	//str = " cmd arg|";//segv
-// 	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";//have segmentation fault
-// 	//str = "  chkhk jkjj kk K|adfas asdf";
-// 	//str = "  chkhk  \"HELLO -> \'\"hjkhjk\'kkk\' ee |SDSDA|";
-// 	//str = "ls | echo \'$PATH\' \"$PATHfs\"sdf | sfgsdf|sfgs";
-// 	str = "  ls   ";
-// 	all.input = str;
+/* int main(int argc, char **argv, char **envp)
+{
+	t_data all;
+	char *str;
+	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
+	//str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
+	//str = " cmd arg|";//segv
+	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";//have segmentation fault
+	//str = "  chkhk jkjj kk K|adfas asdf";
+	//str = "  chkhk  \"HELLO -> \'\"hjkhjk\'kkk\' ee |SDSDA|";
+	//str = "ls | echo \'$PATH\' \"$PATHfs\"sdf | sfgsdf|sfgs";
+	//str = "  ls   ";
+	//all.input = ft_strdup(str);
+	all.input = ft_strdup(readline("minishell-> "));//str;
+	//ft_strjoin(readline("minishell-> "),"\0");
+	printf("%s\n",all.input);
+	//all.input = str;
+	tokenized(&all, envp);
+	//printf("len : %i \n",len);
+	token_to_cmd(&all);
+	t_cmd *curr = all.cmd;
+	while (curr != NULL)
+	{
+		int i = 0;
+		printf("len:%i \n",curr->len);
+		while (i < curr->len)
+		{
+			printf("%i: %s\n",i, curr->words[i]);
+			i++;
+		}
+		if (!curr->next)
+			break ;
+		curr=curr->next;
+		printf("\n");
+	}
 
-// 	tokenized(&all, envp);
-// 	//printf("len : %i \n",len);
-// 	token_to_cmd(&all);
-// 	t_cmd *curr = all.cmd;
-// 	int len = cmd_len(&all.token, 0);
-// 	//printf("len : %i \n",len);
-// 	while (curr != NULL)
-// 	{
-// 		int i = 0;
-// 		while (i < curr->len)
-// 		{
-// 			printf("%i: %s\n",i, curr->words[i]);
-// 			i++;
-// 		}
-// 		if (!curr->next)
-// 			break ;
-// 		curr=curr->next;
-// 		printf("\n");
-// 	}
-
-// 	return 0;
-// }
-
+	return 0;
+}
+ */
 //complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
 //test3:add_redirection
 

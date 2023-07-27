@@ -116,8 +116,14 @@ t_token *dollar_split(char *str)
 void swap_val(t_token **top, char **envp, t_data *all)
 {
 	t_token	*curr;
+	char	*quo;
 
 	curr = *top;
+	quo = malloc(sizeof(char));
+	if (!quo)
+		return ;
+	quo[0] = '\'';
+	quo[1] = '\0';
 	while(curr != NULL)
 	{
 		if (curr->str)
@@ -129,7 +135,7 @@ void swap_val(t_token **top, char **envp, t_data *all)
 			else if (ft_strcmp(curr->str, "$?") == 0)
 				curr->str  = ft_itoa(all->status);//swap_str(curr->str, ft_itoa(all->status)); //
 			else if (curr->str[0] == '$' && curr->str[1] != '$')
-				curr->str  = find_env(&curr, envp);
+				curr->str = find_env(&curr, envp);
 		}
 		curr = curr->next;
 	}
@@ -178,8 +184,8 @@ char *token_to_str(t_token **top)
 	//str = "hgjgh$dsf$sdfd$?$$$$$PATH";
 	//str = "$PATH $dsf $sdf d$?$$$$$";
 	str = "$PATH\'\'adasd\'\'\"$PATH\" $$<< \"infile hgjg\"h$dsf$sdfd$?$$$$$\'$PATH\'";
-	str = "\'$PATH\'";
-	str = "\"$PATH\"";
+	//str = "\'$PATH\'";
+	//str = "\"$PATH\"";
 	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";
 	//str = "$PATH";
 	new = new_token(str);
