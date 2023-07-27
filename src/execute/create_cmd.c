@@ -193,49 +193,43 @@ void	add_cmd_end(t_cmd **top, t_cmd *new)
 //complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
 //test2:token_to_cmd && cmd_len
 
-/* int main(int argc, char **argv, char **envp)
-{
-	t_data all;
-	char *str;
-	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
-	//str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
-	//str = " cmd arg|";//segv
-	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";//have segmentation fault
-	//str = "  chkhk jkjj kk K|adfas asdf";
-	//str = "  chkhk  \"HELLO -> \'\"hjkhjk\'kkk\' ee |SDSDA|";
-	str = "ls | echo \'$PATH\' \"$PATHfs\"sdf | sfgsdf|sfgs";
-	all.input = str;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_data all;
+// 	char *str;
+// 	//str = "  c\'\"\' asdasda\"\'\">&| \"|\" dcd ";
+// 	//str = " <infile cmd  <infile arg arg>outfile| cmd1 aa a a a >1outfile|";
+// 	//str = " cmd arg|";//segv
+// 	//str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";//have segmentation fault
+// 	//str = "  chkhk jkjj kk K|adfas asdf";
+// 	//str = "  chkhk  \"HELLO -> \'\"hjkhjk\'kkk\' ee |SDSDA|";
+// 	//str = "ls | echo \'$PATH\' \"$PATHfs\"sdf | sfgsdf|sfgs";
+// 	str = "  ls   ";
+// 	all.input = str;
 
-	tokenized(&all, envp);
-	//printf("len : %i \n",len);
-	token_to_cmd(&all);
-	t_cmd *curr = all.cmd;
-	int len = cmd_len(&all.token, 0);
-	//printf("len : %i \n",len);
-	while (curr != NULL)
-	{
-		int i = 0;
-		while (i < curr->len)
-		{
-			printf("%i: %s\n",i, curr->words[i]);
-			i++;
-		}
-		if (!curr->next)
-			break ;
-		curr=curr->next;
-	}
-	//t_token *curr = all.token;
+// 	tokenized(&all, envp);
+// 	//printf("len : %i \n",len);
+// 	token_to_cmd(&all);
+// 	t_cmd *curr = all.cmd;
+// 	int len = cmd_len(&all.token, 0);
+// 	//printf("len : %i \n",len);
+// 	while (curr != NULL)
+// 	{
+// 		int i = 0;
+// 		while (i < curr->len)
+// 		{
+// 			printf("%i: %s\n",i, curr->words[i]);
+// 			i++;
+// 		}
+// 		if (!curr->next)
+// 			break ;
+// 		curr=curr->next;
+// 		printf("\n");
+// 	}
 
-	 while (curr)
-	{
-		printf("%s ",curr->str);
-		if (!curr->next)
-			break ;
-		curr = curr->next;
-	} 
-	return 0;
-}
- */
+// 	return 0;
+// }
+
 //complie:gcc create_cmd.c ../tool/free_error.c ../tool/tool_utils.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
 //test3:add_redirection
 
