@@ -35,20 +35,11 @@ void	token_to_cmd(t_data *all)
 			words[len - 1] = NULL;
 			while (curr->type != PIPE && curr != NULL && i < len)
 			{
-				while (curr->type == WORD)
+				if (curr->type == WORD &&curr->str)
 				{
-					if (curr->str)
-					{
-						if (!words[i])
-							words[i] = ft_strdup(curr->str);
-						else
-							words[i] = ft_strjoin(words[i], curr->str);
-					}
-					if (!curr->next)
-						break ;
-					curr = curr->next;
+					words[i] = ft_strdup(curr->str);
+					i++;
 				}
-				i++;
 				if (!curr->next)
 					break ;
 				curr = curr->next;
@@ -97,7 +88,7 @@ int	cmd_len(t_token **token, int index)
 		{
 			while (curr->type != PIPE && curr)
 			{
-				if (curr->type == WORD && (!curr->next || curr->next->type == SPACES))
+				if (curr->type == WORD && curr->str)
 					i++;
 				if (!curr->next)
 					return(i);
