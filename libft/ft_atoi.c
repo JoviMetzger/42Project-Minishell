@@ -6,14 +6,14 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/06 13:15:22 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/05/17 10:15:52 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/24 12:07:26 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <limits.h>
 
-int	ft_atoi(const char *str)
+unsigned int	ft_atoi(const char *str)
 {
 	long	result;
 	int		sign;

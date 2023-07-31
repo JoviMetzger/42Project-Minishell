@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/13 07:28:44 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/03/07 17:27:52 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/24 12:08:40 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ char	*ft_strncat(char *dest, char *src, unsigned int nb)
 	}
 	while (src[i] != '\0' && i < nb)
 	{
-			dest[k + i] = src[i];
-			i++;
+		dest[k + i] = src[i];
+		i++;
 	}
 	dest[k + i] = '\0';
 	return (dest);

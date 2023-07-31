@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/19 07:19:51 by jmetzger      #+#    #+#                 */
-/*   Updated: 2022/10/21 10:01:50 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/24 12:08:15 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ void	ft_putnbr_fd(int n, int fd)
 	{
 		ft_putnbr_fd(n / 10, fd);
 		ft_putnbr_fd(n % 10, fd);
-	}	
+	}
 }
