@@ -99,7 +99,7 @@ void		ft_commands(char **envp, t_data *data);
 void		ft_free(void *ptr);
 
 // SIGNALS
-void		handle_signal(int sig);
+void		handle_signal(int sig, t_data *data);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // TOKEN
@@ -109,8 +109,10 @@ int			split_quote(char *str, int i, char c, t_token **top);
 int			split_char(char *str, int i, t_token **top);
 int			split_redi(char *str, int i, char c, t_token **top);
 int			split_without_quote(char *str, int i, char c, t_token **top);
+int			split_general_char(char *str, int i, t_token **top);
 int			split_with_quote(char *str, int i, char c, t_token **top);
 char		*ft_converter(char *input);
+void		ft_assign_to_enum(t_token *curr);
 void		tokenized(t_data *all, char **envp);
 t_token		*split_again_token(char *str);
 t_token		*split_token(char *str);
@@ -166,6 +168,7 @@ t_env		*init_env(char **envp);
 int			have_dollar(char *str);
 int			dollar_len(char *str);
 int			space_len(char *str);
+int			non_dollar_len(char *str);
 void		swap_val(t_token **top, char **envp, t_data *all);
 t_token		*dollar_split(char *str);
 
