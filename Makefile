@@ -18,8 +18,11 @@ SRC			= ./src/main.c \
 				./src/utils/commands.c \
 				./src/utils/display_prompt.c \
 				./src/utils/signals.c \
-				./src/tokenized/check_quotes.c \
+				./src/tokenized/check_token.c \
+				./src/tokenized/ft_assign_to_enum.c \
+				./src/tokenized/quote_check.c \
 				./src/tokenized/split_token.c \
+				./src/tokenized/split_token_utils.c \
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c \
 				./src/execute/create_cmd.c \
@@ -38,7 +41,9 @@ SRC			= ./src/main.c \
 				./src/builtin/utils.c \
 				./src/env/env_list.c \
 				./src/env/find_env.c \
-				./src/env/handle_dollar_sign.c \
+				./src/env/dollar_split.c \
+				./src/env/utils_dollar_sign.c \
+				./src/env/utils2_dollar_sign.c \
 				./src/env/init_env.c \
 				./src/tool/free_error.c \
 				./src/tool/protection.c \
