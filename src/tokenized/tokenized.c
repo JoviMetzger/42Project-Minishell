@@ -6,144 +6,115 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/19 12:07:44 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/01 20:36:02 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
 
-int	quote_check(char *str, t_data *all)
-{
-	int	i;
-	int	d_quo;
-	int	s_quo;
-	int	start;
-	int	len;
-
-	i = 0;
-	d_quo = 0;
-	s_quo = 0;
-	len =0;
-	start = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (str[i] == '\'')
-			i = quote_count(str, i, &s_quo, '\'');
-		if (str[i] == '\"')
-			i = quote_count(str, i, &d_quo, '\"');
-		i++;
-	}
-	if (s_quo % 2 != 0 || d_quo % 2 != 0)
-	{
-		printf("unclosed quote error \n");
-		exit (1);
-	}
-	all->input = ft_converter(str);
-	return (0);
-}
-
-int quote_count(char *str, int i, int *quo_nb, char quo)
-{
-	*quo_nb += 1;
-	i++;
-	while(str[i])
-	{
-		if (str[i] == quo)
-		{
-			*quo_nb += 1;
-			break ;
-		}
-		i++;
-	}
-	return (i);
-}
-
-void	tokenized(t_data *all, char **envp)
+void	add_env(t_data *all, t_token **top, char **envp)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
-	char	*tmp;
+	char		*tmp;
 
+	curr = *top;
 	tmp = NULL;
 	to_tmp = NULL;
-	if (quote_check(all->input, all) == 1)
-		exit (1);
-	all->token = split_token(all->input);
-	curr = all->token;
 	while (curr != NULL)
 	{
-		if (have_dollar(curr->str) && curr->type != SQUO)//segv
+		if (curr->str && have_dollar(curr->str) && curr->type != SQUO)
 		{
 			to_tmp = dollar_split(curr->str);
 			swap_val(&to_tmp, envp, all);
 			tmp = curr->str;
 			curr->str = token_to_str(&to_tmp);
 			free(tmp);
-			//free_token(to_tmp);
 		}
-		if (ft_strcmp(curr->str, "|") == 0 && curr->type == EMPTY)
-			curr->type = PIPE;
-		else if (ft_strcmp(curr->str, "<") == 0 && curr->type == EMPTY)
-			curr->type = INPUT_RE;
-		else if (ft_strcmp(curr->str, ">") == 0 && curr->type == EMPTY)
-			curr->type = OUTPUT_RE;
-		else if (ft_strcmp(curr->str, "<<") == 0 && curr->type == EMPTY)
-			curr->type = HERE_DOC;
-		else if (ft_strcmp(curr->str, ">>") == 0 && curr->type == EMPTY)
-			curr->type = APPEND_RE;
-		else if (curr->prev && curr->prev->type == INPUT_RE && curr->type == EMPTY)
-			curr->type = INFILE;
-		else if (curr->prev && curr->prev->type == OUTPUT_RE && curr->type == EMPTY)
-			curr->type = OUTFILE;
-		else if (curr->prev && curr->prev->type == APPEND_RE && curr->type == EMPTY)
-			curr->type = APPFILE;
-		else if (curr->prev && curr->prev->type == HERE_DOC && curr->type == EMPTY)
-			curr->type = DELIMI;
-		else if (curr->type == EMPTY || curr->type == SQUO)
-			curr->type = WORD;
 		if (!curr->next)
 			return ;
 		curr = curr->next;
 	}
 }
 
-//test:gcc split_token.c token_util.c tokenized.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
-
-/* int main(int argc, char **argv,char **envp)
+static char	*concatenate_words(t_token **token)
 {
-	t_token *curr;
-	t_data	all;
-	char *str;
+	t_token	*curr;
+	char	*words;
 
-	all.cmd =NULL;
-	all.history =NULL;
-	(void)argc;
-	(void)argv;
-	//all.input = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
-	//all.input = " cmd arg| cmd";
-	//all.input = "  chkhk df";
-	//all.input = "  chkhk df >outfile <infile";
-	//all.input = " cmd <file  >outfile | \"|\"<infile";
-	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
-	all.input = " $PATH $$<< infile hgjgh$dsf$sdfd$?$$$$$ <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";//$$ error
-	//all.input = " $PATH ADS  $sdf $ df hgjgh$dsf$sdfd$?$$$$$";
-	//all.input = " $PATH ";
-	//all.input = "||\"|\"cmd "; //break pipe
-	//all.input = " \"echo\" hello ";
-	//all.input = " \"echo\" hello | wc";
-	//all.input = "<file1 cat > out \"|\" <infile "; //works 
-	//all.input = " <infile cmd >outfile | <infile";
-	tokenized(&all, envp);
-	curr = all.token;
-	printf("test:%s\n", all.input);
-	 while (curr != NULL)
+	curr = *token;
+	words = NULL;
+	while (curr && (curr->type == WORD || curr->type == SQUO))
 	{
-		printf(" %i: type :%i :%s\n", curr->index, curr->type , curr->str);
+		if (!words)
+			words = ft_strdup(curr->str);
+		else
+			words = ft_strjoin(words, curr->str);
+		if (!curr->next || curr->type == SPACES)
+			break ;
 		curr = curr->next;
-	} 
-	return 0;
+	}
+	return (words);
 }
- */
+
+static void	handle_non_word_tokens(t_token **token, t_token **top)
+{
+	t_token	*new;
+
+	new = copy_token(*token);
+	add_token_end(top, new);
+	*token = (*token)->next;
+}
+
+t_token	*delspace_jointoken(t_token **token)
+{
+	t_token	*curr;
+	t_token	*top;
+	t_token	*new;
+	char	*words;
+
+	curr = *token;
+	top = NULL;
+	words = NULL;
+	while (curr)
+	{
+		if (curr->type == WORD || curr->type == SQUO)
+		{
+			words = concatenate_words(&curr);
+			new = new_token(words);
+			new->type = WORD;
+			add_token_end(&top, new);
+		}
+		else if (curr->type != SPACES)
+			handle_non_word_tokens(&curr, &top);
+		if (!curr)
+			break ;
+		curr = curr->next;
+	}
+	return (top);
+}
+
+void	tokenized(t_data *all, char **envp)
+{
+	t_token		*curr;
+	t_token		*to_tmp;
+	char		*tmp;
+
+	curr = NULL;
+	if (quote_check(all->input) == 1)
+		exit (1);
+	tmp = NULL;
+	to_tmp = NULL;
+	to_tmp = dollar_split(all->input);
+	swap_val(&to_tmp, envp, all);
+	tmp = all->input;
+	all->input = token_to_str(&to_tmp);
+	to_tmp = split_token(all->input);
+	all->token = delspace_jointoken(&to_tmp);
+	curr = all->token;
+	while (curr != NULL)
+	{
+		ft_assign_to_enum(curr);
+		curr = curr->next;
+	}
+}

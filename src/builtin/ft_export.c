@@ -106,4 +106,3 @@ int	ft_export(char **input, t_data *data)
 	}
 	return (exit_status);
 }
-

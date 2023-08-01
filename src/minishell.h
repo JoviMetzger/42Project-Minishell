@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 21:43:40 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/01 21:40:36 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define RESET	 "\033[0m"
 
 // enum for token
-typedef enum e_num //enum type
+typedef enum e_num
 {
 	EMPTY,
 	WORD,

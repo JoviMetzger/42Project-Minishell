@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/04 14:56:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/19 12:09:25 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/31 22:22:56 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,14 @@ void	redi_here_doc(t_token *redi, t_data *all, char **envp)
 	}
 }
 
-void	here_doc(int out, char *limiter,t_data *all, char **envp)
+static void	ft_exit_program(char *line, int out)
+{
+	free(line);
+	protect_close(out);
+	exit(0);
+}
+
+void	here_doc(int out, char *limiter, t_data *all, char **envp)
 {
 	char		*line;
 	t_token		*to_tmp;
@@ -49,11 +56,7 @@ void	here_doc(int out, char *limiter,t_data *all, char **envp)
 		line = readline("> ");
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 
 			&& ft_strlen(limiter) == ft_strlen(line))
-		{
-			free(line);
-			protect_close(out);
-			exit(0);
-		}
+			ft_exit_program(line, out);
 		if (have_dollar(line))
 		{
 			to_tmp = dollar_split(line);
@@ -62,7 +65,7 @@ void	here_doc(int out, char *limiter,t_data *all, char **envp)
 			line = token_to_str(&to_tmp);
 			free(tmp);
 		}
-		line = ft_strjoin(line,"\n");
+		line = ft_strjoin(line, "\n");
 		protect_write(out, line, ft_strlen(line));
 		free(line);
 	}

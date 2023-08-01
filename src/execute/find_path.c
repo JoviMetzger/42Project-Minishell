@@ -6,18 +6,18 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/20 12:25:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/19 12:08:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/31 15:42:02 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		path_index(char **envp)
+int	path_index(char **envp)
 {
 	int	i;
 
 	i = 1;
-	while(envp[++i] != NULL)
+	while (envp[++i] != NULL)
 	{
 		if (ft_strnstr(envp[i], "PATH", 4) != NULL)
 			return (i);
@@ -33,8 +33,7 @@ char	*find_path(char *cmd, char **envp)
 	char	*path;
 	char	**all_path;
 	int		i;
-	
-	
+
 	i = path_index(envp);
 	if (i < 0)
 		return (NULL);

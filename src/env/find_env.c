@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/06 08:56:25 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/19 12:27:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/31 15:49:21 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	all_upper(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if (str[i] >= 'a' && str[i]<= 'z')
+		if (str[i] >= 'a' && str[i] <= 'z')
 			return (0);
 		i++;
 	}
@@ -28,12 +28,12 @@ int	all_upper(char *str)
 
 static int	env_index(t_token *token, char **envp)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = -1;
 	tmp = ft_strjoin(&token->str[1], "=");
-	while(envp[++i])
+	while (envp[++i])
 	{
 		if (ft_strnstr(envp[i], tmp, ft_strlen(tmp)) != NULL)
 		{
@@ -41,10 +41,9 @@ static int	env_index(t_token *token, char **envp)
 			return (i);
 		}
 	}
-	free(tmp);	
+	free(tmp);
 	return (-1);
 }
-
 
 char	*find_env(t_token **token, char **envp)
 {
@@ -61,18 +60,3 @@ char	*find_env(t_token **token, char **envp)
 		i++;
 	return (&envp[index][i + 1]);
 }
-
-
-//test: gcc find_env.c ../tokenized/token_util.c ../../libft/libft.a
-
-/* int main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	//t_token *token = new_token("$PATH");
-	//t_token *token = new_token("$OLDPWD");
-	//t_token *token = new_token("$TERM_SESSION_ID");
-	char *str = find_env(&token, envp);
-	printf("%s\n",str);
-	return 0;
-} */
