@@ -6,17 +6,57 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:42:34 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/26 13:02:28 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/01 22:15:32 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_commands(char **envp, t_data *all)
+static void	ft_fork_procces(char **envp, t_data *all, t_cmd	*curr, int status)
+{
+	if (curr && curr->next == NULL)
+		last_cmd_child(curr, envp, all);
+	else
+	{
+		while (curr && curr->next != NULL)
+		{
+			cmd_child(curr, envp, all);
+			if (!curr->next)
+				exit(WEXITSTATUS(status));
+			curr = curr->next;
+		}
+		if (curr)
+			last_cmd_child(curr, envp, all);
+		all->status = WEXITSTATUS(status);
+		exit(WEXITSTATUS(status));
+	}
+}
+
+static void	ft_fork(char **envp, t_data *all, t_cmd	*curr)
 {
 	int		status;
-	t_cmd	*curr;
 	pid_t	id;
+
+	status = 0;
+	id = fork();
+	handle_signal(2, all);
+	if (id == -1)
+		exit(WEXITSTATUS(status));
+	if (id == 0)
+	{
+		ft_fork_procces(envp, all, curr, status);
+	}
+	else
+	{
+		protect_waitpid(id, &status, 0);
+		all->status = WEXITSTATUS(status);
+		free_cmd(all);
+	}
+}
+
+void	ft_commands(char **envp, t_data *all)
+{
+	t_cmd	*curr;
 
 	if (ft_strcmp(all->input, "") != 0)
 	{
@@ -29,35 +69,6 @@ void	ft_commands(char **envp, t_data *all)
 			exec_builtin_cmd(all->cmd->words, all);
 			return ;
 		}
-		id = fork();
-		handle_signal(2, all); //NOT SURE IF THIS IS CORRECT PLACE(1);
-		if (id == -1)
-			exit(WEXITSTATUS(status));
-		if (id == 0)
-		{
-			//handle_signal(2, all); //NOT SURE IF THIS IS CORRECT PLACE(2);
-			if (curr && curr->next == NULL)
-				last_cmd_child(curr, envp, all);
-			else
-			{
-				while (curr && curr->next != NULL)
-				{
-					cmd_child(curr, envp, all);
-					if (!curr->next)
-						exit(WEXITSTATUS(status));
-					curr = curr->next;
-				}
-				if (curr)
-					last_cmd_child(curr, envp, all);
-				all->status = WEXITSTATUS(status);
-				exit(WEXITSTATUS(status));
-			}
-		}
-		else
-		{
-			protect_waitpid(id, &status, 0);
-			all->status = WEXITSTATUS(status);
-			free_cmd(all);
-		}
+		ft_fork(envp, all, curr);
 	}
 }
