@@ -30,24 +30,6 @@ int strlen_char(char *str, char c)
 	return (i);	
 }
 
-int again_strlen_char(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	if (c =='\'' || c =='\"')
-	{
-		while (str[i] && str[i] != c)
-			i++;
-		return (i);
-	}
-	while (str[i] && str[i] != c
-		&& !ft_isspace(str[i]) && str[i] != '|'
-		&& str[i] != '<' && str[i] != '>')
-		i++;
-	return (i);	
-}
-
 t_token	*new_token(char *str)
 {
 	t_token	*new;

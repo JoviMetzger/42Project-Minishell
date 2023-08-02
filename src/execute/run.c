@@ -49,17 +49,19 @@ void	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		protect_dup2(fd[1],1);
 		protect_close(fd[1]);
 		protect_close(fd[0]);
-		do_redirection(cmd, all, envp);
+		//do_redirection(cmd, all, envp);
 		run_cmd(cmd, envp);
+		exit(0);
 	}
 	else
 	{
-		protect_waitpid(id, &status, 0);
-		all->status = WEXITSTATUS(status);
-		if (!cmd->redi)
-			protect_dup2(fd[0],0);
-		protect_close(fd[1]);
-		protect_close(fd[0]);
+	//if (!cmd->redi)
+	//	protect_dup2(fd[0],0);
+	//protect_dup2(fd[0],0);
+	//protect_close(fd[1]);
+	//protect_close(fd[0]);
+	protect_waitpid(id, &status, 0);
+	all->status = WEXITSTATUS(status);
 	}
 }
 
@@ -75,8 +77,8 @@ void	last_cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		print_error(NULL, 0);
 	if (id == 0)
 	{
-		if (cmd->redi)
-			do_redirection(cmd, all, envp);
+		//if (cmd->redi)
+			//do_redirection(cmd, all, envp);
 		run_cmd(cmd, envp);
 	}
 	else
