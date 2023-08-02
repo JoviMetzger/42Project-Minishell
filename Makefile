@@ -20,7 +20,6 @@ SRC			= ./src/main.c \
 				./src/utils/signals.c \
 				./src/tokenized/check_token.c \
 				./src/tokenized/ft_assign_to_enum.c \
-				./src/tokenized/quote_check.c \
 				./src/tokenized/split_token.c \
 				./src/tokenized/split_token_utils.c \
 				./src/tokenized/token_util.c \
@@ -43,7 +42,6 @@ SRC			= ./src/main.c \
 				./src/env/find_env.c \
 				./src/env/dollar_split.c \
 				./src/env/utils_dollar_sign.c \
-				./src/env/utils2_dollar_sign.c \
 				./src/env/init_env.c \
 				./src/tool/free_error.c \
 				./src/tool/protection.c \
