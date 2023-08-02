@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:38 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 21:34:08 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:17:12 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static void	ft_error_msg(char *name)
 }
 
 /* unset_var();
- *	- char *name: the environment variable to be unset (removed);
- *	- t_env **env: struct of the environment;
+ *	- Parameters:
+ *		- char *name: the environment variable to be unset (removed);
+ *		- t_env **env: struct of the environment;
  *
  *	- This function is used to remove an environment variable specified 
  *	  by 'name' from the linked list 'env'.
@@ -67,8 +68,9 @@ int	unset_var(char *name, t_env **env)
 }
 
 /* ft_unset();
- *	- char **input: the whole input command line, split into a char**;
- *	- t_env **env: struct of the environment (env);
+ *	- Parameters:
+ *		- char **input: the whole input command line, split into a char**;
+ *		- t_env **env: struct of the environment (env);
  *
  *	- This function removes environment variables specified in 
  *	  the 'input' command line.

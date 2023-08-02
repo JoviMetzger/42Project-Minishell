@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/01 22:15:36 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:13:41 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static void	first_check(int argc, char **argv)
 }
 
 /* main();
- *	- int argc: the argument count;
- *	- char **argv: the argument value;
- *	- char **envp: the environment;
+ *	- Parameters:
+ *		- int argc: the argument count;
+ *		- char **argv: the argument value;
+ *		- char **envp: the environment;
  *
  *	- The main function is the entry point of the minishell program.
  *	- It first checks if the provided argument count 'argc' is correct 

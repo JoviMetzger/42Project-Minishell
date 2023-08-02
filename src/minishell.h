@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/01 21:40:36 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 11:43:12 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,53 +103,40 @@ void		handle_signal(int sig, t_data *data);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // TOKEN
-int			quote_check(char *str);
 int			quote_count(char *str, int i, int *quo_nb, char quo);
-int			split_quote(char *str, int i, char c, t_token **top);
 int			split_char(char *str, int i, t_token **top);
 int			split_redi(char *str, int i, char c, t_token **top);
 int			split_without_quote(char *str, int i, char c, t_token **top);
-int			split_general_char(char *str, int i, t_token **top);
-int			split_with_quote(char *str, int i, char c, t_token **top);
-char		*ft_converter(char *input);
+int			split_no_space(char *str, int i, t_token **top);
 void		ft_assign_to_enum(t_token *curr);
 void		tokenized(t_data *all, char **envp);
 t_token		*split_again_token(char *str);
 t_token		*split_token(char *str);
-t_token		*copy_token(t_token *old);
 
 // TOKEN (utils)
 int			strlen_char(char *str, char c);
 void		add_token_end(t_token **top, t_token *new);
-void		check_token(t_data *all);
 t_token		*new_token(char *str);
 t_token		*copy_token(t_token *old);
 
 // EXECUTE (cmd)
-int			cmd_len(t_token **token, int index);
-int			path_index(char **envp);
 char		*find_path(char *cmd, char **envp);
 void		token_to_cmd(t_data *all);
 void		add_redirection(t_data *all);
-void		add_cmd_end(t_cmd **top, t_cmd *new);
 void		here_doc(int out, char *limiter, t_data *all, char **envp);
 void		redi_here_doc(t_token *redi, t_data *all, char **envp);
-void		run_cmd(t_cmd *cmd, char **envp, t_data *data);
 void		cmd_child(t_cmd *cmd, char **envp, t_data *data);
 void		last_cmd_child(t_cmd *cmd, char **envp, t_data *data);
-t_cmd		*new_cmd(char **words, int len);
 
 // EXECUTE (redi)
 void		redi_in(t_token *redi);
 void		redi_out(t_token *redi);
 void		redi_app(t_token *redi);
-void		do_redirection(t_cmd *cmd, t_data *all, char **envp);
 
 // TOOL (free and print_error)
 void		print_error(char *str, int errcode);
 void		free_2dstr(char **str);
 void		free_token(t_token *token);
-void		free_cmd(t_data *all);
 
 // TOOL (protection)
 void		protect_waitpid(pid_t id, int *status, int options);
@@ -168,7 +155,6 @@ t_env		*init_env(char **envp);
 int			have_dollar(char *str);
 int			dollar_len(char *str);
 int			space_len(char *str);
-int			non_dollar_len(char *str);
 void		swap_val(t_token **top, char **envp, t_data *all);
 t_token		*dollar_split(char *str);
 
@@ -192,7 +178,5 @@ bool		exec_builtin_cmd(char **input, t_data *data);
 int			ft_is_digit(char *str);
 int			add_new_env_var(char *statement, t_env **env, bool export);
 int			unset_var(char *name, t_env **env);
-void		update_oldpwd(char *current, t_data *data);
-void		update_pwd(t_data *data);
 
 #endif

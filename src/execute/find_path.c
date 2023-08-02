@@ -6,12 +6,21 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/20 12:25:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/31 15:42:02 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 16:02:33 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/* path_index();
+ *	- Parameters:
+ *	  - char **envp: A pointer to the environment variables array;
+ *
+ *	- Find the index of the "PATH" environment variable 
+ *	  in the given 'envp' array.
+ *	- Returns the index of the "PATH" environment variable if found, 
+ *	  or -1 if not found.
+ */
 int	path_index(char **envp)
 {
 	int	i;
@@ -27,6 +36,24 @@ int	path_index(char **envp)
 	return (i);
 }
 
+/* find_path();
+ *	- Parameters:
+ *	  - char *cmd: The command to search for in 
+ *		the directories specified by "PATH";
+ *	  - char **envp: A pointer to the environment variables array;
+ *
+ *	- First we get the index of the "PATH" environment variable, 
+ *	  with path_index().
+ *	- Then we split the "PATH" variable value into an array of directory 
+ *	  paths using ':' as the delimiter.
+ *	- We loop through each directory path in the "PATH" array 
+ *	  to find the full path of the command.
+ *		- We ft_strjoin() the current directory path till we have the full path.
+ *		- Check if the current 'path' is accessible (exists) 
+ *		  using the 'access' function.
+ *		- If the command is found, free the 'all_path' array 
+ *		  and return the full path.
+ */
 char	*find_path(char *cmd, char **envp)
 {
 	char	*path_undone;

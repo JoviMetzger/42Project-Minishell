@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   check_quotes.c                                     :+:    :+:            */
+/*   check_token.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:56:36 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/07/31 13:36:57 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 22:24:39 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	ft_check_token(t_token	*curr, t_token	*new_top)
+/* ft_check_token();
+ *	- Parameters:
+ *		- t_token *curr: The current token in the token linked list;
+ *		- t_token *new_top: The new token that should be added;
+ * 
+ *	- The function loops through the token linked list starting 
+ *	  from the current token 'curr' and 
+ *	  concatenates consecutive non-space tokens into a single string 'str'.
+ *	- It creates a new token and adds it to the end of 
+ *	  the new token linked list pointed to by 'new_top'.
+ */
+static void	ft_check_token(t_token *curr, t_token *new_top)
 {
 	t_token	*new;
 	char	*str;
@@ -38,6 +49,21 @@ static void	ft_check_token(t_token	*curr, t_token	*new_top)
 	add_token_end(&new_top, new);
 }
 
+/* check_token();
+ *	- Parameters:
+ *		- t_data *all: the main data struct;
+ * 
+ *	- The function is the entry point for checking 
+ *	  and processing tokens in the token linked list.
+ *	- It initializes a new token linked list 'new_top' 
+ *	  to store the concatenated tokens.
+ *	- The function then iterates through the original token linked list 
+ *	  starting from 'all->token' and calls ft_check_token() for each token 
+ *	  to concatenate non-space tokens.
+ *	- The resulting new token linked list 'new_top' contains tokens with 
+ *	  consecutive non-space tokens combined into single tokens.
+ *	- The original token linked list is updated to point to 'new_top'.
+ */
 void	check_token(t_data *all)
 {
 	t_token	*curr;
@@ -56,5 +82,4 @@ void	check_token(t_data *all)
 			return ;
 		curr = curr->next;
 	}
-	free_token(curr);
 }

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/26 21:27:10 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:14:06 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ void	backslash(int sig)
 }
 
 /* handle_signal();
- *	- int num: the signal number to handle 
- *	  (1 for parent process, 2 for child process);
- *	- t_data *data: main struct, for the exit status;
+ *	- Parameters:
+ *		- int num: the signal number to handle 
+ *	 	  (1 for parent process, 2 for child process);
+ *		- t_data *data: main struct, for the exit status;
  *
  *	- Configures the signal handling for the minishell.
  *	- When 'num' is 1 (signal is in the parent process):

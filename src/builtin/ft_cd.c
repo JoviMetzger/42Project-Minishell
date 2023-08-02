@@ -6,14 +6,15 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:26 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 21:43:53 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:15:21 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /* ft_error_msg();
- *	- char *path: the directory path that caused the error;
+ *	- Parameters:
+ *		- char *path: the directory path that caused the error;
  *
  *	- The function displays an error message to standard output 
  *	  when the specified '*path' does not exist.
@@ -33,7 +34,8 @@ static int	ft_error_msg(char *path)
 }
 
 /* update_pwd();
- *	- t_data *data: main struct, access the environment variables;
+ *	- Parameters:
+ *		- t_data *data: main struct, access the environment variables;
  *
  *	- This function gets the current working directory and updates 
  *	  the 'PWD' environment variable.
@@ -57,8 +59,9 @@ void	update_pwd(t_data *data)
 }
 
 /* update_oldpwd();
- *	- char *current: the current working directory;
- *	- t_data *data: main struct, to access the environment variables;
+ *	- Parameters:
+ *		- char *current: the current working directory;
+ *		- t_data *data: main struct, to access the environment variables;
  *
  *	- This function updates the 'OLDPWD' environment variable 
  *	  with the current working directory.
@@ -76,9 +79,10 @@ void	update_oldpwd(char *current, t_data *data)
 	free(oldpwd);
 }
 
-/* ft_cd()
- *	- char *path: the directory to which the function should navigate;
- *	- t_data *data: main struct, for updating the environment variables;
+/* ft_cd();
+ *	- Parameters:
+ *		- char *path: the directory to which the function should navigate;
+ *		- t_data *data: main struct, for updating the environment variables;
  *
  *	- First we get the current directory with getcwd();
  *	- If 'path' is NULL or "~"(optinal), 

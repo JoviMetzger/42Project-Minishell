@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:56 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/27 13:13:48 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 15:33:07 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
  */
 
 /* env_lstadd_back();
- *	- t_env **head: a pointer to the top/first node of the list;
- *	- t_env *new: the new node to be added to the back of the list;
+ *	- Parameters:
+ *		- t_env **head: a pointer to the top/first node of the list;
+ *		- t_env *new: the new node to be added to the back of the list;
  *
  *	- Adds a new node to the end of the list.
  *	- If the list is empty, the new node becomes the first node (head).
@@ -62,9 +63,11 @@ t_env	*env_lstlast(t_env *lst)
 }
 
 /* env_lstnew();
- *	- char *name: The name for the node.
- *	- char *value: The value for the node.
- *	- bool for_export: Whether the node is for export (true/false).
+ *	- Parameters:
+ *		- char *name: The name for the node;
+ *		- char *value: The value for the node;
+ *		- bool for_export: Whether the node is for export (true/false);
+ *
  *	- Create a new node for a linked list.
  *	- Returns the new node.
  */

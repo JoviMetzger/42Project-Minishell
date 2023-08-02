@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 21:34:22 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:16:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	ft_error_msg(char *input)
 }
 
 /* empty_export();
- *	- t_data *data: main struct, to access the environment;
+ *	- Parameters:
+ *		- t_data *data: main struct, to access the environment;
  *
  *	- For each variable marked with 'for_export', it displays 
  *	  the environment variables, with 'declare -x' at the beginning.
@@ -45,7 +46,8 @@ static int	empty_export(t_data *data)
 }
 
 /* ft_is_name_valid();
- *	- char *str: the export name (everything before the '=');
+ *	- Parameters:
+ *		- char *str: the export name (everything before the '=');
  *
  *	- This function checks if the 'name' is valid to use as an env variable.
  *	- The 'name' is only allowed to start with a small/capital letter or 
@@ -75,8 +77,9 @@ static int	ft_is_name_valid(char *str)
 }
 
 /* ft_export();
- *	- char **input: the whole input command line, split into a char**;
- *	- t_data *data: main struct, to access the environment;
+ *	- Parameters:
+ *		- char **input: the whole input command line, split into a char**;
+ *		- t_data *data: main struct, to access the environment;
  *
  *	- This function implements the 'export' command behavior in the shell.
  *	- If there are no arguments after 'export', it calls the empty_export() 

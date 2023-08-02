@@ -6,14 +6,15 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 15:12:49 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:15:55 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /* ft_env();
- *	- t_data *data: main struct, access the environment variables;
+ *	- Parameters:
+ *		- t_data *data: main struct, access the environment variables;
  *
  *	- This function prints the environment variables that are marked 
  *	  with the 'for_export' state.

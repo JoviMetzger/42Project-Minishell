@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/30 14:22:31 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 13:12:57 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:14:32 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	is_builtin_cmd(char *command)
 }
 
 /* exec_builtin_cmd();
- *	- char **input: the whole input command line, split into a char**;
- * 	- t_data *data: the main struct;
+ *	- Parameters:
+ *		- char **input: the whole input command line, split into a char**;
+ *		- t_data *data: the main struct;
  *
  *	- This function checks for specific keywords using ft_strcmp() and 
  *	  executes the corresponding behavior for each built-in command.

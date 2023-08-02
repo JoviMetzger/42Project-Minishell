@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 12:31:04 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 21:52:11 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:16:18 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,10 @@ static int	determine_exit_code(char **str)
 }
 
 /* ft_exit();
- *	- char **input: the whole input command line, split into a char**;
- *	- t_data *data: main struct, 
- *	  to access the status where the exit status is saved.
+ *	- Parameters:
+ *		- char **input: the whole input command line, split into a char**;
+ *		- t_data *data: main struct, 
+ *	  	  to access the status where the exit status is saved.
  *
  *	- This function implements the 'exit' command behavior in the shell.
  *	- It displays the "exit" message to STDOUT.

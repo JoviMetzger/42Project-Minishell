@@ -6,14 +6,15 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:40 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/07/25 21:34:33 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 12:15:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /* ft_print_echo();
- *	- char **input: the whole input command line, for the 'echo' command;
+ *	- Parameters:
+ *		- char **input: the whole input command line, for the 'echo' command;
  *
  *	- This function prints the arguments provided to the 'echo' command.
  *	- It skips any leading '-n' arguments that indicate the 'no newline' option.
@@ -49,7 +50,8 @@ static void	ft_print_echo(char **input)
 }
 
 /* ft_echo();
- *	- char **input: The whole input command line, split into a char**;
+ *	- Parameters:
+ *		- char **input: The whole input command line, split into a char**;
  *
  *	- This function implements the 'echo' command behavior in the shell.
  *	- It checks if the 'input' is not NULL.
