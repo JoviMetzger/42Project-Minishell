@@ -56,31 +56,6 @@ int quote_count(char *str, int i,int *quo_nb, char quo)
 	return (i);
 }
 
-void	add_env(t_data *all, t_token **top, char **envp)
-{
-	t_token		*curr;
-	t_token		*to_tmp;
-	char	*tmp;
-
-	curr = *top;
-	tmp = NULL;
-	to_tmp = NULL;
-	while (curr != NULL)
-	{
-		 if (curr->str && have_dollar(curr->str) && curr->type != SQUO)//segv
-		{
-			to_tmp = dollar_split(curr->str);
-			swap_val(&to_tmp, envp, all);
-			tmp = curr->str;
-			curr->str = token_to_str(&to_tmp);
-			free(tmp);
-		} 
-		if (!curr->next)
-			return ;
-		curr = curr->next;
-	}
-}
-
 t_token	*delspace_jointoken(t_token ** token)
 {
 	t_token	*curr;
@@ -102,7 +77,10 @@ t_token	*delspace_jointoken(t_token ** token)
 					words = ft_strdup(curr->str);
 				else
 					words = ft_strjoin(words, curr->str);
-				if (!curr->next || curr->type == SPACES)
+				if (!curr->next || (curr->next && (curr->next->type == SPACES
+					|| curr->next->type == PIPE || curr->next->type == INPUT_RE
+					|| curr->next->type == OUTPUT_RE || curr->next->type == HERE_DOC
+					|| curr->next->type == APPEND_RE)))
 					break ;
 				curr = curr->next;
 			}
@@ -127,41 +105,28 @@ void	tokenized(t_data *all, char **envp)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
-	char	*tmp;
 
 	curr = NULL;
 	if (quote_check(all->input) == 1)
 		exit (1);
-	tmp = NULL;
 	to_tmp = NULL;
 	to_tmp = dollar_split(all->input);
 	swap_val(&to_tmp, envp, all);
-	tmp = all->input;
 	all->input = token_to_str(&to_tmp);
 	to_tmp = split_token(all->input);
 	all->token = delspace_jointoken(&to_tmp);
 	curr = all->token;
 	while (curr != NULL)
 	{
-		if (curr->str && ft_strcmp(curr->str, "|") == 0 && curr->type == EMPTY)
-			curr->type = PIPE;
-		else if (curr->str && ft_strcmp(curr->str, "<") == 0 && curr->type == EMPTY)
-			curr->type = INPUT_RE;
-		else if (curr->str && ft_strcmp(curr->str, ">") == 0 && curr->type == EMPTY)
-			curr->type = OUTPUT_RE;
-		else if (curr->str && ft_strcmp(curr->str, "<<") == 0 && curr->type == EMPTY)
-			curr->type = HERE_DOC;
-		else if (curr->str && ft_strcmp(curr->str, ">>") == 0 && curr->type == EMPTY)
-			curr->type = APPEND_RE;
-		else if (curr->str && curr->prev && curr->prev->type == INPUT_RE && curr->type == WORD)
+		if (curr->str && curr->prev && curr->prev->type == INPUT_RE && curr->type == WORD)
 			curr->type = INFILE;
 		else if (curr->str && curr->prev && curr->prev->type == OUTPUT_RE && curr->type == WORD)
 			curr->type = OUTFILE;
 		else if (curr->str && curr->prev && curr->prev->type == APPEND_RE && curr->type == WORD)
 			curr->type = APPFILE;
 		else if (curr->str && curr->prev && curr->prev->type == HERE_DOC && curr->type == WORD)
-			curr->type = DELIMI; 
-		else if (curr->type == EMPTY || curr->type == SQUO)
+			curr->type = DELIMI;
+		else if (curr->str && (curr->type == EMPTY || curr->type == SQUO))
 			curr->type = WORD;
 		if (!curr->next)
 			return ;
@@ -187,19 +152,15 @@ void	tokenized(t_data *all, char **envp)
 	//all.input = "  chkhk df >outfile <infile";
 	//all.input = " cmd <file  >outfile | \"|\"<infile";
 	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
-	//all.input = " \'$PATH\' $$<< infi\'\'le   	\"$PATH\"  hgjgh$dsf$sdfd$?$$$$$ <infile cmd arg>outfile| cmd1 aa a a a >1outfile|";//$$ error
-	//all.input = " $PATH \'\'\'\"\" ,,kn   \'ADS $$ $chkhk df ";
-	//all.input = " \'$PATH\' \'|\' \'asdas\"\'\'as\"\'\"\"$PATH ADS $$ $chkhk df \"HELLO -> \'\"";
-	//all.input = "\'$PATH\'";
-	//all.input = "ls";
+	all.input = " \'$PATH\' $$<< in|fi\'\'le   	  hgjgh$dsf$sdfd$?$$$$$ <infile cmd arg>outfile | cmd1 aa a a a >1outfile|";//$$ error
 	//all.input = " $PATH ADS  $sdf $ df hgjgh$dsf$sdfd$?$$$$$";
-	//all.input = " $PATH ";
+	all.input = " $PATH ";
+	//all.input = "ls|wc";
 	//all.input = "||\"|\"cmd "; //break pipe
-	all.input = " \"echo\" hello ";
-	all.input = " \"echo\" \'hello ->\"\'";
+	//all.input = " echo adfds''fdas\'$PATH\'SDGF";
 	//all.input = " \"echo\" hello | wc";
 	//all.input = "<file1 cat > out \"|\" <infile "; //works 
-	//all.input = " <infile cmd >outfile | <infile";
+	all.input = " <infile>cmd >outfile | <infile";
 	tokenized(&all, envp);
 	curr = all.token;
 	printf("test:%s\n", all.input);
@@ -209,5 +170,4 @@ void	tokenized(t_data *all, char **envp)
 		curr = curr->next;
 	} 
 	return 0;
-}
- */
+} */

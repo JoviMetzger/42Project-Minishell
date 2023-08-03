@@ -48,7 +48,8 @@ void	free_token(t_token *token)
 	while(token != NULL)
 	{
 		tmp = token;
-		free(tmp->str);
+		if(tmp->str)
+			free(tmp->str);
 		free(tmp);
 		if (!token->next)
 			return ;

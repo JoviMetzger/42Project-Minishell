@@ -78,7 +78,7 @@ t_token *dollar_split(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			i = split_with_quote(str, i, '\'', &top) - 1 ;
+			i = split_with_quote(str, i, '\'', &top);
 		else if (str[i] == '$')
 		{
 			if (str[i + 1] && str[i + 1] == '$')
@@ -99,7 +99,7 @@ t_token *dollar_split(char *str)
 		}
 		else if(!ft_isspace(str[i]))
 		{
-			one_len = non_dollar_len(&str[i]);
+			one_len = dollar_len(&str[i]);
 			line = ft_substr(str, i, one_len);
 			add_token_end(&top, new_token(line));//segv
 			//printf("3,%s \n", line);
@@ -113,8 +113,8 @@ t_token *dollar_split(char *str)
 			//printf("4,%s \n", line);
 			i += one_len;
 		}
-		//else
-		//	i++;
+		else
+			i++;
 	}
 	return (top);
 }
@@ -170,7 +170,7 @@ char *token_to_str(t_token **top)
 	return (lang_str);
 }
 
-//test:  gcc handle_dollar_sign.c find_env.c ../tokenized/split_token.c ../tokenized/tokenized.c ../tokenized/token_util.c ../tool/free_error.c ../tool/tool_utils.c ../../libft/libft.a
+//test:  gcc handle_dollar_sign.c find_env.c ../tool/free_error.c ../tool/protection.c ../tool/tool_utils.c ../tokenized/token_util.c ../tokenized/split_token.c ../../libft/libft.a
 
 /* int main(int argc, char **argv, char **envp)
 {
@@ -186,10 +186,9 @@ char *token_to_str(t_token **top)
 	(void)argc;
 	//str = "hgjgh$dsf$sdfd$?$$$$$PATH";
 	//str = "$PATH $dsf $sdf d$?$$$$$";
-	str = "$PATH\'\'adasd\'\'\"$PATH\" $$<< \"infile hgjg\"h$dsf$sdfd$?$$$$$\'$PATH\'";
-	str = "\'$PATH\'";
-	str = "\"$PATH\"";
-	str = " \'asdas\"\'\"\"$PATH ADS $$ $chkhk df ";
+	str = "$PATH $$<< infile| hgj|gh$dsf$sdfd$?$$$$$";
+	//str = "echo adsfd\'\'afas\'$PATH\'";
+	str = "echo \'$PATH\'xchgfg";
 	new = new_token(str);
 	top = dollar_split(new->str);//
 	t_token *curr;
@@ -210,6 +209,4 @@ char *token_to_str(t_token **top)
 	char *lang_str;
 	lang_str = token_to_str(&top);
 	printf("lang :%s\n",lang_str);
-}
- */
-///usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin''dasd''"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin" id<< "infile hgjg"h202575872idid$'$PATH'
+} */

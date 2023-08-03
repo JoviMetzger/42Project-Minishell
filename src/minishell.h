@@ -47,7 +47,7 @@ typedef struct s_history
 {
 	char		*oneline;
 	int			index;
-	struct s_history	*next;
+	struct s_history	*next;			
 }t_history;
 
 typedef struct s_data
@@ -58,12 +58,17 @@ typedef struct s_data
 	struct	s_history	*history;
 	int					status;
 	char				*input;
+	pid_t				*id;
+	int					cmd_len;
 }t_data;
 
 typedef struct s_cmd
 {
 	char			**words;
+	int				index;
 	int				len;
+	int				fd_in;
+	int				fd_out;
 	struct	s_token	*redi;
 	struct s_cmd	*next;
 }t_cmd;
@@ -95,25 +100,19 @@ t_token		*new_token(char *str);
 t_token		*split_token(char *str);
 t_token		*copy_token(t_token *old);
 int			split_redi(char *str, int	i, char c, t_token **top);
-int			split_char(char *str, int i, t_token **top);
+int			split_char(char *str, int i, t_token **top, char c);
 void		check_token(t_data *all);
 int			space_len(char *str);
 int			split_general_char(char *str, int i, t_token **top);
 t_token		*split_again_token(char *str);
 int			split_with_quote(char *str, int i, char c, t_token **top);
 int			split_without_quote(char *str, int	i, char c, t_token **top);
-void		add_env(t_data *all, t_token **top, char **envp);
-int			again_strlen_char(char *str, char c);
-int			non_dollar_len(char *str);
-t_token		*delspace_jointoken(t_token ** token);
-
 //cmd
 int		cmd_len(t_token **token, int index);
 void	add_cmd_end(t_cmd **top, t_cmd *new);
 void	token_to_cmd(t_data *all);
 t_cmd	*new_cmd(char **words, int len);
 t_cmd	*ft_new_cmd(void);
-char *token_to_cmdstr(t_token **top , int index);
 
 //run
 char	*find_path(char *cmd, char **envp);
@@ -122,7 +121,6 @@ void	run_cmd(t_cmd *cmd, char **envp);
 
 //child
 void	cmd_child(t_cmd *cmd, char **envp, t_data *all);
-void	last_cmd_child(t_cmd *cmd, char **envp, t_data *all);
 
 //free and print error : cmd && token && str
 void	print_error(char *str, int errcode);
@@ -139,12 +137,12 @@ void	protect_pipe(int fd[2]);
 //void	protect_open(int fd[2]);
 
 //redi
-void	redi_in(t_token *redi);
-void	redi_out(t_token *redi);
-void	redi_app(t_token *redi);
+void	redi_in(t_cmd *cmd, t_token *redi);
+void	redi_out(t_cmd *cmd, t_token *redi);
+void	redi_app(t_cmd *cmd, t_token *redi);
 void	add_redirection(t_data *all);
 void	do_redirection(t_cmd *cmd, t_data *all, char **envp);
-void	redi_here_doc(t_token *redi, t_data *all, char **envp);
+void	redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp);
 void	here_doc(int out, char *limiter,t_data *all, char **envp);
 
 //env
@@ -166,5 +164,10 @@ void ft_commands(char **envp, t_data *data);
 //tool
 int	ft_isspace(char c);
 
-
+//pipe
+int	init_pipe(t_data *all, t_cmd *cmd, int **fd_2d);
+int	open_pipe(t_data *all);
+void	free_fd_2d(int **fd_2d);
+int	redi_loop(t_cmd **top, t_data *all, char **envp);
+int	close_all_fd(t_cmd **top);
 #endif

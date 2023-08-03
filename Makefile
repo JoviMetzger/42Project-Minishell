@@ -28,6 +28,7 @@ SRC			= ./src/main.c \
 				./src/execute/find_path.c\
 				./src/execute/redirection.c\
 				./src/execute/redi_here_doc.c\
+				./src/execute/open_pipe.c\
 				./src/env/find_env.c\
 				./src/env/handle_dollar_sign.c\
 				./src/tool/free_error.c\

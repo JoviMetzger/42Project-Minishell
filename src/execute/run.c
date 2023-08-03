@@ -34,57 +34,17 @@ void	run_cmd(t_cmd *cmd, char **envp)
 
 void	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 {
-	int		fd[2];
-	pid_t	id;
-	int		status;
-	
-
-	protect_pipe(fd);
-	//do_redirection(cmd, all, envp);
-	id = fork();
-	if (id == -1)
-		exit(WEXITSTATUS(status));
-	if (id == 0)
+	all->id[cmd->index] = fork();
+	if (all->id[cmd->index] == -1)
+		exit(0);
+	if (all->id[cmd->index] == 0)
 	{
-		protect_dup2(fd[1],1);
-		protect_close(fd[1]);
-		protect_close(fd[0]);
-		do_redirection(cmd, all, envp);
+		if (cmd->fd_in != 0)
+			protect_dup2(cmd->fd_in, 0);
+		if (cmd->fd_out != 1)
+			protect_dup2(cmd->fd_out, 1);
+		close_all_fd(&all->cmd);
 		run_cmd(cmd, envp);
-	}
-	else
-	{
-		protect_waitpid(id, &status, 0);
-		all->status = WEXITSTATUS(status);
-		if (!cmd->redi)
-			protect_dup2(fd[0],0);
-		protect_close(fd[1]);
-		protect_close(fd[0]);
+		exit(0);
 	}
 }
-
-void	last_cmd_child(t_cmd *cmd, char **envp, t_data *all)
-{
-	pid_t	id;
-	int status;
-	//int	fd[2];
-
-	//protect_pipe(fd);
-	id = fork();
-	if (id == -1)
-		print_error(NULL, 0);
-	if (id == 0)
-	{
-		if (cmd->redi)
-			do_redirection(cmd, all, envp);
-		run_cmd(cmd, envp);
-	}
-	else
-	{
-		protect_waitpid(id, &status, 0);
-		all->status = WEXITSTATUS(status);
-	}
-}
-
-//complie:gcc find_path.c create_cmd.c run.c ../tokenized/split_token.c ../tokenized/token_util.c ../tokenized/tokenized.c ../../libft/libft.a
-//test

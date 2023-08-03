@@ -135,3 +135,5 @@ libft		obj		src		test_copy
 31.<<stop cat|>file //not working //pipe error
 
 32.<<file cat|grep c >hah //pipe error
+
+33.minishell-> echo 1231''afdsd'$PATH'"$PATH" //loop forever
