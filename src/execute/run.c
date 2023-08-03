@@ -13,14 +13,14 @@
 
 #include "../minishell.h"
 
-void	run_cmd(t_cmd *cmd, char **envp)
+void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 {
 	char *path;
 	
-	if( ft_strcmp(cmd->words[0], "builtin" )== 0)
+	if (is_builtin_cmd(all->cmd->words[0]) == 1)
 	{
-		printf("it's builtin");
-		exit(0);
+		exec_builtin_cmd(all->cmd->words, all);
+		return ;
 	}
 	if (access(cmd->words[0], F_OK) == 0)
 		path = cmd->words[0];
@@ -45,7 +45,7 @@ void	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		if (cmd->fd_out != 1)
 			protect_dup2(cmd->fd_out, 1);
 		close_all_fd(&all->cmd);
-		run_cmd(cmd, envp);
+		run_cmd(cmd, envp, all);
 		exit(0);
 	}
 }

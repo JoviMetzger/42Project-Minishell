@@ -12,21 +12,40 @@
 
 #include "minishell.h"
 
-
-
-int main(int argc, char **argv, char **envp)
+static void	first_check(int argc, char **argv)
 {
-	t_data all;
+	if (argc != 1 || argv[1])
+	{
+		printf(RED "!" RESET " This program does not accept arguments" \
+				RED "!\n" RESET);
+		exit(0);
+	}
+}
 
-	(void)argc;
-	(void)argv;
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	all;
+	//char	*prompt;
+
+	first_check(argc, argv);
 	all.envp = envp;
+	all.env = init_env(envp);
+	all.status = 0;
 	while (1)
 	{
-		all.input = readline("minishell-> ");
-		add_history(all.input);
-		//create_history(&all);
-		ft_commands(envp, &all);
+		//prompt = display_prompt();
+		display_prompt();
+		//handle_signal(1, &all);
+		all.input = readline(NULL);
+		//ft_free(prompt);
+		if (all.input == NULL)
+		{
+			printf("exit\n");
+			exit(0);
+		}
+		if (all.input[0] != '\0')
+			add_history(all.input);
+		ft_commands(all.envp, &all);
 		free(all.input);
 	}
 	return (0);

@@ -17,12 +17,18 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
+# include <signal.h>
+# include <string.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <fcntl.h>//open
-# include <sys/types.h>//pid_t
-# include <sys/wait.h>//waitpid
-# include <errno.h>//errno
+
+// Defining Colors
+# define RED     "\033[31m"
+# define RESET	 "\033[0m"
 
 enum type
 {
@@ -43,19 +49,20 @@ enum type
 	SPACES,
 };
 
-typedef struct s_history
+typedef struct s_env
 {
-	char		*oneline;
-	int			index;
-	struct s_history	*next;			
-}t_history;
+	char				*name;
+	char				*value;
+	bool				for_export;
+	struct s_env		*next;
+}	t_env;
 
 typedef struct s_data
 {
 	char				**envp;
 	struct s_cmd		*cmd;
+	struct s_env		*env;
 	struct s_token		*token;
-	struct	s_history	*history;
 	int					status;
 	char				*input;
 	pid_t				*id;
@@ -83,12 +90,9 @@ typedef struct s_token
 }t_token;
 
 int			ft_strcmp(char *s1, char *s2);
-void		display_prompt();
 
 //yixin
 void		create_history(t_data *all);
-int			printf_history(t_history *data);
-t_history	*create_newnode(char *str);
 int			quote_check(char *str);
 int			quote_count(char *str, int i,int *quo_nb, char quo);
 int 		strlen_char(char *str, char c);
@@ -117,7 +121,7 @@ t_cmd	*ft_new_cmd(void);
 //run
 char	*find_path(char *cmd, char **envp);
 int		path_index(char **envp);
-void	run_cmd(t_cmd *cmd, char **envp);
+void	run_cmd(t_cmd *cmd, char **envp, t_data *all);
 
 //child
 void	cmd_child(t_cmd *cmd, char **envp, t_data *all);
@@ -170,4 +174,38 @@ int	open_pipe(t_data *all);
 void	free_fd_2d(int **fd_2d);
 int	redi_loop(t_cmd **top, t_data *all, char **envp);
 int	close_all_fd(t_cmd **top);
+
+int			ft_argc(char **input);
+int			ft_isspace(char c);
+//char		*display_prompt(void);
+void    display_prompt();
+void		ft_commands(char **envp, t_data *data);
+void		ft_free(void *ptr);
+
+// SIGNALS
+void		handle_signal(int sig, t_data *data);
+void		rl_replace_line(const char *text, int clear_undo);
+
+// ENV (linked-list)
+void		env_lstadd_back(t_env **head, t_env *new);
+t_env		*env_lstlast(t_env *lst);
+t_env		*env_lstnew(char *name, char *value, bool export);
+
+// BUILTIN (main functions)
+int			ft_cd(char *path, t_data *data);
+int			ft_echo(char **input);
+int			ft_env(t_data *data);
+int			ft_exit(char **input, t_data *data);
+int			ft_export(char **input, t_data *data);
+int			ft_pwd(void);
+int			ft_unset(char **input, t_env **env);
+int			is_builtin_cmd(char *command);
+bool		exec_builtin_cmd(char **input, t_data *data);
+
+// BUILTIN (extra functions)
+int			ft_is_digit(char *str);
+int			add_new_env_var(char *statement, t_env **env, bool export);
+int			unset_var(char *name, t_env **env);
+t_env		*init_env(char **envp);
+char		**split_envp(char *env);
 #endif

@@ -33,6 +33,11 @@ void ft_commands(char **envp, t_data *all)
 		if (!all->id)
 			return ;
 		curr = all->cmd;
+		if (is_builtin_cmd(all->cmd->words[0]) == 1)
+		{
+			exec_builtin_cmd(all->cmd->words, all);
+			return ;
+		}
 		while (curr)
 		{
 			cmd_child(curr, envp, all);

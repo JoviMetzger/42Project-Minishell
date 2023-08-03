@@ -19,7 +19,6 @@ Include	= -lreadline
 SRC			= ./src/main.c \
 				./src/display_prompt.c \
 				./src/command.c \
-				./src/create_history.c \
 				./src/tokenized/split_token.c\
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c\
@@ -34,6 +33,17 @@ SRC			= ./src/main.c \
 				./src/tool/free_error.c\
 				./src/tool/protection.c\
 				./src/tool/tool_utils.c\
+				./src/builtin/builtin_cmd.c \
+				./src/builtin/ft_cd.c \
+				./src/builtin/ft_echo.c \
+				./src/builtin/ft_env.c \
+				./src/builtin/ft_exit.c \
+				./src/builtin/ft_export.c \
+				./src/builtin/ft_pwd.c \
+				./src/builtin/ft_unset.c \
+				./src/builtin/utils.c \
+				./src/env/init_env.c \
+				./src/env/env_list.c \
 				
 OBJ			= $(SRC:.c=.o)
 
