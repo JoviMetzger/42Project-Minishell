@@ -132,6 +132,7 @@ void	tokenized(t_data *all, char **envp)
 			return ;
 		curr = curr->next;
 	}
+	//syntax_error_check
 }
 
 //test:gcc split_token.c token_util.c tokenized.c ../tool/free_error.c ../tool/protection.c ../tool/tool_utils.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a

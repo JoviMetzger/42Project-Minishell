@@ -32,7 +32,10 @@ int	dollar_len(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' || ft_isspace(str[i]) || str[i] == '\'' || str[i] == '\"')
+		if (str[i] == '$' || ft_isspace(str[i])
+			|| str[i] == '\'' || str[i] == '\"'
+			|| str[i] == '|'|| str[i] == '<'
+			|| str[i] == '>')
 			break ;
 		i++;
 	}
@@ -56,7 +59,7 @@ int	non_dollar_len(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' || ft_isspace(str[i]) )
+		if (str[i] == '$' || ft_isspace(str[i]) || str[i] == '\'')
 			break ;
 		i++;
 	}
@@ -78,7 +81,7 @@ t_token *dollar_split(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			i = split_with_quote(str, i, '\'', &top);
+			i = split_with_quote(str, i, '\'', &top) - 1;
 		else if (str[i] == '$')
 		{
 			if (str[i + 1] && str[i + 1] == '$')
@@ -99,7 +102,7 @@ t_token *dollar_split(char *str)
 		}
 		else if(!ft_isspace(str[i]))
 		{
-			one_len = dollar_len(&str[i]);
+			one_len = non_dollar_len(&str[i]);
 			line = ft_substr(str, i, one_len);
 			add_token_end(&top, new_token(line));//segv
 			//printf("3,%s \n", line);
@@ -187,8 +190,9 @@ char *token_to_str(t_token **top)
 	//str = "hgjgh$dsf$sdfd$?$$$$$PATH";
 	//str = "$PATH $dsf $sdf d$?$$$$$";
 	str = "$PATH $$<< infile| hgj|gh$dsf$sdfd$?$$$$$";
-	//str = "echo adsfd\'\'afas\'$PATH\'";
-	str = "echo \'$PATH\'xchgfg";
+	str = "echo adsfd\'\'afas\'$PATH\'";
+	str = "echo \'$PATH\'xchgfg\"$PATH\"";
+	str = "grep <Makefile c|grep e|grep $|wc";
 	new = new_token(str);
 	top = dollar_split(new->str);//
 	t_token *curr;

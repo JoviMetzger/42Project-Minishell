@@ -39,6 +39,7 @@ void	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		exit(0);
 	if (all->id[cmd->index] == 0)
 	{
+		do_redirection(cmd, all, envp);
 		if (cmd->fd_in != 0)
 			protect_dup2(cmd->fd_in, 0);
 		if (cmd->fd_out != 1)

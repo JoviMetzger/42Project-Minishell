@@ -28,7 +28,7 @@ void ft_commands(char **envp, t_data *all)
 		token_to_cmd(all);
 		free_token(all->token);
 		open_pipe(all);
-		redi_loop(&all->cmd, all, envp);
+		//redi_loop(&all->cmd, all, envp);
 		all->id = malloc(sizeof(pid_t) * all->cmd_len);
 		if (!all->id)
 			return ;

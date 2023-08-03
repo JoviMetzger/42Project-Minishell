@@ -30,6 +30,15 @@ void	print_error(char *str, int errcode)
 	}
 }
 
+int	print_error_noexit(char *str)
+{
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	return(errno);
+}
+
 void	free_2dstr(char **str)
 {
 	int	i;

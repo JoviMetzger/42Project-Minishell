@@ -94,13 +94,13 @@ iorjgijor USER=yizhang
 
 24.minishell-> <nothing echo rogjegio |cat >test2
 
-25.<afads ls | ls
+25.<afads ls | ls                           //will exit at first fd
 bash: afads: No such file or directory
 Makefile		minishell		obj			test			test_copy
 libft
 
 26.<asda |cat
-bash: asda: No such file or directory
+bash: asda: No such file or directory       // message are ok but it will exit
 
 27.cat |cat|ls
 Makefile		minishell		obj			test			test_copy
@@ -132,8 +132,12 @@ bash-3.2$ $|
 Makefile	minishell	other		test		yizhang
 libft		obj		src		test_copy
 
-31.<<stop cat|>file //not working //pipe error
+31.<<stop cat|>file //not working //pipe error          //no problem
 
 32.<<file cat|grep c >hah //pipe error
 
-33.minishell-> echo 1231''afdsd'$PATH'"$PATH" //loop forever
+33.minishell-> echo 1231''afdsd'$PATH'"$PATH"               //loop forever //no problem now
+
+34.grep <Makefile c|grep e|grep $|wc //fixed
+      28      86    1017
+
