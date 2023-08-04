@@ -68,8 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		prompt = display_prompt();
-		//handle_signal(1, &all);
-		//handle_signal(2, all); NEEDS TO GO SOMEWHERE;
+		handle_signal(1, &all);
 		all.input = readline(prompt);
 		ft_free(prompt);
 		if (all.input == NULL)
