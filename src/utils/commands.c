@@ -61,6 +61,7 @@ static void	ft_exit_status(t_data *all)
 
 static void	ft_child_process(t_cmd *curr, char **envp, t_data *all)
 {
+	handle_signal(2, all);
 	while (curr)
 	{
 		cmd_child(curr, envp, all);
