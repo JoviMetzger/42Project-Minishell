@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 22:36:44 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/03 22:38:09 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ t_token	*ft_split_again_token_loop(char *str, int i, t_token *top)
 		else if (str[i] == '<' || str[i] == '>')
 			i = split_redi(str, i, str[i], &top);
 		else if (str[i] == '|')
-			i = split_char(str, i, &top);
+			i = split_char(str, i, &top, '|');
 		else if (!ft_isspace(str[i]) && str[i] != '\"' 
 			&& str[i] != '\'' && str[i] != '|')
-			i = split_no_space(str, i, &top);
+			i = split_general_char(str, i, &top);
 		else
 			i++;
 	}
@@ -122,10 +122,10 @@ t_token	*ft_split_token_loop(char *str, int i, t_token *top)
 		else if (str[i] == '<' || str[i] == '>')
 			i = split_redi(str, i, str[i], &top);
 		else if (str[i] == '|')
-			i = split_char(str, i, &top);
+			i = split_char(str, i, &top, '|');
 		else if (!ft_isspace(str[i]) && str[i] != '\"' 
 			&& str[i] != '\'' && str[i] != '|')
-			i = split_no_space(str, i, &top);
+			i = split_general_char(str, i, &top);
 		else if (ft_isspace(str[i]))
 			i = ft_handle_space(str, i, &top);
 		else

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/04 14:56:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 17:15:34 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/03 14:53:46 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
  *		  close unnecessary file descriptors, 
  *		  and wait for the child process to finish.	
  */
-void	redi_here_doc(t_token *redi, t_data *all, char **envp)
+void	redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp)
 {
 	int		fd[2];
 	pid_t	id;
@@ -46,10 +46,11 @@ void	redi_here_doc(t_token *redi, t_data *all, char **envp)
 	{
 		protect_close(fd[0]);
 		here_doc(fd[1], redi->str, all, envp);
+		protect_close(fd[1]);
 	}
 	else
 	{
-		protect_dup2(fd[0], 0);
+		cmd->fd_in = dup(fd[0]);
 		protect_close(fd[0]);
 		protect_close(fd[1]);
 		protect_waitpid(id, NULL, 0);

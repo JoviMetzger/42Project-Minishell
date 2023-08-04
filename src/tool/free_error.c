@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 12:32:30 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 12:32:17 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,15 @@ void	free_2dstr(char **str)
 		free(str[i]);
 	if (str)
 		free(str);
+}
+
+int	print_error_noexit(char *str)
+{
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	return (errno);
 }
 
 /* free_token();

@@ -6,80 +6,97 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 13:37:57 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 22:09:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 13:49:32 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* quote_check();
- *	- Check if all quotes in the input string are properly closed.
- *	- The function uses two variables, 'd_quo' and 's_quo', 
- *	  to keep track of the count of double quotes and single quotes.
- *	- It iterates through the input, incrementing the count for each 
- *	  encountered single or double quote.
- *	- If the count of single quotes(s_quo) or double quotes(d_quo) is not even,
- *		the function exits the program with an error message.
- *	- Otherwise, it returns 0, indicating that all quotes are balanced.
- */
-int	quote_check(char *str)
+char	*extract_words(t_token **curr)
 {
-	int	i;
-	int	d_quo;
-	int	s_quo;
+	char	*words;
 
-	i = 0;
-	d_quo = 0;
-	s_quo = 0;
-	if (!str)
-		return (0);
-	while (str[i])
+	words = NULL;
+	while (*curr && ((*curr)->type == WORD || (*curr)->type == SQUO))
 	{
-		if (str[i] == '\'')
-			i = quote_count(str, i, &s_quo, '\'');
-		if (str[i] == '\"')
-			i = quote_count(str, i, &d_quo, '\"');
-		i++;
+		if (!words)
+			words = ft_strdup((*curr)->str);
+		else
+			words = ft_strjoin(words, (*curr)->str);
+		if (!(*curr)->next || ((*curr)->next && ((*curr)->next->type == SPACES
+					|| (*curr)->next->type == PIPE 
+					|| (*curr)->next->type == INPUT_RE
+					|| (*curr)->next->type == OUTPUT_RE 
+					|| (*curr)->next->type == HERE_DOC
+					|| (*curr)->next->type == APPEND_RE)))
+			break ;
+		*curr = (*curr)->next;
 	}
-	if (s_quo % 2 != 0 || d_quo % 2 != 0)
-	{
-		printf("unclosed quote error \n");
-		exit (1);
-	}
-	return (0);
+	return (words);
 }
 
-/* quote_count();
- *	- Parameters:
- *		- char *str: The input string to count quotes in;
- *		- int i: index in the input string to begin counting quotes;
- *		- int *quo_nb: the variable that stores the count of quotes;
- *		- char quo: The quote character to count( '\'' or '\"');
- *
- *	- The function starts at index 'i' 
- *	  and increments the count of the quote ('quo_nb') by 1.
- *	- It then iterates through the input string from index 'i' 
- *	  and looks for the next occurrence of the quote character 'quo'.
- *	- Each time it finds a quote, 
- *	  it increments the count of the quote ('quo_nb') by 1.
- *	- When it reaches the closing quote,
- *	  it breaks out of the loop and returns the updated index 'i', 
- *	  pointing to the position just after the closing quote.
- */
-int	quote_count(char *str, int i, int *quo_nb, char quo)
+t_token	*delspace_jointoken(t_token **token, char *words)
 {
-	*quo_nb += 1;
-	i++;
-	while (str[i])
+	t_token	*curr;
+	t_token	*top;
+	t_token	*new;
+
+	curr = *token;
+	top = NULL;
+	while (curr)
 	{
-		if (str[i] == quo)
+		if (curr->type == WORD || curr->type == SQUO)
 		{
-			*quo_nb += 1;
-			break ;
+			words = extract_words(&curr);
+			new = new_token(words);
+			new->type = WORD;
+			add_token_end(&top, new);
 		}
-		i++;
+		else if (curr->type != SPACES)
+		{
+			new = copy_token(curr);
+			add_token_end(&top, new);
+		}
+		if (!curr->next)
+			break ;
+		curr = curr->next;
 	}
-	return (i);
+	return (top);
+}
+
+/* ft_assign_to_enum();
+ *	- Convert specific tokens to their corresponding enum types based on 
+ *	  their previous token type.
+ *	- The function checks the string value and type of the current token 'curr' 
+ *	  and its previous token 'curr->prev'.
+ *	- If the current token type is EMPTY, and its previous token's type matches 
+ *	  specific conditions 
+ *	  (INPUT_RE, OUTPUT_RE, APPEND_RE, or HERE_DOC), it updates the current 
+ *	  token's type accordingly.
+ *	- If the token's type is EMPTY or SQUO (single quote), it is set to WORD.
+ */
+void	ft_assign_to_enum(t_token *curr)
+{
+	while (curr != NULL)
+	{
+		if (curr->str && curr->prev && curr->prev->type == INPUT_RE 
+			&& curr->type == WORD)
+			curr->type = INFILE;
+		else if (curr->str && curr->prev && curr->prev->type == OUTPUT_RE 
+			&& curr->type == WORD)
+			curr->type = OUTFILE;
+		else if (curr->str && curr->prev && curr->prev->type == APPEND_RE 
+			&& curr->type == WORD)
+			curr->type = APPFILE;
+		else if (curr->str && curr->prev && curr->prev->type == HERE_DOC 
+			&& curr->type == WORD)
+			curr->type = DELIMI;
+		else if (curr->str && (curr->type == EMPTY || curr->type == SQUO))
+			curr->type = WORD;
+		if (!curr->next)
+			return ;
+		curr = curr->next;
+	}
 }
 
 /* tokenized();
@@ -87,49 +104,23 @@ int	quote_count(char *str, int i, int *quo_nb, char quo)
  *		- t_data *all: the main data struct;
  *		- char **envp: The environment variables;
  *
- *	- Tokenize the input string, handle quotes, 
- *	  and assign appropriate token types.
- *	- The function starts with quote_check() to ensure that all quotes in 
- *	  the input string are properly balanced. 
- *		- If there is any unclosed quote, the function exits with an error.
- *	- split_token() to tokenize the input string based on spaces 
- *	  and special characters. 
- *		- This function creates a linked list of tokens.
- *	- 'all->input' is updated with the result of token_to_str(),
- *	  which converts the linked list of tokens back into a single string.
- *	- split_again_token(), splits the input string based on spaces 
- *	  and special characters.
- *	- It iterates through each token in the token linked list and checks if 
- *	  it contains a dollar sign '$' indicating a variable expansion. 
- *		- If so, dollar_split() handles variable expansion and swap_val() 
- *		  to replace the variable with its value.
- *	- ft_assign_to_enum() assigns each token to an appropriate token type 
- *	  based on its value and position in the input string.
  */
 void	tokenized(t_data *all, char **envp)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
-	char		*tmp;
+	char		*words;
 
-	tmp = NULL;
-	to_tmp = NULL;
+	curr = NULL;
+	words = NULL;
 	if (quote_check(all->input) == 1)
 		exit (1);
-	all->token = split_token(all->input);
-	all->input = token_to_str(&all->token);
-	all->token = split_again_token(all->input);
+	to_tmp = NULL;
+	to_tmp = dollar_split(all->input);
+	swap_val(&to_tmp, envp, all);
+	all->input = token_to_str(&to_tmp);
+	to_tmp = split_token(all->input);
+	all->token = delspace_jointoken(&to_tmp, words);
 	curr = all->token;
-	while (curr != NULL)
-	{
-		if (curr->str && have_dollar(curr->str) && curr->type != SQUO)
-		{
-			to_tmp = dollar_split(curr->str);
-			swap_val(&to_tmp, envp, all);
-			tmp = curr->str;
-			curr->str = token_to_str(&to_tmp);
-		}
-		ft_assign_to_enum(curr);
-		curr = curr->next;
-	}
+	ft_assign_to_enum(curr);
 }

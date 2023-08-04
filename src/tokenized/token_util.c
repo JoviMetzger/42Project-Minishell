@@ -6,36 +6,11 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:04:23 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/03 10:16:09 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 11:22:35 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/* split_no_space();
- *	- Parameters:
- *		- char *str: The input string to split;
- *		- int i: The current index from where the splitting should start;
- *		- t_token **top: the token where the new token should be added;
- *
- *	- The function calculates the length of the substring in 'str' starting 
- *	  from index 'i' until the first space character (' ') is encountered.
- *	- It then creates a new token and 
- *	  adds it to the end of the token pointed to by 'top'.
- *	- The function updates the index 'i' to point to the position just 
- *	  after the substring and returns this updated value.
- */
-int	split_no_space(char *str, int i, t_token **top)
-{
-	int		len;
-	char	*line;
-
-	len = strlen_char(&str[i], ' ');
-	line = ft_substr(str, i, len);
-	add_token_end(top, new_token(line));
-	i = len + i;
-	return (i);
-}
 
 /* strlen_char();
  *	- Parameters:
@@ -151,4 +126,45 @@ void	add_token_end(t_token **top, t_token *new)
 	current->next = new;
 	new->prev = current;
 	new->index = i;
+}
+
+/* swap_val();
+ *	- Parameters:
+ *	  - t_token **top: A double pointer to the top node of 
+ *		the token linked list;
+ *	  - char **envp: The array of strings representing 
+ *		the environment variables;
+ *	  - t_data *all: A pointer to a data structure containing additional 
+ 		program information;
+ *
+ *	- Replace token strings with corresponding values from 
+ *	  the environment or special variables.
+ *		- For example: "$?" will get the exit_status 
+ *		  from 'all->status' with ft_itoa().
+ */
+
+void	swap_val(t_token **top, char **envp, t_data *all)
+{
+	t_token		*curr;
+	t_token		*to_tmp;
+	char		*tmp;
+
+	tmp = NULL;
+	to_tmp = NULL;
+	curr = *top;
+	while (curr != NULL)
+	{
+		if (curr->str)
+		{
+			if (ft_strcmp(curr->str, "$") == 0)
+				curr->str = "$";
+			else if (ft_strcmp(curr->str, "$$") == 0)
+				curr->str = "id";
+			else if (ft_strcmp(curr->str, "$?") == 0)
+				curr->str = ft_itoa(all->status);
+			else if (curr->str[0] == '$' && curr->str[1] != '$')
+				curr->str = find_env(&curr, envp);
+		}
+		curr = curr->next;
+	}
 }

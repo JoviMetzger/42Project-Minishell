@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/29 10:51:55 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 18:23:43 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 11:22:03 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ void	do_redirection(t_cmd *cmd, t_data *all, char **envp)
 	while (redi)
 	{
 		if (redi->type == INFILE)
-			redi_in(redi);
+			redi_in(cmd, redi);
 		else if (redi->type == OUTFILE)
-			redi_out(redi);
+			redi_out(cmd, redi);
 		else if (redi->type == APPFILE)
-			redi_app(redi);
+			redi_app(cmd, redi);
 		else if (redi->type == DELIMI)
-			redi_here_doc(redi, all, envp);
+			redi_here_doc(cmd, redi, all, envp);
 		if (!redi->next)
 			return ;
 		redi = redi->next;
@@ -95,15 +95,14 @@ void	do_redirection(t_cmd *cmd, t_data *all, char **envp)
  *	- Finally, it closes the file descriptor 'file'.
  */
 
-void	redi_in(t_token *redi)
+void	redi_in(t_cmd *cmd, t_token *redi)
 {
 	int	file;
 
 	file = open(redi->str, O_RDONLY);
 	if (file < 0)
 		print_error(redi->str, 1);
-	protect_dup2(file, 0);
-	protect_close(file);
+	cmd->fd_in = file;
 }
 
 /* redi_out();
@@ -124,15 +123,14 @@ void	redi_in(t_token *redi)
  *	  the standard output (1) using 'protect_dup2'.
  *	- Finally, it closes the file descriptor 'file'.
  */
-void	redi_out(t_token *redi)
+void	redi_out(t_cmd *cmd, t_token *redi)
 {
 	int	file;
 
 	file = open(redi->str, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (file < 0)
 		print_error(redi->str, 1);
-	protect_dup2(file, 1);
-	protect_close(file);
+	cmd->fd_out = file;
 }
 
 /* redi_app();
@@ -154,13 +152,12 @@ void	redi_out(t_token *redi)
  *	  the standard output (1) using 'protect_dup2'.
  *	- Finally, it closes the file descriptor 'file'.
  */
-void	redi_app(t_token *redi)
+void	redi_app(t_cmd *cmd, t_token *redi)
 {
 	int	file;
 
 	file = open(redi->str, O_WRONLY | O_APPEND | O_CREAT, 0777);
 	if (file < 0)
 		print_error(redi->str, 1);
-	protect_dup2(file, 1);
-	protect_close(file);
+	cmd->fd_out = file;
 }

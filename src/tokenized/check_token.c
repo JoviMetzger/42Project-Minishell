@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:56:36 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 22:24:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/03 22:08:29 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ void	check_token(t_data *all)
 			return ;
 		curr = curr->next;
 	}
+	free_token(curr);
 }

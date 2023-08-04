@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 21:54:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/03 22:36:08 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,20 @@
  *	- It creates a new token and 
  *	  adds it to the end of the token linked list using add_token_end().
  */
-int	split_char(char *str, int i, t_token **top)
+int	split_char(char *str, int i, t_token **top, char c)
 {
 	char	*line;
+	t_token	*new;
 
 	line = ft_substr(str, i, 1);
-	add_token_end(top, new_token(line));
+	new = new_token(line);
+	if (c == '|')
+		new->type = PIPE;
+	if (c == '<')
+		new->type = INPUT_RE;
+	if (c == '>')
+		new->type = OUTPUT_RE;
+	add_token_end(top, new);
 	i += 1;
 	return (i);
 }
@@ -56,15 +64,21 @@ int	split_char(char *str, int i, t_token **top)
 int	split_redi(char *str, int i, char c, t_token **top)
 {
 	char	*line;
+	t_token	*new;
 
 	if (str[i + 1] == c)
 	{
 		line = ft_substr(str, i, 2);
-		add_token_end(top, new_token(line));
+		new = new_token(line);
+		if (c == '<')
+			new->type = HERE_DOC;
+		if (c == '>')
+			new->type = APPEND_RE;
+		add_token_end(top, new);
 		i += 2;
 	}
 	else
-		i = split_char(str, i, top);
+		i = split_char(str, i, top, c);
 	return (i);
 }
 
@@ -87,10 +101,13 @@ int	split_general_char(char *str, int i, t_token **top)
 {
 	int		len;
 	char	*line;
+	t_token	*new;
 
 	len = strlen_char(&str[i], ' ');
 	line = ft_substr(str, i, len);
-	add_token_end(top, new_token(line));
+	new = new_token(line);
+	new->type = WORD;
+	add_token_end(top, new);
 	i = len + i;
 	return (i);
 }
@@ -125,7 +142,7 @@ int	split_without_quote(char *str, int i, char c, t_token **top)
 	start = i + 1;
 	len = strlen_char(&str[start], c);
 	if (len == 0)
-		line = NULL;
+		return (len + start + 1);
 	else
 		line = ft_substr(str, start, len);
 	i = len + start + 1;
@@ -163,12 +180,16 @@ int	split_with_quote(char *str, int i, char c, t_token **top)
 
 	start = i;
 	len = strlen_char(&str[start + 1], c) + 2;
-	if (len == 0)
-		line = NULL;
+	if (len == 2)
+		return (len + start + 1);
 	else
 		line = ft_substr(str, start, len);
 	i = len + start + 1;
 	new = new_token(line);
+	if (c == '\'')
+		new->type = SQUO;
+	else
+		new->type = WORD;
 	add_token_end(top, new);
 	return (i);
 }

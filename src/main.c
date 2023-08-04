@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/02 12:13:41 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 12:49:07 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		prompt = display_prompt();
-		handle_signal(1, &all);
+		//handle_signal(1, &all);
+		//handle_signal(2, all); NEEDS TO GO SOMEWHERE;
 		all.input = readline(prompt);
 		ft_free(prompt);
 		if (all.input == NULL)

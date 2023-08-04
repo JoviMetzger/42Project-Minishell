@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/11 12:46:14 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/02 14:23:24 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 10:56:56 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	dollar_len(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' || ft_isspace(str[i]))
+		if (str[i] == '$' || ft_isspace(str[i])
+			|| str[i] == '\'' || str[i] == '\"'
+			|| str[i] == '|' || str[i] == '<'
+			|| str[i] == '>')
 			break ;
 		i++;
 	}
@@ -60,41 +63,18 @@ int	space_len(char *str)
 	return (i);
 }
 
-/* swap_val();
- *	- Parameters:
- *	  - t_token **top: A double pointer to the top node of 
- *		the token linked list;
- *	  - char **envp: The array of strings representing 
- *		the environment variables;
- *	  - t_data *all: A pointer to a data structure containing additional 
- 		program information;
- *
- *	- Replace token strings with corresponding values from 
- *	  the environment or special variables.
- *		- For example: "$?" will get the exit_status 
- *		  from 'all->status' with ft_itoa().
- */
-
-void	swap_val(t_token **top, char **envp, t_data *all)
+int	non_dollar_len(char *str)
 {
-	t_token	*curr;
+	int	i;
 
-	curr = *top;
-	while (curr != NULL)
+	i = 0;
+	while (str[i])
 	{
-		if (curr->str)
-		{
-			if (ft_strcmp(curr->str, "$") == 0)
-				curr->str = "$";
-			else if (ft_strcmp(curr->str, "$$") == 0)
-				curr->str = "id";
-			else if (ft_strcmp(curr->str, "$?") == 0)
-				curr->str = ft_itoa(all->status);
-			else if (curr->str[0] == '$' && curr->str[1] != '$')
-				curr->str = find_env(&curr, envp);
-		}
-		curr = curr->next;
+		if (str[i] == '$' || ft_isspace(str[i]) || str[i] == '\'')
+			break ;
+		i++;
 	}
+	return (i);
 }
 
 /* token_to_str();
