@@ -19,13 +19,15 @@ SRC			= ./src/main.c \
 				./src/utils/display_prompt.c \
 				./src/utils/signals.c \
 				./src/tokenized/check_token.c \
-				./src/tokenized/ft_assign_to_enum.c \
-				./src/tokenized/split_token.c \
+				./src/tokenized/quote_check.c \
 				./src/tokenized/split_token_utils.c \
+				./src/tokenized/split_token.c \
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c \
+				./src/execute/create_cmd_utils.c \
 				./src/execute/create_cmd.c \
 				./src/execute/find_path.c \
+				./src/execute/open_pipe.c \
 				./src/execute/redi_here_doc.c \
 				./src/execute/redirection.c \
 				./src/execute/run.c \
@@ -38,11 +40,11 @@ SRC			= ./src/main.c \
 				./src/builtin/ft_pwd.c \
 				./src/builtin/ft_unset.c \
 				./src/builtin/utils.c \
+				./src/env/dollar_split.c \
 				./src/env/env_list.c \
 				./src/env/find_env.c \
-				./src/env/dollar_split.c \
-				./src/env/utils_dollar_sign.c \
 				./src/env/init_env.c \
+				./src/env/utils_dollar_sign.c \
 				./src/tool/free_error.c \
 				./src/tool/protection.c \
 				./src/tool/tool_utils.c \
@@ -113,3 +115,4 @@ re:		fclean all
 
 run: all
 	./minishell
+	
