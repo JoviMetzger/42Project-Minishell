@@ -59,7 +59,7 @@ static void	ft_exit_status(t_data *all)
 	}
 }
 
-static void	ft_fork(t_cmd *curr, char **envp, t_data *all)
+static void	ft_child_process(t_cmd *curr, char **envp, t_data *all)
 {
 	while (curr)
 	{
@@ -92,7 +92,7 @@ void	ft_commands(char **envp, t_data *all)
 			exec_builtin_cmd(all->cmd->words, all);
 			return ;
 		}
-		ft_fork(curr, envp, all);
+		ft_child_process(curr, envp, all);
 		close_all_fd(&all->cmd);
 		ft_exit_status(all);
 		free_cmd(all);
