@@ -92,38 +92,3 @@ void	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		exit(0);
 	}
 }
-
-// /* last_cmd_child();
-//  *	- Parameters:
-//  *		- t_cmd *cmd: the command struct, to access the variables;
-//  *		- char **envp: the environment variables;
-//  *		- t_data *data: the main data struct;
-//  *
-//  *	- We fork a new process.
-//  *		- If fork failed, print error and exit with the exit status of 
-//  *		  the child process.
-//  *	- If 'id == 0), Child process:
-//  *		- Execute the command in the child process with run_cmd().
-//  *	- Else, Parent process:
-//  *		- Wait for the child process to complete.
-//  *		- Update the shell's overall status with the exit status 
-//  *		  of the child process.  
-//  */
-// void	last_cmd_child(t_cmd *cmd, char **envp, t_data *all)
-// {
-// 	pid_t	id;
-// 	int		status;
-
-// 	id = fork();
-// 	if (id == -1)
-// 		print_error(NULL, 0);
-// 	if (id == 0)
-// 	{
-// 		run_cmd(cmd, envp, all);
-// 	}
-// 	else
-// 	{
-// 		protect_waitpid(id, &status, 0);
-// 		all->status = WEXITSTATUS(status);
-// 	}
-// }
