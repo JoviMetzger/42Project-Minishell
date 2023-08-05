@@ -40,12 +40,12 @@ char	*display_prompt(void)
 	char	*tmp2;
 	char	*tmp;
 
-	tmp2 = ft_strjoin(NULL, "minishell");
-	tmp = ft_strjoin(tmp2, RED);
-	tmp2 = ft_strjoin(tmp, " ➔");
+	tmp2 = ft_strjoin("minishell", RED);
+	tmp = ft_strjoin(tmp2, " ➔");
+	ft_free(tmp2);
+	tmp2 = ft_strjoin(tmp, RESET);
 	ft_free(tmp);
-	tmp = ft_strjoin(tmp2, RESET);
-	tmp2 = ft_strjoin(tmp, "  ");
-	ft_free(tmp);
-	return (tmp2);
-}
+	tmp = ft_strjoin(tmp2, "  ");
+	ft_free(tmp2);
+	return (tmp);
+}}
