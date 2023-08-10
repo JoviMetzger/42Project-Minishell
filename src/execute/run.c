@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:07:35 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/03 22:19:30 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/10 14:03:55 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,26 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *data)
  *		- t_cmd *cmd: the command struct, to access the variables;
  *		- char **envp: the environment variables.
  *		- t_data *all: the main data struct;
- *
- *	- This function is used for executing a command in a pipeline.
- *	- It creates a child process using fork() and sets up 
- *	  the necessary file descriptors for communication between 
- *	  the parent and child processes using protect_pipe.
- *	- It then calls run_cmd() to execute the command in the child process.
- *	- First, we create a pipe for communication between parent 
- *	  and child processes.
- *	- We fork a new process.
- *		- If fork failed, print error and exit with the exit status of 
- *		  the child process.
- *	- If 'id == 0', Child process: 
- *		- We set up redirection of standard output to the writing end 
- *		  of the pipe.
- *		- Execute the command in the child process with run_cmd().
- *	- Else ,Parent process:
- *		- Wait for the child process to complete.
- *		- Update the shell's overall status with the exit status of 
- *		  the child process.    
+ *  
+ *	- Inside the function, a new child process is created using fork(), 
+ *	  and its process ID is stored in all->id[cmd->index].
+ *	- If the fork operation fails, the child process exits with an error code.
+ *	- In the child process, input and output redirections are set up based on 
+ *	  the information provided in the 'cmd' struct.
+ *	- If 'fd_in' is not equal to 0, it duplicates the file descriptor 'fd_in' 
+ *	  to the standard input (0) using protect_dup2().
+ *	- Same with, if 'fd_out' is not equal to 1, it duplicates the file 
+ *	  descriptor 'fd_out' to the standard output (1) using protect_dup2().
+ *	- After setting up the redirections, all file descriptors for 
+ *	  the commands are closed with close_all_fd(&all->cmd).
+ * 	- Finally, the actual command is executed by calling the run_cmd().
+ *	- The child process then exits gracefully with an exit status of 0.
  */
-void	cmd_child(t_cmd *cmd, char **envp, t_data *all)
+void	cmd_child(t_cmd *cmd, t_data *all)
 {
+	char	**envp;
+
+	envp = ft_get_envp(all->env);
 	all->id[cmd->index] = fork();
 	if (all->id[cmd->index] == -1)
 		exit(0);

@@ -6,11 +6,36 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:40 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/02 12:15:46 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/10 14:08:35 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/* ft_extension();
+ *  - This function checks if the given string starts with the option '-n'.
+ *  - It verifies that every character following the '-' is 'n'.
+ *  - Returns 0 if the condition is met, otherwise returns 1.
+ */
+static int	ft_extension(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[0] == '-')
+	{
+		i = 1;
+		while (str[i] != '\0')
+		{
+			if (str[i] != 'n')
+				return (1);
+			i++;
+		}
+		return (0);
+	}
+	else
+		return (1);
+}
 
 /* ft_print_echo();
  *	- Parameters:
@@ -29,7 +54,7 @@ static void	ft_print_echo(char **input)
 
 	i = 1;
 	n = 0;
-	while (input[i] && ft_strcmp(input[i], "-n") == 0)
+	while (input[i] && ft_extension(input[i]) == 0)
 	{
 		n = 1;
 		i++;

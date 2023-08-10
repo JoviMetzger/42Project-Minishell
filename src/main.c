@@ -6,11 +6,20 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/04 12:49:07 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/10 14:00:43 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// //___________________________________________
+// // FOR LEAKS
+// void ft_systemleaks(void)
+// {
+//     system("leaks -q minishell"); //remove
+// }
+// //  - atexit(ft_systemleaks); // USE FOR LEAKS
+// //____________________________________________
 
 /* first_check();
  *	- This function checks if the program is run without any 
@@ -62,7 +71,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*prompt;
 
 	first_check(argc, argv);
-	all.envp = envp;
 	all.env = init_env(envp);
 	all.status = 0;
 	while (1)
@@ -78,7 +86,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (all.input[0] != '\0')
 			add_history(all.input);
-		ft_commands(all.envp, &all);
+		ft_commands(&all);
 		free(all.input);
 	}
 	return (0);

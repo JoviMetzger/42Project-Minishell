@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/04 12:32:17 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 21:41:51 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ void	free_2dstr(char **str)
 		free(str);
 }
 
+/* print_error_noexit();
+ *	- Parameter:
+ *		- char *str: the name or identifier of the source of the error;
+ *
+ *	- This function prints an error message and the corresponding error 
+ *	  description to the standard error stream (stderr).
+ */
 int	print_error_noexit(char *str)
 {
 	ft_putstr_fd(str, 2);

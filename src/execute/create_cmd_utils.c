@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/04 11:19:05 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 14:40:09 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,7 @@ int	cmd_len(t_token **token, int index)
  *	  - int len: The length of the command in number of words;
  *
  *	- Create a new node for a linked list.
- *	- Set the 'words' field to the given array of words.
- *	- Set the 'len' field to the provided length.
- *	- Set the 'next' field to NULL, 
- *	  as this new node will be added to the end of the linked list.
- *	- Set the 'redi' field to NULL initially, 
- *	  as redirection information is added later.
+ *  - Assigns every name a value.
  */
 t_cmd	*new_cmd(char **words, int len)
 {

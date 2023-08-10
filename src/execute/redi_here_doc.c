@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/04 14:56:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/03 14:53:46 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/10 15:02:20 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp)
 	int		fd[2];
 	pid_t	id;
 
+	(void)envp;
 	protect_pipe(fd);
 	id = fork();
 	if (id < 0)
@@ -45,7 +46,7 @@ void	redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp)
 	if (id == 0)
 	{
 		protect_close(fd[0]);
-		here_doc(fd[1], redi->str, all, envp);
+		here_doc(fd[1], redi->str, all);
 		protect_close(fd[1]);
 	}
 	else
@@ -82,14 +83,14 @@ static void	ft_exit_program(char *line, int out)
  *	  - char **envp: A pointer to the environment variables array;
  *
  *	- In a while loop we read the input line from the user with a prompt "> ".
- *	- If the entered line matches the delimiter ,we exit the program(success).
+ *	- If the entered line matches the delimiter, we exit the program(success).
  *	- If the line contains variables with a '$' (dollar sign).
  *		- Tokenize the line, swap variables with their values, 
  *		  and reconstruct the line.
- *	- ft_strjoin() a newline character to the line and write (protect_write()) 
+ *	- ft_strjoin() a newline character to the line and write with protect_write() 
  *	  it to the 'out' file descriptor.	
  */
-void	here_doc(int out, char *limiter, t_data *all, char **envp)
+void	here_doc(int out, char *limiter, t_data *all)
 {
 	char		*line;
 	t_token		*to_tmp;
@@ -107,7 +108,7 @@ void	here_doc(int out, char *limiter, t_data *all, char **envp)
 		if (have_dollar(line))
 		{
 			to_tmp = dollar_split(line);
-			swap_val(&to_tmp, envp, all);
+			swap_val(&to_tmp, all);
 			tmp = line;
 			line = token_to_str(&to_tmp);
 			free(tmp);

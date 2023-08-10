@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/20 16:56:36 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/03 22:08:29 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 21:44:36 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,20 @@
 
 /* ft_check_token();
  *	- Parameters:
- *		- t_token *curr: The current token in the token linked list;
- *		- t_token *new_top: The new token that should be added;
- * 
- *	- The function loops through the token linked list starting 
- *	  from the current token 'curr' and 
- *	  concatenates consecutive non-space tokens into a single string 'str'.
- *	- It creates a new token and adds it to the end of 
- *	  the new token linked list pointed to by 'new_top'.
+ *		- t_token *curr: the current token in the linked list;
+ *		- t_token *new_top: the new token where the new token will be added;
+ *
+ *	- The function iterates through the linked list 'curr' until it encounters 
+ *	  a token of type SPACES (space token) or reaches the end of the list.
+ *	- During this iteration, it concatenates the string representations of 
+ *	  these tokens to form a single string 'str'.
+ *	- If 'str' is NULL, it means that there were no non-space tokens 
+ *	  in the sequence, and the function sets 'str' to NULL.
+ *	- Otherwise, it creates a new token using new_token() with 'str' 
+ *	  and adds this token to the end of the new token linked list 'new_top'
+ *	  using the add_token_end() function.
+ *	- After processing the sequence of tokens, the function prints 
+ *	  the concatenated 'str' using printf() for debugging purposes.
  */
 static void	ft_check_token(t_token *curr, t_token *new_top)
 {

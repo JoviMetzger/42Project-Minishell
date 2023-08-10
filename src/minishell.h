@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/04 13:33:59 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/10 15:01:35 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <limits.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -88,7 +89,6 @@ typedef struct s_data
 	int					status;
 	int					cmd_len;
 	char				*input;
-	char				**envp;
 	pid_t				*id;
 	struct s_env		*env;
 	struct s_cmd		*cmd;
@@ -104,7 +104,7 @@ int			split_redi(char *str, int i, char c, t_token **top);
 int			split_without_quote(char *str, int i, char c, t_token **top);
 int			split_with_quote(char *str, int i, char c, t_token **top);
 int			split_general_char(char *str, int i, t_token **top);
-void		tokenized(t_data *all, char **envp);
+void		tokenized(t_data *all);
 t_token		*split_token(char *str);
 
 // TOKEN UTILITIES
@@ -119,9 +119,9 @@ int			cmd_len(t_token **token, int index);
 char		*find_path(char *cmd, char **envp);
 char		**extract_command_words(t_token **curr, int len);
 void		token_to_cmd(t_data *all);
-void		here_doc(int out, char *limiter, t_data *all, char **envp);
+void		here_doc(int out, char *limiter, t_data *all);
 void		redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp);
-void		cmd_child(t_cmd *cmd, char **envp, t_data *data);
+void		cmd_child(t_cmd *cmd, t_data *all);
 void		add_cmd_end(t_cmd **top, t_cmd *new);
 t_cmd		*new_cmd(char **words, int len);
 
@@ -153,7 +153,7 @@ void		protect_pipe(int fd[2]);
 int			ft_argc(char **input);
 int			ft_isspace(char c);
 char		*display_prompt(void);
-void		ft_commands(char **envp, t_data *data);
+void		ft_commands(t_data *all);
 void		ft_free(void *ptr);
 
 // SIGNALS
@@ -161,8 +161,9 @@ void		handle_signal(int sig, t_data *data);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // ENVIRONMENT
-char		*find_env(t_token **token, char **envp);
+char		*find_env(t_token **token, t_data *all);
 char		*token_to_str(t_token **top);
+char		**ft_get_envp(t_env *env);
 char		**split_envp(char *env);
 t_env		*init_env(char **envp);
 
@@ -171,7 +172,7 @@ int			have_dollar(char *str);
 int			dollar_len(char *str);
 int			space_len(char *str);
 int			non_dollar_len(char *str);
-void		swap_val(t_token **top, char **envp, t_data *all);
+void		swap_val(t_token **top, t_data *all);
 t_token		*dollar_split(char *str);
 
 // ENVIRONMENT (linked-list)

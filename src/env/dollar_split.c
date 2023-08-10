@@ -6,12 +6,23 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/11 12:46:14 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/04 10:51:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/09 15:45:45 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/* handle_dollar_variable();
+ *	- Parameters:
+ *		- char *str: the input string to process;
+ *		- int i: the index in the string where the dollar variable starts;
+ *		- t_token **top: the token where new tokens will be added;
+ *
+ *	- If the character following the dollar sign is also a dollar sign, 
+ *	  it creates a token for "$$".
+ *	- Otherwise, it calculates the length of the dollar variable 
+ *	  and creates a token for the entire variable.
+ */
 static int	handle_dollar_variable(char *str, int i, t_token **top)
 {
 	int		one_len;
@@ -33,6 +44,15 @@ static int	handle_dollar_variable(char *str, int i, t_token **top)
 	return (i);
 }
 
+/* handle_non_dollar_variable();
+ *	- Pparameters:
+ *		- char *str: the input string to process;
+ *		- int i: the index in the string where the non-dollar variable starts;
+ *		- t_token **top: the token where new tokens will be added;
+ *
+ *	- It calculates the length of the non-dollar variable 
+ *	  and creates a token for that portion of the string.
+ */
 static int	handle_non_dollar_variable(char *str, int i, t_token **top)
 {
 	int		one_len;
@@ -45,6 +65,15 @@ static int	handle_non_dollar_variable(char *str, int i, t_token **top)
 	return (i);
 }
 
+/* handle_whitespace();
+ *	- Parameters:
+ *		- char *str: the input string to process;
+ *		- int i: the index in the string where the whitespace starts;
+ *		- t_token **top: the token where new tokens will be added;
+ *
+ *	- It calculates the length of the whitespace 
+ *	  and creates a token for that portion of the string.
+ */
 static int	handle_whitespace(char *str, int i, t_token **top)
 {
 	int		one_len;
@@ -57,6 +86,16 @@ static int	handle_whitespace(char *str, int i, t_token **top)
 	return (i);
 }
 
+/* dollar_split();
+ *	- Parameter:
+ *		- char *str: the input string to split;
+ *
+ *	- The function iterates through the 'str' character by character and calls 
+ *	  the appropriate handler functions based on the current character.
+ *	- The function returns a linked list of tokens, 
+ *	  representing the split portions of the input 'str'.
+ *	- If 'str' is NULL, it returns a single empty token.
+ */
 t_token	*dollar_split(char *str)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/29 10:51:55 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/04 11:22:03 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/09 15:46:55 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ void	do_redirection(t_cmd *cmd, t_data *all, char **envp)
  *	  the standard input (0) using 'protect_dup2'.
  *	- Finally, it closes the file descriptor 'file'.
  */
-
 void	redi_in(t_cmd *cmd, t_token *redi)
 {
 	int	file;

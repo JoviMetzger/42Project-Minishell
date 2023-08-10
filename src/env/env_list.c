@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   env_list.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
+/*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:56 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/02 15:33:07 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 14:37:12 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

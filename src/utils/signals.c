@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/02 12:14:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/10 13:34:06 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * Since 'signal()' can't directly pass a struct, 
  * using a global variable is a workaround to capture the exit status.
  */
-int	g_exit_status;
+int	g_exit_status = 0;
 
 /* restore_prompt();
  *	- Signal handler for SIGINT (Ctrl-C) in the parent process.
@@ -29,11 +29,17 @@ void	restore_prompt(int sig)
 {
 	if (sig == SIGINT)
 	{
+		// struct termios term;
+        // tcgetattr(STDIN_FILENO, &term);
+        // term.c_lflag |= ECHOCTL; // Turn on ECHOCTL flag to hide ^C
+        // tcsetattr(STDIN_FILENO, TCSANOW, &term);
+        
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 		g_exit_status = 128 + sig;
+		
 	}
 }
 
@@ -52,13 +58,15 @@ void	ctrl_c(int sig)
 
 /* backslash();
  *	- Signal handler for SIGQUIT (Ctrl-\).
- *	- Writes "Quit" to the output and updates the exit status.
+ *	- Writes "Quit" with the sig to the output and updates the exit status.
  */
 void	backslash(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		printf("Quit\n");
+		ft_putstr_fd("Quit: ", STDERR_FILENO);
+		ft_putnbr_fd(sig, STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
 		g_exit_status = 128 + sig;
 	}
 }
@@ -88,7 +96,7 @@ void	handle_signal(int num, t_data *data)
 {
 	if (num == 1)
 	{
-		signal(SIGINT, restore_prompt);
+		signal(SIGINT, restore_prompt); //Turn of ^C
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (num == 2)

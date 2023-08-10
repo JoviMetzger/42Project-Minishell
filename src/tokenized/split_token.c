@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/03 22:38:09 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/04 21:47:01 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,22 @@ t_token	*split_again_token(char *str)
 }
 
 /* ft_split_token_loop();
- *	- Parameters:
- *		- char *str: The input string to split into tokens;
- *		- int i: The current index, where to start splitting;
- *		- t_token *top: the token where the new tokens should be added;
+ * 	- Parameters:
+ *		- char *str: the input string to process;
+ *		- int i: the index in the string where the iteration starts;
+ *		- t_token *top: the token where new tokens will be added;
  *
- *	- This function is similar to ft_split_again_token_loop(), 
- *	  but it also handles spaces differently by calling ft_handle_space() 
- *	  to create a separate token for spaces.
- *	- The new tokens are added to the end of the token linked list 'top'.
- *	- The function returns a pointer to the updated top of the token linked list.
+ *	- The function iterates through the input string 'str'.
+ *	- For each character, it checks if it is one of the following:
+ *		- Single quote (')
+ *		- Double quote (")
+ *		- Input or output redirection symbol (< or >)
+ *		- Pipe symbol (|)
+ *		- Non-space character that is not part of a quoted section or pipe
+ *		- Whitespace character
+ *	- Depending on the character type, the function calls specific 
+ *	  helper functions to handle the respective cases and
+ *	  split the string into tokens.
  */
 t_token	*ft_split_token_loop(char *str, int i, t_token *top)
 {

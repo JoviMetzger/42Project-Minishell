@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:04:23 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/04 11:22:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/09 15:46:23 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,7 @@ void	add_token_end(t_token **top, t_token *new)
  *		- For example: "$?" will get the exit_status 
  *		  from 'all->status' with ft_itoa().
  */
-
-void	swap_val(t_token **top, char **envp, t_data *all)
+void	swap_val(t_token **top, t_data *all)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
@@ -163,7 +162,7 @@ void	swap_val(t_token **top, char **envp, t_data *all)
 			else if (ft_strcmp(curr->str, "$?") == 0)
 				curr->str = ft_itoa(all->status);
 			else if (curr->str[0] == '$' && curr->str[1] != '$')
-				curr->str = find_env(&curr, envp);
+				curr->str = find_env(&curr, all);
 		}
 		curr = curr->next;
 	}
