@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/10 15:09:44 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/11 13:37:03 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,24 +76,6 @@ static int	ft_is_name_valid(char *str)
 	return (0);
 }
 
-/* ft_check_equal_sign();
- *	- This function checks if the '=' is not seperaded by whitespace.
- *	- If it is it will display an error_msg.
- */
-static int	ft_check_equal_sign(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=' && str[i + 1] != '\0')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 /* ft_export();
  *	- Parameters:
  *		- char **input: the whole input command line, split into a char**;
@@ -118,8 +100,6 @@ int	ft_export(char **input, t_data *data)
 		return (empty_export(data));
 	i = 0;
 	exit_status = EXIT_SUCCESS;
-	if (ft_check_equal_sign(input[1]) == 1)
-		exit_status = ft_error_msg(input[i]);
 	if (ft_is_name_valid(input[1]) == 1)
 		exit_status = ft_error_msg(input[i]);
 	while (input[++i])
