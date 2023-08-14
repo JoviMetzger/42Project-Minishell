@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/11 16:17:03 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/14 13:03:31 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ctrl_c(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putstr_fd("^C\n", STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		g_exit_status = 128 + sig;
 	}
 }
@@ -58,7 +58,7 @@ void	backslash(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		ft_putstr_fd("^\\Quit: ", STDERR_FILENO);
+		ft_putstr_fd("Quit: ", STDERR_FILENO);
 		ft_putnbr_fd(sig, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 		g_exit_status = 128 + sig;
@@ -108,6 +108,9 @@ void	handle_signal(int num, t_data *data)
 	}
 	if (num == 2)
 	{
+		tcgetattr(STDIN_FILENO, &term);
+		term.c_lflag |= ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, backslash);
 	}
