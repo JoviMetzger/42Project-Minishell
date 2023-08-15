@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/10 17:23:57 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/29 12:34:23 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/05 14:58:21 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,5 @@ char	*ft_strcpy(char *dest, char *src)
 		i++;
 	}
 	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (src[i] != '\0' && i < n)
-	{
-		dest[i] = src[i];
-		++i;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
 	return (dest);
 }

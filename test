@@ -1,0 +1,144 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    test                                               :+:    :+:             #
+#                                                      +:+                     #
+#    By: yizhang <yizhang@student.codam.nl>           +#+                      #
+#                                                    +#+                       #
+#    Created: 2023/06/20 11:56:57 by yizhang       #+#    #+#                  #
+#    Updated: 2023/07/13 11:51:50 by yizhang       ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
+
+
+1. ls > out | < out wc >file1
+create two file
+out:output, file 1 empty
+
+2.ls > out2 | < out3 wc >file1
+No such file or directory
+
+3.ls > out >file2
+create two file
+out:empty , file2:output
+
+4. < file3 < out2 cat
+only out catZyx
+
+5. < fil < ot2 cat
+fil: No such file or directory
+
+6.ls >out > 9out < out  >new1
+outhers:empty
+new1:output
+
+7.ls k wc
+ls: k: No such file or directory
+ls: wc: No such file or directory
+
+8.ls "|" wc
+ls: wc: No such file or directory
+ls: |: No such file or directory
+
+9.|cat
+bash: syntax error near unexpected token `|'
+
+10.|cat|
+bash: syntax error near unexpected token `|'
+
+11."echo" hello
+hello
+
+12."echo -n" hello
+bash: echo -n: command not found
+
+13.echo adf $adfas asd
+adf asd
+
+13.$asa
+
+
+14.$
+$: command not found
+
+15.$|$
+bash: $: command not found
+bash: $: command not found
+
+16.$$
+bash: 27770: command not found
+
+17.$?l
+bash: 127l: command not found
+
+18.<<
+bash: syntax error near unexpected token `newline'
+
+19.<<stop cat
+> $PATH $$<< infile hgjgh$dsf$sdfd$?$$$$$
+> stop
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin 10383<< infile hgjgh01038310383$
+
+20./minishell
+minishell-> echo blajgioe >test2
+blajgioe
+minishell->
+
+21.minishell-> <test2 |cat >test3
+
+22.minishell-> <<$USER cat
+USER=yizhang: command not found
+
+23.minishell-> echo iorjgijor >$USER
+iorjgijor USER=yizhang
+
+24.minishell-> <nothing echo rogjegio |cat >test2
+
+25.<afads ls | ls                           //will exit at first fd
+bash: afads: No such file or directory
+Makefile		minishell		obj			test			test_copy
+libft
+
+26.<asda |cat
+bash: asda: No such file or directory       // message are ok but it will exit
+
+27.cat |cat|ls
+Makefile		minishell		obj			test			test_copy
+libft			minishell_tester	src			test2			yizhang
+gjhg
+jghjg
+
+28.cat |cat
+sdfas
+sdfas
+adsfadf
+adsfadf
+adfadsf
+adfadsf
+^C
+
+29.bash-3.2$ <<|ls
+bash: syntax error near unexpected token `|'
+bash-3.2$ <<
+bash: syntax error near unexpected token `newline'
+bash-3.2$ <<|>>
+bash: syntax error near unexpected token `|'
+bash-3.2$ |?
+bash: syntax error near unexpected token `|'
+bash-3.2$ $|
+>
+
+30.LS
+Makefile	minishell	other		test		yizhang
+libft		obj		src		test_copy
+
+31.<<stop cat|>file //not working //pipe error          //no problem
+
+32.<<file cat|grep c >hah //pipe error
+
+33.minishell-> echo 1231''afdsd'$PATH'"$PATH"               //loop forever //no problem now
+
+34.grep <Makefile c|grep e|grep $|wc //fixed
+      28      86    1017
+
+35.echo "$PATH'$PATH'"

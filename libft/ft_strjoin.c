@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/19 07:06:06 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/02/11 13:18:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/12 11:17:32 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		j;
 	char	*join;
 
-	if (!s2)
+	if (!s1 && !s2)
 		return (NULL);
-	if (!s1)
-		s1 = "";
 	join = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!join)
 		return (NULL);
