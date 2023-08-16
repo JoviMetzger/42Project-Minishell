@@ -44,7 +44,7 @@ SRC			= ./src/main.c \
 				./src/env/env_list.c \
 				./src/env/find_env.c \
 				./src/env/init_env.c \
-				./src/env/utils_dollar_sign.c \
+				./src/env/dollar_sign_utils.c \
 				./src/tool/free_error.c \
 				./src/tool/protection.c \
 				./src/tool/tool_utils.c \
