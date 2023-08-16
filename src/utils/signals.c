@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/14 13:03:31 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/16 10:57:17 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@
  */
 int	g_exit_status;
 
-/* restore_prompt();
- *	- Signal handler for SIGINT (Ctrl-C) in the parent process.
- *	- Displays a new prompt and updates the exit status.
- */
 void	restore_prompt(int sig)
 {
 	if (sig == SIGINT)
@@ -37,10 +33,6 @@ void	restore_prompt(int sig)
 	}
 }
 
-/* ctrl_c();
- *	- Signal handler for SIGINT (Ctrl-C) in a child process.
- *	- Exits the current child process and updates the exit status.
- */
 void	ctrl_c(int sig)
 {
 	if (sig == SIGINT)
@@ -50,10 +42,6 @@ void	ctrl_c(int sig)
 	}
 }
 
-/* backslash();
- *	- Signal handler for SIGQUIT (Ctrl-\).
- *	- Writes "^\Quit" with the sig to the output and updates the exit status.
- */
 void	backslash(int sig)
 {
 	if (sig == SIGQUIT)

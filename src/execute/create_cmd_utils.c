@@ -6,25 +6,12 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 12:18:10 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/04 14:40:09 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/16 11:01:35 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* cmd_len();
- *	- Parameters:
- *	  - t_token **token: token struct;
- *	  - int index: The index of the first token of the command 
- *		 sequence to be measured;
- *
- *	- Calculates the length of a command sequence starting from the given 
- *	  token index in the token linked list.
- *	- If the token index matches, count the number of tokens until 
- *	  the next PIPE token or the end of the list.
- *	- If the token is of type WORD and contains a valid string, increment i.
- *	- Else we move to the next token.
- */
 int	cmd_len(t_token **token, int index)
 {
 	int		i;
@@ -51,15 +38,6 @@ int	cmd_len(t_token **token, int index)
 	return (i);
 }
 
-/* new_cmd();
- *	- Parameters:
- *	  - char **words: An array of strings representing the words 
- *		in the command;
- *	  - int len: The length of the command in number of words;
- *
- *	- Create a new node for a linked list.
- *  - Assigns every name a value.
- */
 t_cmd	*new_cmd(char **words, int len)
 {
 	int		tmp_in;
@@ -81,14 +59,6 @@ t_cmd	*new_cmd(char **words, int len)
 	return (new);
 }
 
-/* add_cmd_end();
- *	- Parameters:
- *	  - t_cmd **top: the command struct;
- *	  - t_cmd *new: A pointer to the new command node to be added;
- *
- *	- Adds a new node to the end of the list.
- *	- If the list is empty, the new node becomes the first node (top).
- */
 void	add_cmd_end(t_cmd **top, t_cmd *new)
 {
 	t_cmd	*curr;

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:46 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/10 15:01:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/16 10:48:29 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef enum e_num
 	DOLLAR,
 	ENV,
 	SQUO,
+	DQUO,
 	SPACES,
 }	t_enum;
 
@@ -106,6 +107,11 @@ int			split_with_quote(char *str, int i, char c, t_token **top);
 int			split_general_char(char *str, int i, t_token **top);
 void		tokenized(t_data *all);
 t_token		*split_token(char *str);
+int			dollar_split_nondollar(char *str, int i, t_token **top, int quo);
+char		*add_str_to_strend(char *lang_str, char *str);
+void		dollar_swap_val(t_token **curr, char **envp, t_data *all);
+int			dollar_split_dollar(char *str, int i, t_token **top);
+int			split_spaces_char(char *str, int i, t_token **top);
 
 // TOKEN UTILITIES
 int			strlen_char(char *str, char c);
@@ -114,21 +120,21 @@ t_token		*new_token(char *str);
 t_token		*copy_token(t_token *old);
 
 // COMMAND EXECUTION
-int			close_all_fd(t_cmd **top);
+int			close_all_fd(t_cmd **top, t_data *all);
 int			cmd_len(t_token **token, int index);
+int			redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp);
 char		*find_path(char *cmd, char **envp);
-char		**extract_command_words(t_token **curr, int len);
+char		**extract_command_words(t_token **curr, int len, t_data *all);
 void		token_to_cmd(t_data *all);
-void		here_doc(int out, char *limiter, t_data *all);
-void		redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp);
+void		here_doc(int out, char *limiter,t_data *all, char **envp);
 void		cmd_child(t_cmd *cmd, t_data *all);
 void		add_cmd_end(t_cmd **top, t_cmd *new);
 t_cmd		*new_cmd(char **words, int len);
 
 // REDIRECTION
-void		redi_in(t_cmd *cmd, t_token *redi);
-void		redi_out(t_cmd *cmd, t_token *redi);
-void		redi_app(t_cmd *cmd, t_token *redi);
+int			redi_in(t_cmd *cmd, t_token *redi, t_data *data);
+int			redi_out(t_cmd *cmd, t_token *redi, t_data *data);
+int			redi_app(t_cmd *cmd, t_token *redi, t_data *data);
 void		add_redirection(t_data *all);
 void		do_redirection(t_cmd *cmd, t_data *all, char **envp);
 
@@ -137,17 +143,18 @@ int			open_pipe(t_data *all);
 void		free_fd_2d(int **fd_2d);
 
 // TOOL (free and print_error)
-void		print_error(char *str, int errcode);
+void		print_error(char *str, int errcode, t_data *data);
 void		free_2dstr(char **str);
 void		free_token(t_token *token);
 void		free_cmd(t_data *all);
+void		free_all(t_data *all);
 
 // TOOL (protection)
-void		protect_waitpid(pid_t id, int *status, int options);
-void		protect_dup2(int file, int file2);
-void		protect_close(int file);
-void		protect_write(int fd, char *buf, int count);
-void		protect_pipe(int fd[2]);
+void		protect_waitpid(pid_t id, int *status, int options, t_data *data);
+void		protect_dup2(int file, int file2, t_data *data);
+void		protect_close(int file, t_data *data);
+void		protect_write(int fd, char *buf, int count, t_data *data);
+void		protect_pipe(int fd[2], t_data *data);
 
 // OTHER
 int			ft_argc(char **input);
@@ -161,7 +168,7 @@ void		handle_signal(int sig, t_data *data);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // ENVIRONMENT
-char		*find_env(t_token **token, t_data *all);
+char		*find_env(t_token **token, char	**envp);
 char		*token_to_str(t_token **top);
 char		**ft_get_envp(t_env *env);
 char		**split_envp(char *env);
@@ -171,9 +178,9 @@ t_env		*init_env(char **envp);
 int			have_dollar(char *str);
 int			dollar_len(char *str);
 int			space_len(char *str);
-int			non_dollar_len(char *str);
-void		swap_val(t_token **top, t_data *all);
-t_token		*dollar_split(char *str);
+int			non_dollar_len(char *str, int quo);
+void		swap_val(t_token **top, char **envp, t_data *all);
+t_token		*dollar_split(char *str, int quo);
 
 // ENVIRONMENT (linked-list)
 void		env_lstadd_back(t_env **head, t_env *new);
