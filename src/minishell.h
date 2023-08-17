@@ -53,6 +53,9 @@ typedef struct s_data
 	char				*input;
 	pid_t				*id;
 	int					cmd_len;
+	int					tmp_fd;
+	int					tmp_out;
+	int					tmp_in;
 }t_data;
 
 typedef struct s_cmd
@@ -99,6 +102,7 @@ int			split_without_quote(char *str, int i, char c, t_token **top);
 int			split_spaces_char(char *str, int i, t_token **top);
 int			dollar_split_dollar(char *str, int i, t_token **top);
 void		give_token_type(t_data *all);
+t_token		*delspace_jointoken(t_token ** token, char **envp, t_data *all);
 
 //cmd
 int			cmd_len(t_token **token, int index);
@@ -113,7 +117,7 @@ int			path_index(char **envp);
 void		run_cmd(t_cmd *cmd, char **envp, t_data *all);
 
 //child
-void		cmd_child(t_cmd *cmd, char **envp, t_data *all);
+int			cmd_child(t_cmd *cmd, char **envp, t_data *all);
 
 //free and print error : cmd && token && str
 void		print_error(char *str, int errcode, t_data *all);
@@ -123,11 +127,11 @@ void		free_cmd(t_data *all);
 void		free_all(t_data *all);
 
 //protect
-void		protect_waitpid(pid_t id, int *status, int options, t_data *all);
+int			protect_waitpid(pid_t id, int *status, int options, t_data *all);
 void		protect_dup2(int file, int file2, t_data *all);
 void		protect_close(int file, t_data *all);
 void		protect_write(int fd, char *buf, int count, t_data *all);
-void		protect_pipe(int fd[2], t_data *all);
+int			protect_pipe(int fd[2], t_data *all);
 
 //redi
 int			redi_in(t_cmd *cmd, t_token *redi, t_data *all);

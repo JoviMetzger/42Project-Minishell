@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/09 15:14:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/09 16:30:51 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/08/17 15:37:57 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ int	dollar_split_dollar(char *str, int i, t_token **top)
 	int		one_len;
 
 	if (str[i + 1] && str[i + 1] == '$')
+	{
+		line = ft_substr(str, i, 2);
+		add_token_end(top, new_token(line));
+		i += 2;
+	}
+	else if (str[i + 1] && str[i + 1] == '?')
 	{
 		line = ft_substr(str, i, 2);
 		add_token_end(top, new_token(line));

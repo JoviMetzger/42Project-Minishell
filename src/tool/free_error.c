@@ -18,7 +18,7 @@ void	print_error(char *str, int errcode, t_data *all)
 	{
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": command not found\n", 2);
-		free_all(all);
+		//free_all(all);
 		exit(errcode);
 	}
 	if (!str)
@@ -26,8 +26,8 @@ void	print_error(char *str, int errcode, t_data *all)
 		ft_putstr_fd("fork: Resource temporarily unavailable", 2);
 		ft_putstr_fd("\n", 2);
 		all->status = 1;
-		free_all(all);
-		exit(errcode);
+		//free_all(all);
+		return ;
 	}
 	if (str)
 	{
@@ -102,8 +102,6 @@ void	free_all(t_data *all)
 {
 	if (all->cmd)
 		free_cmd(all);
-	if (all->token)
-		free_token(all->token);
 	if (all->input)
 		free(all->input);
 	if (all->id)

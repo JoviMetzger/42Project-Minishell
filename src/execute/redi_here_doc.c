@@ -29,12 +29,12 @@ int	redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp)
 	}
 	else
 	{
-		cmd->fd_in = dup(fd[0]);
+		all->tmp_fd = dup(fd[0]);
 		protect_close(fd[0], all);
 		protect_close(fd[1], all);
 		protect_waitpid(id, NULL, 0, all);
 	}
-	return (cmd->fd_in);
+	return (all->tmp_fd);
 }
 
 void	here_doc(int out, char *limiter,t_data *all, char **envp)
