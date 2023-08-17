@@ -17,14 +17,25 @@ void leaks(void)
 	system("leaks -q minishell");
 }
 
+static void	first_check(int argc, char **argv)
+{
+	if (argc != 1 || argv[1])
+	{
+		printf(RED "!" RESET " This program does not accept arguments" \
+				RED "!\n" RESET);
+		exit(0);
+	}
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_data all;
 
-	(void)argc;
-	(void)argv;
-	all.envp = envp;
-	//atexit(leaks);
+	char	*prompt;
+
+	first_check(argc, argv);
+	all.env = init_env(envp);
+	all.status = 0;
 	while (1)
 	{
 		all.tmp_out = dup(1);
@@ -35,9 +46,18 @@ int main(int argc, char **argv, char **envp)
 		all.cmd = NULL;
 		all.token = NULL;
 		all.id = NULL;
-		all.input = readline("minishell-> ");
-		add_history(all.input);
-		ft_commands(envp, &all);
+		prompt = display_prompt();
+		// handle_signal(1, &all);
+		all.input = readline(prompt);
+		ft_free(prompt);
+		if (all.input == NULL)
+		{
+			printf("exit\n");
+			exit(0);
+		}
+		if (all.input[0] != '\0')
+			add_history(all.input);
+		ft_commands(&all);
 		//exit(0);//test leaks
 	}
 	return (0);

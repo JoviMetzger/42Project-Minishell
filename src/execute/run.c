@@ -19,10 +19,10 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 	
 	protect_dup2(all->tmp_fd, 0, all);
 	close(all->tmp_fd);
-	if( ft_strcmp(cmd->words[0], "builtin" )== 0)
+	if ((is_builtin_cmd(cmd->words[0])) == 1)
 	{
-		printf("it's builtin");
-		exit(0);
+		exec_builtin_cmd(cmd->words, all);
+		return ;
 	}
 	if (access(cmd->words[0], F_OK) == 0)
 		path = cmd->words[0];

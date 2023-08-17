@@ -114,11 +114,13 @@ t_token	*delspace_jointoken(t_token ** token, char **envp, t_data *all)
 	return (top);
 }
 
-void	tokenized(t_data *all, char **envp)
+void	tokenized(t_data *all)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
+	char **envp;
 
+	envp = ft_get_envp(all->env);
 	curr = NULL;
 	if (quote_check(all->input) == 1)
 		exit (1);

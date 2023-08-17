@@ -13,16 +13,24 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// Libaries
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
+# include <signal.h>
+# include <string.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <limits.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <fcntl.h>//open
-# include <sys/types.h>//pid_t
-# include <sys/wait.h>//waitpid
-# include <errno.h>//errno
+
+// Defining Colors
+# define RED     "\033[31m"
+# define RESET	 "\033[0m"
 
 enum
 {
@@ -44,9 +52,18 @@ enum
 	SPACES,
 };
 
+// Struct for environment
+typedef struct s_env
+{
+	char				*name;
+	char				*value;
+	bool				for_export;
+	struct s_env		*next;
+} t_env;
+
 typedef struct s_data
 {
-	char				**envp;
+	struct s_env		*env;
 	struct s_cmd		*cmd;
 	struct s_token		*token;
 	int					status;
@@ -79,7 +96,6 @@ typedef struct s_token
 }t_token;
 
 int			ft_strcmp(char *s1, char *s2);
-void		display_prompt(void);
 
 //yixin
 int			quote_check(char *str);
@@ -87,7 +103,7 @@ int			quote_count(char *str, int i, int *quo_nb, char quo);
 int			strlen_char(char *str, char c);
 
 //token
-void		tokenized(t_data *all, char **envp);
+void		tokenized(t_data *all);
 void		add_token_end(t_token **top, t_token *new);
 t_token		*new_token(char *str);
 t_token		*split_token(char *str);
@@ -162,8 +178,8 @@ char		*find_env_swap_dollar(t_data *all, char *swap_str,
 				char **envp, int quo);
 
 //void free_history(t_history *history); //
-void		ft_commands(char **envp, t_data *data);
-void		fork_loop(t_data *all, char **envp);
+void		ft_commands(t_data *data);
+void		fork_loop(t_data *all);
 //tool
 int			ft_isspace(char c);
 
@@ -173,6 +189,44 @@ int			init_pipe(t_data *all, t_cmd *cmd, int **fd_2d);
 int			open_pipe(t_data *all);
 int			redi_loop(t_cmd **top, t_data *all, char **envp);
 int			close_all_fd(t_cmd **top, t_data *all);
+
+
+//-----------JOVI_FUNCTIONS--------------
+// OTHER
+int			ft_argc(char **input);
+char		*display_prompt(void);
+void		ft_free(void *ptr);
+
+// SIGNALS
+void		handle_signal(int sig, t_data *data);
+void		rl_replace_line(const char *text, int clear_undo);
+
+// ENVIRONMENT
+char		**ft_get_envp(t_env *env);
+char		**split_envp(char *env);
+t_env		*init_env(char **envp);
+
+// ENVIRONMENT (linked-list)
+void		env_lstadd_back(t_env **head, t_env *new);
+t_env		*env_lstlast(t_env *lst);
+t_env		*env_lstnew(char *name, char *value, bool export);
+
+// BUILTIN COMMANDS
+int			ft_cd(char *path, t_data *data);
+int			ft_echo(char **input);
+int			ft_env(t_data *data);
+int			ft_exit(char **input, t_data *data);
+int			ft_export(char **input, t_data *data);
+int			ft_pwd(void);
+int			ft_unset(char **input, t_env **env);
+int			is_builtin_cmd(char *command);
+bool		exec_builtin_cmd(char **input, t_data *data);
+
+// BUILTIN COMMANDS (extra functions)
+int			ft_is_digit(char *str);
+int			add_new_env_var(char *statement, t_env **env, bool export);
+int			unset_var(char *name, t_env **env);
+
 
 void		leaks(void);
 #endif
