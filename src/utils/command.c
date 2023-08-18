@@ -22,6 +22,11 @@ void	ft_commands(t_data *all)
 		tokenized(all);
 		token_to_cmd(all);
 		free_token(all->token);
+		if ((is_builtin_cmd(all->cmd->words[0])) == 1)
+		{
+			exec_builtin_cmd(all->cmd->words, all);
+			return ;
+		}
 		all->token = NULL;
 		all->id = malloc(sizeof(pid_t) * all->cmd_len);
 		if (!all->id)
