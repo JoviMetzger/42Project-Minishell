@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/04 14:56:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/16 11:00:48 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/12 13:06:56 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp)
 {
 	int		fd[2];
 	pid_t	id;
-	(void)cmd;
+(void)cmd;
 	protect_pipe(fd, all);
 	id = fork();
 	if (id < 0)
@@ -29,19 +29,12 @@ int	redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp)
 	}
 	else
 	{
-		cmd->fd_in = dup(fd[0]);
+		all->tmp_fd = dup(fd[0]);
 		protect_close(fd[0], all);
 		protect_close(fd[1], all);
 		protect_waitpid(id, NULL, 0, all);
 	}
-	return (cmd->fd_in);
-}
-
-static void	ft_exit_program(char *line, int out, t_data *all)
-{
-	free(line);
-	protect_close(out, all);
-	exit(0);
+	return (all->tmp_fd);
 }
 
 void	here_doc(int out, char *limiter,t_data *all, char **envp)
@@ -55,11 +48,14 @@ void	here_doc(int out, char *limiter,t_data *all, char **envp)
 	line = NULL;
 	while (1)
 	{
+		child_signal(all);
 		line = readline("> ");
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 
 			&& ft_strlen(limiter) == ft_strlen(line))
 		{
-			ft_exit_program(line, out, all);
+			free(line);
+			protect_close(out, all);
+			exit(0);
 		}
 		if (have_dollar(line))
 		{

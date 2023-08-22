@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/08 12:04:23 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/16 10:59:10 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/13 10:59:00 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,25 +86,23 @@ void	add_token_end(t_token **top, t_token *new)
 	new->index = i;
 }
 
-void	swap_val(t_token **top, char **envp, t_data *all)
+//test: gcc token_util.c
+/* int main(void)
 {
-	t_token	*curr;
-	char	*tmp;
+	t_token *test;
+	t_token *curr;
 
-	curr = *top;
-	tmp = NULL;
+	test = NULL;
+	add_token_end(&test,new_token("sfasdfdf"));
+	add_token_end(&test,new_token("aaaa"));
+	add_token_end(&test,new_token("ccccc"));
+	add_token_end(&test,new_token("dddfdf"));
+	add_token_end(&test,new_token("fffsdfdf"));
+	curr = test;
 	while (curr != NULL)
 	{
-		if (curr->type == HERE_DOC)
-		{
-			if (curr->next && curr->next->type != SPACES)
-				curr->next->type = DELIMI;
-			else if (curr->next && curr->next->type == SPACES
-				&& curr->next->next && curr->next->next->type != SPACES)
-				curr->next->next->type = DELIMI;
-		}
-		if (curr->str && curr->type != DELIMI)
-			dollar_swap_val(&curr, envp, all);
+		printf("%s\n", curr->str);
 		curr = curr->next;
 	}
-}
+	return 0;
+} */

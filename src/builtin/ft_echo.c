@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:40 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/10 14:08:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/19 16:02:51 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	ft_echo(char **input)
 {
 	if (!input)
 		return (EXIT_FAILURE);
+	if (input[1] == 0)
+		return (0);
 	if (ft_argc(input) > 1)
 		ft_print_echo(input);
 	else

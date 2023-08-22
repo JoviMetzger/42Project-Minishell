@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/13 10:35:53 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/16 10:57:37 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/13 10:40:18 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\t'
-		|| c == '\n' || c == '\v' 
+		|| c == '\n' || c == '\v'
 		|| c == '\f' || c == '\r')
 		return (1);
 	else

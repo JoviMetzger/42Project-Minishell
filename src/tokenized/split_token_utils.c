@@ -5,64 +5,25 @@
 /*                                                     +:+                    */
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/08 12:06:38 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/16 10:59:47 by jmetzger      ########   odam.nl         */
+/*   Created: 2023/08/09 16:19:32 by yizhang       #+#    #+#                 */
+/*   Updated: 2023/08/19 16:10:11 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	split_char(char *str, int i, t_token **top, char c)
-{
-	char	*line;
-	t_token	*new;
-
-	line = ft_substr(str, i, 1);
-	new = new_token(line);
-	if (c == '|')
-		new->type = PIPE;
-	if (c == '<')
-		new->type = INPUT_RE;
-	if (c == '>')
-		new->type = OUTPUT_RE;
-	add_token_end(top, new);
-	i += 1;
-	return (i);
-}
-
-int	split_redi(char *str, int i, char c, t_token **top)
-{
-	char	*line;
-	t_token	*new;
-
-	if (str[i + 1] == c)
-	{
-		line = ft_substr(str, i, 2);
-		new = new_token(line);
-		if (c == '<')
-			new->type = HERE_DOC;
-		if (c == '>')
-			new->type = APPEND_RE;
-		add_token_end(top, new);
-		i += 2;
-	}
-	else
-		i = split_char(str, i, top, c);
-	return (i);
-}
-
-int	split_general_char(char *str, int i, t_token **top)
+int	split_spaces_char(char *str, int i, t_token **top)
 {
 	int		len;
 	char	*line;
 	t_token	*new;
 
-	len = strlen_char(&str[i], ' ');
+	len = space_len(&str[i]);
 	line = ft_substr(str, i, len);
 	new = new_token(line);
-	new->type = WORD;
+	new->type = SPACES;
 	add_token_end(top, new);
-	i = len + i;
+	i += len;
 	return (i);
 }
 
@@ -84,7 +45,7 @@ int	split_without_quote(char *str, int i, char c, t_token **top)
 	if (c == '\'')
 		new->type = SQUO;
 	else
-		new->type = WORD;
+		new->type = DQUO;
 	add_token_end(top, new);
 	return (i);
 }
@@ -107,7 +68,25 @@ int	split_with_quote(char *str, int i, char c, t_token **top)
 	if (c == '\'')
 		new->type = SQUO;
 	else
-		new->type = WORD;
+		new->type = DQUO;
 	add_token_end(top, new);
+	return (i);
+}
+
+int	split_char(char *str, int i, t_token **top, char c)
+{
+	char	*line;
+	t_token	*new;
+
+	line = ft_substr(str, i, 1);
+	new = new_token(line);
+	if (c == '|')
+		new->type = PIPE;
+	if (c == '<')
+		new->type = INPUT_RE;
+	if (c == '>')
+		new->type = OUTPUT_RE;
+	add_token_end(top, new);
+	i += 1;
 	return (i);
 }

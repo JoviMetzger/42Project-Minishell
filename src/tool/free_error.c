@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/16 10:58:15 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/04 16:13:10 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,29 @@ void	print_error(char *str, int errcode, t_data *all)
 	{
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": command not found\n", 2);
-		free_all(all);
+		//free_all(all);
 		exit(errcode);
+	}
+	if (errcode == 7 && str)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		//free_all(all);
+		exit(126);
+	}
+	if (errcode == 6 && str)
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		//free_all(all);
+		exit(126);
 	}
 	if (!str)
 	{
-		ft_putstr_fd("fork: Resource temporarily unavailable", 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("fork: Resource temporarily unavailable\n", 2);
 		all->status = 1;
-		free_all(all);
-		exit(errcode);
+		//free_all(all);
+		return ;
 	}
 	if (str)
 	{
@@ -42,6 +55,7 @@ void	print_error(char *str, int errcode, t_data *all)
 	else
 		exit(errno);
 }
+
 
 void	free_2dstr(char **str)
 {
@@ -102,8 +116,6 @@ void	free_all(t_data *all)
 {
 	if (all->cmd)
 		free_cmd(all);
-	if (all->token)
-		free_token(all->token);
 	if (all->input)
 		free(all->input);
 	if (all->id)

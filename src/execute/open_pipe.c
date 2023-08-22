@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/02 15:24:54 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/16 11:01:02 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/02 15:24:54 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ int	init_pipe(t_data *all, t_cmd *cmd, int **fd_2d)
 	else
 		cmd->fd_out = fd_2d[cmd->index][1];
 	return (0);
-}
-
-void	free_fd_2d(int **fd_2d)
-{
-	int	i;
-
-	i = 0;
-	while (fd_2d[i])
-	{
-		free(fd_2d[i]);
-		i++;
-	}
-	free(fd_2d);
 }
 
 int	open_pipe(t_data *all)
@@ -66,4 +53,17 @@ int	open_pipe(t_data *all)
 	}
 	free_fd_2d(fd_2d);
 	return (0);
+}
+
+void	free_fd_2d(int **fd_2d)
+{
+	int	i;
+
+	i = 0;
+	while (fd_2d[i])
+	{
+		free(fd_2d[i]);
+		i++;
+	}
+	free(fd_2d);
 }

@@ -6,20 +6,16 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/02 09:45:12 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/16 10:56:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/07/06 11:37:38 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// //___________________________________________
-// // FOR LEAKS
-// void ft_systemleaks(void)
+// void leaks(void)
 // {
-//     system("leaks -q minishell"); //remove
+// 	system("leaks -q minishell");
 // }
-// //  - atexit(ft_systemleaks); // USE FOR LEAKS
-// //____________________________________________
 
 static void	first_check(int argc, char **argv)
 {
@@ -38,15 +34,18 @@ int	main(int argc, char **argv, char **envp)
 
 	first_check(argc, argv);
 	all.env = init_env(envp);
+	all.status = 0;
 	while (1)
 	{
-		
-		all.status = 0;
-		all.cmd = 0;
-		all.token = 0;
-		all.id = 0;
+		all.tmp_out = dup(1);
+		all.tmp_fd = dup(0);
+		protect_dup2(all.tmp_out, 1, &all);
+		protect_dup2(all.tmp_fd, 0, &all);
+		all.cmd = NULL;
+		all.token = NULL;
+		all.id = NULL;
+		ft_signal(&all);
 		prompt = display_prompt();
-		handle_signal(1, &all);
 		all.input = readline(prompt);
 		ft_free(prompt);
 		if (all.input == NULL)

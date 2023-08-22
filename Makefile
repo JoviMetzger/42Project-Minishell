@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: yizhang <yizhang@student.codam.nl>           +#+                      #
+#                                                    +#+                       #
+#    Created: 2023/06/22 12:30:01 by yizhang       #+#    #+#                  #
+#    Updated: 2023/07/13 10:41:08 by yizhang       ########   odam.nl          #
+#                                                                              #
+# **************************************************************************** #
+
 # Executable
 NAME		= minishell
 
@@ -15,16 +27,14 @@ Include		= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
 
 # Sources files
 SRC			= ./src/main.c \
-				./src/utils/commands.c \
+				./src/utils/command.c \
 				./src/utils/display_prompt.c \
 				./src/utils/signals.c \
-				./src/tokenized/check_token.c \
-				./src/tokenized/quote_check.c \
+				./src/tokenized/quote_utils.c \
 				./src/tokenized/split_token_utils.c \
 				./src/tokenized/split_token.c \
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c \
-				./src/execute/create_cmd_utils.c \
 				./src/execute/create_cmd.c \
 				./src/execute/find_path.c \
 				./src/execute/open_pipe.c \
@@ -40,11 +50,12 @@ SRC			= ./src/main.c \
 				./src/builtin/ft_pwd.c \
 				./src/builtin/ft_unset.c \
 				./src/builtin/utils.c \
-				./src/env/dollar_split.c \
-				./src/env/env_list.c \
+				./src/env/dollar_split_utils.c \
 				./src/env/find_env.c \
+				./src/env/handle_dollar_sign.c \
+				./src/env/env_list.c \
 				./src/env/init_env.c \
-				./src/env/dollar_sign_utils.c \
+				./src/env/get_envp.c \
 				./src/tool/free_error.c \
 				./src/tool/protection.c \
 				./src/tool/tool_utils.c \

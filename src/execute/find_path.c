@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/20 12:25:44 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/16 11:01:11 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/29 10:31:41 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*find_path(char *cmd, char **envp)
 			free_2dstr(all_path);
 			return (path);
 		}
+		free(path);
 	}
 	free_2dstr(all_path);
 	return (NULL);
