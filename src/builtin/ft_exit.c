@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 12:31:04 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/21 13:09:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/22 12:04:20 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,18 +169,18 @@ int	ft_exit(char **input, t_data *data)
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (ft_argc(input) > 2)
 	{
-		data->status = EXIT_FAILURE;
+		g_exit_status = EXIT_FAILURE;
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 	}
 	else if (ft_argc(input) == 2)
 	{
-		data->status = determine_exit_code(input);
-		exit(data->status);
+		g_exit_status = determine_exit_code(input);
+		exit(g_exit_status);
 	}
 	else
 	{
-		data->status = EXIT_SUCCESS;
-		exit(data->status);
+		g_exit_status = EXIT_SUCCESS;
+		exit(g_exit_status);
 	}
-	return (data->status);
+	return (g_exit_status);
 }

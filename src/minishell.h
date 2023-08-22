@@ -27,6 +27,7 @@
 # include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <dirent.h>
 
 // Defining Colors
 # define RED     "\033[31m"
@@ -87,7 +88,7 @@ typedef struct s_cmd
 // Main Struct
 typedef struct s_data
 {
-	int					status;
+	//int					status;
 	int					cmd_len;
 	int					tmp_fd;
 	int					tmp_out;
@@ -106,7 +107,7 @@ typedef struct s_data
  * Since 'signal()' can't directly pass a struct, 
  * using a global variable is a workaround to capture the exit status.
  */
-//int	g_exit_status;
+int	g_exit_status;
 
 
 // -- Function declaration --
@@ -211,6 +212,7 @@ int			ft_export(char **input, t_data *data);
 int			ft_pwd(void);
 int			ft_unset(char **input, t_env **env);
 int			is_builtin_cmd(char *command);
+int			is_builtin_cmd_single(char *command);
 bool		exec_builtin_cmd(char **input, t_data *data);
 
 // BUILTIN COMMANDS (extra functions)

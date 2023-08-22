@@ -16,8 +16,16 @@ void	print_error(char *str, int errcode, t_data *all)
 {
 	if (errcode == 127 && str)
 	{
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if (str[0] == '.' || str[0] == '/')
+		{
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+		}
+		else
+		{
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd(": command not found\n", 2);
+		}
 		//free_all(all);
 		exit(errcode);
 	}
@@ -38,7 +46,8 @@ void	print_error(char *str, int errcode, t_data *all)
 	if (!str)
 	{
 		ft_putstr_fd("fork: Resource temporarily unavailable\n", 2);
-		all->status = 1;
+		//all->status = 1;
+		g_exit_status = 1;
 		//free_all(all);
 		return ;
 	}

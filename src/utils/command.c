@@ -76,12 +76,12 @@ void	ft_commands(t_data *all)
 		tokenized(all);
 		token_to_cmd(all);
 		free_token(all->token);
-		// if ((is_builtin_cmd(all->cmd->words[0])) == 1)
-		// {
-		// 	exec_builtin_cmd(all->cmd->words, all);
-		// 	return ;
-		// }
 		all->token = NULL;
+		if (all->cmd && !all->cmd->next && is_builtin_cmd_single(all->cmd->words[0]) == 1)
+		{
+			exec_builtin_cmd(all->cmd->words, all);
+			return ;
+		}
 		all->id = malloc(sizeof(pid_t) * all->cmd_len);
 		if (!all->id)
 			return ;
@@ -91,10 +91,10 @@ void	ft_commands(t_data *all)
 		while (i < all->cmd_len)
 		{
 			//printf("EXIT B: %d\n", all->status); //RM
-			if (protect_waitpid(all->id[i], &all->status, 0, all) == -1)
+			if (protect_waitpid(all->id[i], &g_exit_status, 0, all) == -1)
 				return ;
-			if (WEXITSTATUS(all->status))
-				all->status = WEXITSTATUS(all->status);
+			if (WEXITSTATUS(g_exit_status))
+				g_exit_status = WEXITSTATUS(g_exit_status);
 			//printf("EXIT: %d\n", all->status); //RM
 			i++;
 		}

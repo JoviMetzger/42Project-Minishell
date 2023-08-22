@@ -16,7 +16,8 @@
 void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 {
 	char *path;
-	
+	DIR		*dir;
+	dir = opendir(cmd->words[0]);
 	protect_dup2(all->tmp_fd, 0, all);
 	close(all->tmp_fd);
 	if ((is_builtin_cmd(cmd->words[0])) == 1)
@@ -26,20 +27,23 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 	}
 	if (access(cmd->words[0], F_OK) == 0)
 		path = cmd->words[0];
-	else if (access(path, X_OK) == 0)
+	else if (access(path, X_OK) == 0 && !dir)
 	 	path = cmd->words[0];
 	else
 		path = find_path(cmd->words[0], envp);
-	if (!path && access(path, F_OK) != 0 && cmd->words[0][0] == '/')
-		print_error(cmd->words[0], 6, all);
-	else if (path && access(path, F_OK) == 0 && cmd->words[0][0] == '/')
-		print_error(cmd->words[0], 7, all);
-	else if (!path)
+	if (!path)
 		print_error(cmd->words[0], 127, all);
-	else if (access(path, X_OK) != 0 && path[0] == '.' )
+	else if (!dir && access(path, X_OK) != 0 && path[0] == '.' )
 		print_error(cmd->words[0], 126, all);
-	else if (access(path, X_OK) != 0)
+	else if (dir && (path[0] == '.' || path[0] == '/'))
+	{
+		closedir(dir);
+		print_error(cmd->words[0], 7, all);
+	}
+	else if (!dir && access(path, X_OK) != 0)
 	 	print_error(cmd->words[0], 127, all);
+	else if (!path && !dir && access(cmd->words[0], X_OK) != 0)
+		print_error(cmd->words[0], 6, all);
 	else if (execve(path, cmd->words, envp) == -1)
 	{
 		free(path);
