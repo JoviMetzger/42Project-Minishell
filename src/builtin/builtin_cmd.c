@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/30 14:22:31 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/22 12:08:44 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/22 14:18:28 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@ int	is_builtin_cmd(char *command)
 	return (0);
 }
 
+/* is_builtin_cmd_single();
+ *	- The function checks if the given command is a built-in command, 
+ *	  but only 'cd', 'export', 'unset', 'exit'.
+ *	- If it's one of those (cd, export, unset, exit) built-in command, 
+ *	  it will be executed using exec_builtin_cmd().
+ *	- Placing 'cd, export, unset, exit' before child process ensures that 
+ *	  their effects are applied before the child commands are executed,
+ *	  because those commands have a direct effects on 
+ *	  the shell's environment or behavior.
+ */
 int	is_builtin_cmd_single(char *command)
 {
 	if ((ft_strcmp(command, "cd") == 0))
@@ -76,7 +86,7 @@ bool	exec_builtin_cmd(char **input, t_data *data)
 	else if (ft_strcmp(input[0], "unset") == 0)
 		g_exit_status = ft_unset(input, &data->env);
 	else if (ft_strcmp(input[0], "exit") == 0)
-		g_exit_status = ft_exit(input, data);
+		g_exit_status = ft_exit(input);
 	else
 		return (false);
 	return (true);

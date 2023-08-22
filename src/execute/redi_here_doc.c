@@ -48,7 +48,6 @@ void	here_doc(int out, char *limiter,t_data *all, char **envp)
 	line = NULL;
 	while (1)
 	{
-		child_signal(all);
 		line = readline("> ");
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 
 			&& ft_strlen(limiter) == ft_strlen(line))
@@ -60,7 +59,7 @@ void	here_doc(int out, char *limiter,t_data *all, char **envp)
 		if (have_dollar(line))
 		{
 			to_tmp = dollar_split(line, DQUO);
-			swap_val(&to_tmp, envp, all);
+			swap_val(&to_tmp, envp);
 			tmp = line;
 			line = token_to_str(&to_tmp);
 			free(tmp);

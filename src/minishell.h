@@ -25,9 +25,9 @@
 # include <errno.h>
 # include <limits.h>
 # include <termios.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <dirent.h>
 
 // Defining Colors
 # define RED     "\033[31m"
@@ -88,7 +88,6 @@ typedef struct s_cmd
 // Main Struct
 typedef struct s_data
 {
-	//int					status;
 	int					cmd_len;
 	int					tmp_fd;
 	int					tmp_out;
@@ -101,14 +100,12 @@ typedef struct s_data
 }	t_data;
 
 /*
- * I am using a global variable to store the exit status of signals.
- * But because the 'signal()' function can only return 'void', 
+ * We using a global variable to store the exit status of each command.
+ * So we can also store the exit status of the signals.
+ * Because the 'signal()' function can only return 'void', 
  * so we use this global variable to pass the exit status.
- * Since 'signal()' can't directly pass a struct, 
- * using a global variable is a workaround to capture the exit status.
  */
 int	g_exit_status;
-
 
 // -- Function declaration --
 // ---------YIXINS_FUNCTIONS----------
@@ -128,7 +125,7 @@ int			dollar_split_nondollar(char *str, int i, t_token **top, int quo);
 char		*add_str_to_strend(char *lang_str, char *str);
 void		tokenized(t_data *all);
 void		ft_commands(t_data *all);
-void		dollar_swap_val(t_token **curr, char **envp, t_data *all);
+void		dollar_swap_val(t_token **curr, char **envp);
 t_token		*split_token(char *str);
 
 // TOKEN UTILITIES
@@ -144,7 +141,7 @@ int			redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp);
 int			cmd_child(t_cmd *cmd, char **envp, t_data *all);
 char		*find_path(char *cmd, char **envp);
 void		token_to_cmd(t_data *all);
-void		here_doc(int out, char *limiter,t_data *all, char **envp);
+void		here_doc(int out, char *limiter, t_data *all, char **envp);
 void		add_cmd_end(t_cmd **top, t_cmd *new);
 t_cmd		*new_cmd(char **words, int len);
 
@@ -178,9 +175,8 @@ int			dollar_len(char *str);
 int			non_dollar_len(char *str, int quo);
 char		*find_env(t_token **token, char	**envp);
 char		*token_to_str(t_token **top);
-void		swap_val(t_token **top, char **envp, t_data *all);
+void		swap_val(t_token **top, char **envp);
 t_token		*dollar_split(char *str, int quo);
-
 
 //-----------JOVI_FUNCTIONS--------------
 // OTHER
@@ -189,8 +185,8 @@ char		*display_prompt(void);
 void		ft_free(void *ptr);
 
 // SIGNALS
-void		child_signal(t_data *data);
-void		ft_signal(t_data *data);
+void		child_signal(void);
+void		ft_signal(void);
 void		rl_replace_line(const char *text, int clear_undo);
 
 // ENVIRONMENT
@@ -207,7 +203,7 @@ t_env		*env_lstnew(char *name, char *value, bool export);
 int			ft_cd(char *path, t_data *data);
 int			ft_echo(char **input);
 int			ft_env(t_data *data);
-int			ft_exit(char **input, t_data *data);
+int			ft_exit(char **input);
 int			ft_export(char **input, t_data *data);
 int			ft_pwd(void);
 int			ft_unset(char **input, t_env **env);
@@ -220,7 +216,7 @@ int			ft_is_digit(char *str);
 int			add_new_env_var(char *statement, t_env **env, bool export);
 int			unset_var(char *name, t_env **env);
 
-
 //-----LEAKS--------
 void		leaks(void);
+
 #endif

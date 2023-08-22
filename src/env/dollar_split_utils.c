@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/09 15:14:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/22 12:03:17 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/22 14:19:34 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	dollar_split_dollar(char *str, int i, t_token **top)
 	return (i);
 }
 
-void	dollar_swap_val(t_token **curr, char **envp, t_data *all)
+void	dollar_swap_val(t_token **curr, char **envp)
 {
 	char	*tmp;
 

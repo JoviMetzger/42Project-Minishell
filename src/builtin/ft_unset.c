@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:38 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/22 10:18:08 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/22 14:23:31 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int	ft_unset(char **input, t_env **env)
 	int	i;
 
 	i = 1;
-	// if (ft_argc(input) > 2)
-	// 	ft_error_msg(input[2]);
+	if (ft_argc(input) > 2)
+		ft_error_msg(input[2]);
 	while (i < ft_argc(input))
 	{
 		unset_var(input[i], env);

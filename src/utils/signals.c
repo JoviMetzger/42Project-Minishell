@@ -6,22 +6,11 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/21 14:17:44 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/22 13:57:12 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
-// /*
-//  * I am using a global variable to store the exit status of signals.
-//  * But because the 'signal()' function can only return 'void', 
-//  * so we use this global variable to pass the exit status.
-//  * Since 'signal()' can't directly pass a struct, 
-//  * using a global variable is a workaround to capture the exit status.
-//  */
-// int	g_exit_status;
-
 
 /* restore_prompt();
  *	- Signal handler for SIGINT (Ctrl-C) in the parent process.
@@ -35,7 +24,7 @@ void	restore_prompt(int sig)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_redisplay();
-		//g_exit_status = 1;
+		g_exit_status = 1;
 	}
 }
 
@@ -48,7 +37,7 @@ void	ctrl_c(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		//g_exit_status = 128 + sig;
+		g_exit_status = 128 + sig;
 	}
 }
 
@@ -63,7 +52,7 @@ void	backslash(int sig)
 		ft_putstr_fd("Quit: ", STDERR_FILENO);
 		ft_putnbr_fd(sig, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
-		//g_exit_status = 128 + sig;
+		g_exit_status = 128 + sig;
 	}
 }
 
@@ -118,29 +107,24 @@ void	backslash(int sig)
 // 	data->status = g_exit_status;
 // 	printf("SIGNAL : %d\n", data->status);
 // }
-void child_signal(t_data *data)
+void child_signal(void)
 {
 	struct termios	term;
-	(void)data;
+	
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag |= ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, backslash);
-	// printf("GLOBAL: %d\n", data->status);
-	//data->status = g_exit_status;
-	// printf("SIGNAL : %d\n", data->status);
 }
 
-void ft_signal(t_data *data)
+void ft_signal(void)
 {
 	struct termios	term;
 
-	(void)data;
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
 	signal(SIGINT, restore_prompt);
 	signal(SIGQUIT, SIG_IGN);
-	//data->status = g_exit_status;
 }

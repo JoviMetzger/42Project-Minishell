@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 12:31:04 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/22 12:04:20 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/22 14:18:23 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ static int	determine_exit_code(char **str)
  *	- If there are no arguments after 'exit', 
  *	  it sets the shell's status to EXIT_SUCCESS and exits the shell.
  */
-int	ft_exit(char **input, t_data *data)
+int	ft_exit(char **input)
 {
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (ft_argc(input) > 2)

@@ -15,13 +15,13 @@
 static void	fork_loop(t_data *all)
 {
 	t_cmd	*curr;
-	char **envp;
+	char	**envp;
 
 	envp = ft_get_envp(all->env);
 	curr = all->cmd;
 	while (curr)
 	{
-		child_signal(all);
+		child_signal();
 		if (cmd_child(curr, envp, all) == -1)
 			break ;
 		if (!curr->next)
@@ -77,7 +77,8 @@ void	ft_commands(t_data *all)
 		token_to_cmd(all);
 		free_token(all->token);
 		all->token = NULL;
-		if (all->cmd && !all->cmd->next && is_builtin_cmd_single(all->cmd->words[0]) == 1)
+		if (all->cmd && !all->cmd->next 
+			&& is_builtin_cmd_single(all->cmd->words[0]) == 1)
 		{
 			exec_builtin_cmd(all->cmd->words, all);
 			return ;
@@ -86,16 +87,12 @@ void	ft_commands(t_data *all)
 		if (!all->id)
 			return ;
 		fork_loop(all);
-		//close(all->tmp_fd);
-		//close(all->tmp_out);
 		while (i < all->cmd_len)
 		{
-			//printf("EXIT B: %d\n", all->status); //RM
 			if (protect_waitpid(all->id[i], &g_exit_status, 0, all) == -1)
 				return ;
 			if (WEXITSTATUS(g_exit_status))
 				g_exit_status = WEXITSTATUS(g_exit_status);
-			//printf("EXIT: %d\n", all->status); //RM
 			i++;
 		}
 	}

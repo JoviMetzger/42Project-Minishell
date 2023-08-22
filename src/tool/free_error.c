@@ -26,29 +26,24 @@ void	print_error(char *str, int errcode, t_data *all)
 			ft_putstr_fd(str, 2);
 			ft_putstr_fd(": command not found\n", 2);
 		}
-		//free_all(all);
 		exit(errcode);
 	}
 	if (errcode == 7 && str)
 	{
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": is a directory\n", 2);
-		//free_all(all);
 		exit(126);
 	}
 	if (errcode == 6 && str)
 	{
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		//free_all(all);
 		exit(126);
 	}
 	if (!str)
 	{
 		ft_putstr_fd("fork: Resource temporarily unavailable\n", 2);
-		//all->status = 1;
 		g_exit_status = 1;
-		//free_all(all);
 		return ;
 	}
 	if (str)

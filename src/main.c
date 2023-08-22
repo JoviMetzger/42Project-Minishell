@@ -27,6 +27,17 @@ static void	first_check(int argc, char **argv)
 	}
 }
 
+static void	init_all(t_data *all)
+{
+	all->tmp_out = dup(1);
+	all->tmp_fd = dup(0);
+	protect_dup2(all->tmp_out, 1, all);
+	protect_dup2(all->tmp_fd, 0, all);
+	all->cmd = NULL;
+	all->token = NULL;
+	all->id = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	all;
@@ -34,17 +45,10 @@ int	main(int argc, char **argv, char **envp)
 
 	first_check(argc, argv);
 	all.env = init_env(envp);
-	//all.status = 0;
 	while (1)
 	{
-		all.tmp_out = dup(1);
-		all.tmp_fd = dup(0);
-		protect_dup2(all.tmp_out, 1, &all);
-		protect_dup2(all.tmp_fd, 0, &all);
-		all.cmd = NULL;
-		all.token = NULL;
-		all.id = NULL;
-		ft_signal(&all);
+		init_all(&all);
+		ft_signal();
 		prompt = display_prompt();
 		all.input = readline(prompt);
 		ft_free(prompt);

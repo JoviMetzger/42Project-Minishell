@@ -41,7 +41,7 @@ t_token	*dollar_split(char *str, int quo)
 	return (top);
 }
 
-void	swap_val(t_token **top, char **envp, t_data *all)
+void	swap_val(t_token **top, char **envp)
 {
 	t_token	*curr;
 	char	*tmp;
@@ -59,7 +59,7 @@ void	swap_val(t_token **top, char **envp, t_data *all)
 				curr->next->next->type = DELIMI;
 		}
 		if (curr->str && curr->type != DELIMI)
-			dollar_swap_val(&curr, envp, all);
+			dollar_swap_val(&curr, envp);
 		curr = curr->next;
 	}
 }
@@ -85,7 +85,11 @@ char	*token_to_str(t_token **top)
 	return (lang_str);
 }
 
-//test:  gcc handle_dollar_sign.c find_env.c ../tool/free_error.c ../tool/protection.c ../tool/tool_utils.c ../tokenized/token_util.c ../tokenized/split_token.c ../../libft/libft.a
+/*
+	test:  gcc handle_dollar_sign.c find_env.c ../tool/free_error.c 
+	../tool/protection.c ../tool/tool_utils.c ../tokenized/token_util.c 
+	../tokenized/split_token.c ../../libft/libft.a
+*/
 
 /* int main(int argc, char **argv, char **envp)
 {
