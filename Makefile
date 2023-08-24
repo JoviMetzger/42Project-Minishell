@@ -58,6 +58,7 @@ SRC			= ./src/main.c \
 				./src/env/init_env.c \
 				./src/env/get_envp.c \
 				./src/tool/free_error.c \
+				./src/tool/print_error.c \
 				./src/tool/protection.c \
 				./src/tool/tool_utils.c \
 

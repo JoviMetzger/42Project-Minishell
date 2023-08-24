@@ -21,7 +21,6 @@ static void	fork_loop(t_data *all)
 	curr = all->cmd;
 	while (curr)
 	{
-		child_signal();
 		if (cmd_child(curr, envp, all) == -1)
 			break ;
 		if (!curr->next)
@@ -69,6 +68,7 @@ int	close_all_fd(t_cmd **top, t_data *all)
 void	ft_commands(t_data *all)
 {
 	int	i;
+	int status;
 
 	i = 0;
 	if (ft_strcmp(all->input, "") != 0)
@@ -92,20 +92,15 @@ void	ft_commands(t_data *all)
 			g_exit_status = syntax_error_check(all->input);
 			if (g_exit_status == 258)
 				return ;
-			if (protect_waitpid(all->id[i], &g_exit_status, 0, all) == -1)
+			if (protect_waitpid(all->id[i], &status, 0, all) == -1)
 				return ;
-			else if (WEXITSTATUS(g_exit_status))
-				g_exit_status = WEXITSTATUS(g_exit_status);
-			else if (WIFSIGNALED(g_exit_status))
-				g_exit_status = WTERMSIG(g_exit_status) + 128;
+			else if (WIFSIGNALED(status))
+				g_exit_status = WTERMSIG(status) + 128;
+			else if (WEXITSTATUS(status))
+				g_exit_status = WEXITSTATUS(status);
+			// else if (WIFSIGNALED(status) == 1)
+			// 	g_exit_status = WTERMSIG(status);
 			i++;
-			// if (protect_waitpid(all->id[i], &status, 0, all) == -1)
-			// 	return ;
-			// if (WEXITSTATUS(status))
-			// 	g_exit_status = WEXITSTATUS(status);
-			// else if (WIFSIGNALED(status))
-			// 	g_exit_status = WTERMSIG(status) + 128;
-			// i++;
 		}
 	}
 }

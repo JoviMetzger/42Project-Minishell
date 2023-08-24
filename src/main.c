@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_all(&all);
-		ft_signal();
+		handle_signal(1);
 		prompt = display_prompt();
 		all.input = readline(prompt);
 		ft_free(prompt);
@@ -58,7 +58,6 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		add_history(all.input);
-		//g_exit_status = syntax_error_check(all.input);
 		ft_commands(&all);
 		free(all.input);
 	}

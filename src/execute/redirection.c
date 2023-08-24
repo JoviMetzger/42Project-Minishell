@@ -14,7 +14,7 @@
 
 #include "../minishell.h"
 
-void	do_redirection(t_cmd *cmd, t_data *all, char **envp)
+void	do_redirection(t_cmd *cmd, t_data *all)
 {
 	t_token	*redi;
 	int		in;
@@ -39,11 +39,6 @@ void	do_redirection(t_cmd *cmd, t_data *all, char **envp)
 		{
 
 			redi_app(cmd, redi, all);
-		}
-		else if (redi->type == DELIMI)
-		{
-			if (redi_here_doc(redi, all, envp) == -1)
-				print_error(NULL, 1, all);
 		}
 		if (!redi->next)
 			return ;
