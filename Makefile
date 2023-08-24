@@ -33,6 +33,7 @@ SRC			= ./src/main.c \
 				./src/tokenized/quote_utils.c \
 				./src/tokenized/split_token_utils.c \
 				./src/tokenized/split_token.c \
+				./src/tokenized/syntax_error.c \
 				./src/tokenized/token_util.c \
 				./src/tokenized/tokenized.c \
 				./src/execute/create_cmd.c \

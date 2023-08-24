@@ -70,16 +70,16 @@ int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 			cmd->fd_out = fd[1];
 		do_redirection(cmd, all, envp);
 		protect_dup2(cmd->fd_out, 1, all);
-		close(all->tmp_out);
-		close(fd[0]);
-		close(fd[1]);
+		protect_close(all->tmp_out, all);
+		protect_close(fd[0], all);
+		protect_close(fd[1], all);
 		run_cmd(cmd, envp, all);
 		exit(0);
 	}
 	else
 	{
-		close(fd[1]);
-		close(all->tmp_fd);
+		protect_close(fd[1], all);
+		protect_close(all->tmp_fd, all);
 		all->tmp_fd = fd[0];
 		return (0);
 	}

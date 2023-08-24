@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/22 13:57:12 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/23 02:57:52 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	ctrl_c(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		g_exit_status = 128 + sig;
 	}
 }
 
@@ -52,16 +51,29 @@ void	backslash(int sig)
 		ft_putstr_fd("Quit: ", STDERR_FILENO);
 		ft_putnbr_fd(sig, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
-		g_exit_status = 128 + sig;
 	}
 }
 
-/* handle_signal();
- *	- Parameters:
- *		- int num: the signal number to handle 
- *	 	  (1 for parent process, 2 for child process);
- *		- t_data *data: main struct, for the exit status;
- *
+/* child_signal();
+ *	- With 'term.c_lflag |= ECHOCTL' we turn back on the control characters.
+ *	- When signal is in a child process:
+ *		- SIGINT is set to call the 'ctrl_c' function 
+ *		  when received (used for Ctrl-C).
+ *		- SIGQUIT is set to call the 'backslash' function 
+ *		  when received (used for Ctrl-\).
+ */
+void	child_signal(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, backslash);
+}
+
+/* ft_signal();
  *	- Configures the signal handling for the minishell.
  *	- struct termios: is used to store terminal attributes, 
  *	  which control various aspects of terminal behavior.
@@ -71,54 +83,15 @@ void	backslash(int sig)
  *		- c_lflag: local flags.
  *		- ECHOCTL: controls whether the terminal echoes control 
  *	  	  characters as ^X. 
- *	- When 'num' is 1 (signal is in the parent process):
+ *	- When signal is in the parent process:
  *		- SIGINT is set to call the 'restore_prompt' function 
  *		  when received (used for Ctrl-C).
  *		- SIGQUIT is set to be ignored (used for Ctrl-\).
- *	- When 'num' is 2 (signal is in a child process):
- *		- SIGINT is set to call the 'ctrl_c' function 
- *		  when received (used for Ctrl-C).
- *		- SIGQUIT is set to call the 'backslash' function 
- *		  when received (used for Ctrl-\).
- *	- It updates the 'data->status' with the value of 'g_exit_status'.
  *
  *	NOTE: Ctrl-D is not a signal it is a EOF discripter. 
  *		  So Ctrl-D gets handeld in the main().
  */
-// void	handle_signal(int num, t_data *data)
-// {
-// 	//struct termios	term;
-
-// 	// tcgetattr(STDIN_FILENO, &term);
-// 	// term.c_lflag &= ~ECHOCTL;
-// 	// tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
-// 	// if (num == 1)
-// 	// {
-// 	// 	signal(SIGINT, restore_prompt);
-// 	// 	signal(SIGQUIT, SIG_IGN);
-// 	// }
-// 		// tcgetattr(STDIN_FILENO, &term);
-// 		// term.c_lflag |= ECHOCTL;
-// 		// tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
-// 	signal(SIGINT, ctrl_c);
-// 	signal(SIGQUIT, backslash);
-// 	printf("SIGNAL1 : %d\n", data->status);
-// 	printf("GLOBAL: %d\n", data->status);
-// 	data->status = g_exit_status;
-// 	printf("SIGNAL : %d\n", data->status);
-// }
-void child_signal(void)
-{
-	struct termios	term;
-	
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag |= ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
-	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, backslash);
-}
-
-void ft_signal(void)
+void	ft_signal(void)
 {
 	struct termios	term;
 

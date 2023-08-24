@@ -68,7 +68,7 @@ t_token	*delspace_jointoken(t_token ** token, char **envp)
 	return (top);
 }
 
-void	tokenized(t_data *all)
+int	tokenized(t_data *all)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
@@ -98,11 +98,16 @@ void	tokenized(t_data *all)
 		else if (curr->str && (curr->type == EMPTY || curr->type == SQUO || curr->type == DQUO))
 			curr->type = WORD;
 		if (!curr->next)
-			return ;
+			return (0);
 		curr = curr->next;
 	}
-	//syntax_error_check
+	return (0);
 }
+
+// ft_putstr_fd("minishell: ", STDERR_FILENO);
+// 	if (error == 0)
+// 		ft_putstr_fd("syntax error near unexpected token 'newline'\n",
+// 			STDERR_FILENO);
 
 //test:gcc split_token.c token_util.c tokenized.c ../tool/free_error.c ../tool/protection.c ../tool/tool_utils.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
 

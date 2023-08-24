@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/11 13:37:03 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/23 00:26:53 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	empty_export(t_data *data)
  *	- The rest of the characters may be small/capital letters, digits, 
  *	  or underscores ('_').
  */
-static int	ft_is_name_valid(char *str)
+int	ft_is_name_valid(char *str)
 {
 	int	i;
 
@@ -100,10 +100,13 @@ int	ft_export(char **input, t_data *data)
 		return (empty_export(data));
 	i = 0;
 	exit_status = EXIT_SUCCESS;
-	if (ft_is_name_valid(input[1]) == 1)
-		exit_status = ft_error_msg(input[i]);
 	while (input[++i])
 	{
+		if (ft_is_name_valid(input[1]) == 1)
+		{
+			exit_status = ft_error_msg(input[i]);
+			break ;
+		}
 		if (ft_strchr(input[i], '='))
 			add_new_env_var(input[i], &data->env, true);
 	}

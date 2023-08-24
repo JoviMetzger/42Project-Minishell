@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:38 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/22 14:23:31 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/23 02:55:12 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,37 @@ static void	ft_error_msg(char *name)
 	ft_putendl_fd("\': not a valid identifier", STDERR_FILENO);
 }
 
+/* ft_remove();
+ *	- This function removes an environment variable with the given name 
+ *	  from a linked list of variables. 
+ *	- It iterates through the list, finds the variable, 
+ *	  updates the list to exclude it, and frees the memory.
+ */
+void	ft_remove(char *name, t_env *tmp, t_env *prev)
+{
+	while (tmp)
+	{
+		if (ft_strcmp(name, tmp->name) == 0)
+		{
+			prev->next = tmp->next;
+			free(tmp->name);
+			free(tmp->value);
+			free(tmp);
+			break ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
+
 /* unset_var();
  *	- Parameters:
  *		- char *name: the environment variable to be unset (removed);
  *		- t_env **env: struct of the environment;
  *
- *	- This function is used to remove an environment variable specified 
- *	  by 'name' from the linked list 'env'.
- *	- If the 'name' contains an equal sign '=' (invalid format),
- *	  it displays an error message using ft_error_msg().
- *	- The function loops through the linked list and removes the matching 
- *	  environment variable from 'env'.
- *	- Returns EXIT_FAILURE if the 'name' contains an equal sign '=' or if 
- *	  the specified variable is not found.
+ *	- This function is the entry point for removing an environment variable. 
+ *	- It handles the case of removing the head of the list directly 
+ *	  and delegates the task of removing from other positions to ft_remove. 
  *
  *	Note: This function is also used in add_new_env_var() 
  *		  for updating an existing variable.
@@ -43,27 +61,19 @@ static void	ft_error_msg(char *name)
 int	unset_var(char *name, t_env **env)
 {
 	t_env	*tmp;
-	t_env	*next;
+	t_env	*prev;
 
 	tmp = *env;
-	if (ft_strchr(name, '='))
+	if (tmp != NULL && ft_strcmp(name, tmp->name) == 0)
 	{
-		ft_error_msg(name);
-		return (EXIT_FAILURE);
+		*env = tmp->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+		return (EXIT_SUCCESS);
 	}
-	while (tmp && tmp->next != NULL)
-	{
-		if (ft_strcmp(name, tmp->next->name) == 0)
-		{
-			next = tmp->next->next;
-			free(tmp->next->name);
-			free(tmp->next->value);
-			free(tmp->next);
-			tmp->next = next;
-			break ;
-		}
-		tmp = tmp->next;
-	}
+	prev = tmp;
+	ft_remove(name, tmp, prev);
 	return (EXIT_SUCCESS);
 }
 
@@ -84,10 +94,18 @@ int	ft_unset(char **input, t_env **env)
 	int	i;
 
 	i = 1;
-	if (ft_argc(input) > 2)
-		ft_error_msg(input[2]);
 	while (i < ft_argc(input))
 	{
+		if (ft_is_name_valid(input[1]) == 1)
+		{
+			ft_error_msg(input[i]);
+			return (EXIT_FAILURE);
+		}
+		if (ft_strchr(input[i], '='))
+		{
+			ft_error_msg(input[i]);
+			return (EXIT_FAILURE);
+		}
 		unset_var(input[i], env);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:41 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/10 14:01:49 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/23 00:23:05 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,27 +96,6 @@ char	**split_envp(char *env)
 	return (split);
 }
 
-/* init_oldpwd();
- *  - Parameters:
- *    - t_env **env: environment struct;
- * 
- *  - Initialize the environment variable 'OLDPWD' with the value of 'HOME'.
- * 	- Reason for this, bash enviroment doesn't have a 'OLDPWD', 
- * 	  so in the begining (initializing env) you need to add this env variable.
- * 	- But if 'minishell' would be run not in bash it would have the 'OLDPWD',
- * 	  so in that case we need to unset_var(), 
- * 	  and add the 'OLDPWD' with the value 'HOME'.
- */
-static void	init_oldpwd(t_env **env)
-{
-	char	*tmp;
-
-	unset_var("OLDPWD", env);
-	tmp = ft_strjoin("OLDPWD=", getenv("HOME"));
-	add_new_env_var(tmp, env, true);
-	free(tmp);
-}
-
 /* init_env();
  *  - Parameters:
  *    - char **envp: An array of strings representing 
@@ -156,6 +135,5 @@ t_env	*init_env(char **envp)
 		tmp = tmp->next;
 		i++;
 	}
-	init_oldpwd(&init_env);
 	return (init_env);
 }

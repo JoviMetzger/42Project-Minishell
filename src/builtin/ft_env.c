@@ -6,11 +6,21 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/02 12:15:55 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/23 02:32:00 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/* ft_error_msg();
+ *	- This function displays an error message to the standard error output 
+ *	  if the environment doesn't exist.
+ */
+static int	ft_error_msg(void)
+{
+	ft_putstr_fd("minishell: env: No such file or directory\n", STDERR_FILENO);
+	return (127);
+}
 
 /* ft_env();
  *	- Parameters:
@@ -28,6 +38,8 @@ int	ft_env(t_data *data)
 	t_env	*env;
 
 	env = data->env;
+	if (!env)
+		return (ft_error_msg());
 	while (env != NULL)
 	{
 		if (env->for_export)

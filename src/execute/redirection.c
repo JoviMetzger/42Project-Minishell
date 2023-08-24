@@ -42,8 +42,8 @@ void	do_redirection(t_cmd *cmd, t_data *all, char **envp)
 		}
 		else if (redi->type == DELIMI)
 		{
-
-			redi_here_doc(cmd, redi, all, envp);
+			if (redi_here_doc(redi, all, envp) == -1)
+				print_error(NULL, 1, all);
 		}
 		if (!redi->next)
 			return ;

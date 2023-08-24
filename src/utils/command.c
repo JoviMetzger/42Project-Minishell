@@ -89,11 +89,23 @@ void	ft_commands(t_data *all)
 		fork_loop(all);
 		while (i < all->cmd_len)
 		{
+			g_exit_status = syntax_error_check(all->input);
+			if (g_exit_status == 258)
+				return ;
 			if (protect_waitpid(all->id[i], &g_exit_status, 0, all) == -1)
 				return ;
-			if (WEXITSTATUS(g_exit_status))
+			else if (WEXITSTATUS(g_exit_status))
 				g_exit_status = WEXITSTATUS(g_exit_status);
+			else if (WIFSIGNALED(g_exit_status))
+				g_exit_status = WTERMSIG(g_exit_status) + 128;
 			i++;
+			// if (protect_waitpid(all->id[i], &status, 0, all) == -1)
+			// 	return ;
+			// if (WEXITSTATUS(status))
+			// 	g_exit_status = WEXITSTATUS(status);
+			// else if (WIFSIGNALED(status))
+			// 	g_exit_status = WTERMSIG(status) + 128;
+			// i++;
 		}
 	}
 }

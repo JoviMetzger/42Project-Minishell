@@ -93,6 +93,7 @@ typedef struct s_data
 	int					tmp_out;
 	int					tmp_in;
 	char				*input;
+	char				*old_input;
 	pid_t				*id;
 	struct s_env		*env;
 	struct s_cmd		*cmd;
@@ -123,7 +124,7 @@ int			split_general_char(char *str, int i, t_token **top);
 int			dollar_split_dollar(char *str, int i, t_token **top);
 int			dollar_split_nondollar(char *str, int i, t_token **top, int quo);
 char		*add_str_to_strend(char *lang_str, char *str);
-void		tokenized(t_data *all);
+int			tokenized(t_data *all);
 void		ft_commands(t_data *all);
 void		dollar_swap_val(t_token **curr, char **envp);
 t_token		*split_token(char *str);
@@ -137,7 +138,7 @@ t_token		*copy_token(t_token *old);
 // COMMAND EXECUTION
 int			close_all_fd(t_cmd **top, t_data *all);
 int			cmd_len(t_token **token, int index);
-int			redi_here_doc(t_cmd *cmd, t_token *redi, t_data *all, char **envp);
+int			redi_here_doc(t_token *redi, t_data *all, char **envp);
 int			cmd_child(t_cmd *cmd, char **envp, t_data *all);
 char		*find_path(char *cmd, char **envp);
 void		token_to_cmd(t_data *all);
@@ -185,6 +186,7 @@ char		*display_prompt(void);
 void		ft_free(void *ptr);
 
 // SIGNALS
+void		ft_signal_heredoc(void);
 void		child_signal(void);
 void		ft_signal(void);
 void		rl_replace_line(const char *text, int clear_undo);
@@ -213,10 +215,11 @@ bool		exec_builtin_cmd(char **input, t_data *data);
 
 // BUILTIN COMMANDS (extra functions)
 int			ft_is_digit(char *str);
+int			ft_is_name_valid(char *str);
 int			add_new_env_var(char *statement, t_env **env, bool export);
 int			unset_var(char *name, t_env **env);
 
-//-----LEAKS--------
-void		leaks(void);
+// SYNTAX CHECK
+int		syntax_error_check(char *input);
 
 #endif

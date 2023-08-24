@@ -57,8 +57,8 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			exit(0);
 		}
-		if (all.input[0] != '\0')
-			add_history(all.input);
+		add_history(all.input);
+		//g_exit_status = syntax_error_check(all.input);
 		ft_commands(&all);
 		free(all.input);
 	}
