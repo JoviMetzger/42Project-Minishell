@@ -61,10 +61,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(all.input);
 		ft_commands(&all);
-		free_cmd(&all);
 		free(input);
-		free(all.input);
-		free(all.id);
+		free_all(all);
 	}
 	return (0);
 }

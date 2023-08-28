@@ -115,6 +115,7 @@ int			space_len(char *str);
 int			ft_isspace(char c);
 int			quote_check(char *str);
 int			quote_count(char *str, int i, int *quo_nb, char quo);
+int			escape_space(char *str);
 int			split_char(char *str, int i, t_token **top, char c);
 int			split_redi(char *str, int i, char c, t_token **top);
 int			split_spaces_char(char *str, int i, t_token **top);
@@ -128,7 +129,6 @@ char		*add_str_to_strend(char *lang_str, char *str);
 void		ft_commands(t_data *all);
 void		dollar_swap_val(t_token **curr, char **envp);
 t_token		*split_token(char *str);
-
 // TOKEN UTILITIES
 int			strlen_char(char *str, char c);
 void		add_token_end(t_token **top, t_token *new);

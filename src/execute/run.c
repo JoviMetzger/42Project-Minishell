@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
 
 void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 {
-	char *path;
+	char	*path;
 	DIR		*dir;
+
 	dir = opendir(cmd->words[0]);
 	protect_dup2(all->tmp_fd, 0, all);
 	close(all->tmp_fd);
@@ -28,7 +28,7 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 	if (access(cmd->words[0], F_OK) == 0)
 		path = cmd->words[0];
 	else if (access(path, X_OK) == 0 && !dir)
-	 	path = cmd->words[0];
+		path = cmd->words[0];
 	else
 		path = find_path(cmd->words[0], envp);
 	if (!path)
@@ -41,7 +41,7 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 		print_error(cmd->words[0], 7, all);
 	}
 	else if (!dir && access(path, X_OK) != 0)
-	 	print_error(cmd->words[0], 127, all);
+		print_error(cmd->words[0], 127, all);
 	else if (!path && !dir && access(cmd->words[0], X_OK) != 0)
 		print_error(cmd->words[0], 6, all);
 	else if (execve(path, cmd->words, envp) == -1)
@@ -55,11 +55,11 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 
 int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 {
-	int	fd[2];
+	int		fd[2];
 	t_token	*redi;
 
 	redi = cmd->redi;
-	while(redi)
+	while (redi)
 	{
 		if (redi->type == DELIMI)
 		{

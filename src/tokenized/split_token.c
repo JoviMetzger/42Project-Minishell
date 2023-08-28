@@ -17,12 +17,10 @@ t_token	*split_token(char *str)
 	int		i;
 	t_token	*top;
 
-	i = 0;
 	top = NULL;
 	if (!str)
 		return (NULL);
-	while (str[i] && ft_isspace(str[i]))
-		i++;
+	i = escape_space(str);
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -33,7 +31,8 @@ t_token	*split_token(char *str)
 			i = split_redi(str, i, str[i], &top);
 		else if (str[i] == '|')
 			i = split_char(str, i, &top, '|');
-		else if (!ft_isspace(str[i]) && str[i] != '\"' && str[i] != '\'' && str[i] != '|')
+		else if (!ft_isspace(str[i]) && str[i] != '\"'
+			&& str[i] != '\'' && str[i] != '|')
 			i = split_general_char(str, i, &top);
 		else if (ft_isspace(str[i]))
 			i = split_spaces_char(str, i, &top);
@@ -77,37 +76,12 @@ int	split_redi(char *str, int i, char c, t_token **top)
 	return (i);
 }
 
-/*
-test :  gcc split_token.c token_util.c tokenized.c ../tool/free_error.c 
-../tool/protection.c ../tool/tool_utils.c ../env/find_env.c 
-../env/handle_dollar_sign.c ../../libft/libft.a
-*/
-
-/* int main(void)
+int	escape_space(char *str)
 {
-	t_token *test;
-	t_token *curr;
-	char *str;
+	int	i;
 
-	//str = "|||cmd ";
-	//str = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
-	//str = "&&&cmd "; //break pipe
-	//str = "$ adisad $PATH  $$<<c\"\'\'\" <<<<< c\'\"\"\' 
-		b\"cd\" c \"\'\'\" | \'hello world>\'>> ";
-	str = "$PATH $$<<   	infile <infile cmd arg>outfile| cmd|1 aa a a a >1outfile|";
-	//str = "$ adisad  $PATH  a\"\'\'\"a <<<";
-	//str = " $ $chkhk$$$ df";
-	//str = " $PATH| |ADS asd$ads$ads $chkhk df ";//have segmentation fault
-	//str = " cmd arg| cmd";
-	//str = " <infile as<infile cmd arg>outfile| cmd1 aa a a a >1outfile|";
-	test = split_token(str);
-	printf("test:%s\n", str);
-	//str = " cmd arg| cmd";
-	curr = test;
-	while (curr != NULL)
-	{
-		printf("%s$\n", curr->str);
-		curr = curr->next;
-	}
-	return 0;
-} */
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	return (i);
+}

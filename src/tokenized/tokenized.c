@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-t_token	*delspace_jointoken(t_token ** token, char **envp)
+t_token	*delspace_jointoken(t_token **token, char **envp)
 {
 	t_token	*curr;
 	t_token	*top;
@@ -26,14 +26,16 @@ t_token	*delspace_jointoken(t_token ** token, char **envp)
 	tmp = NULL;
 	top = NULL;
 	words = NULL;
-	while(curr)
+	while (curr)
 	{
-		if (curr && (curr->type == WORD || curr->type == SQUO || curr->type == DQUO))
+		if (curr && (curr->type == WORD || curr->type == SQUO
+				|| curr->type == DQUO))
 		{
 			words = NULL;
-			while (curr && (curr->type == WORD || curr->type == SQUO || curr->type == DQUO))
+			while (curr && (curr->type == WORD
+					|| curr->type == SQUO || curr->type == DQUO))
 			{
-				if(curr->str && curr->type == DQUO)
+				if (curr->str && curr->type == DQUO)
 				{
 					to_tmp = dollar_split(curr->str, DQUO);
 					swap_val(&to_tmp, envp);
@@ -48,9 +50,11 @@ t_token	*delspace_jointoken(t_token ** token, char **envp)
 				else
 					words = ft_strjoin(words, curr->str);
 				if (!curr->next || (curr->next && (curr->next->type == SPACES
-					|| curr->next->type == PIPE || curr->next->type == INPUT_RE
-					|| curr->next->type == OUTPUT_RE || curr->next->type == HERE_DOC
-					|| curr->next->type == APPEND_RE)))
+							|| curr->next->type == PIPE
+							|| curr->next->type == INPUT_RE
+							|| curr->next->type == OUTPUT_RE
+							|| curr->next->type == HERE_DOC
+							|| curr->next->type == APPEND_RE)))
 					break ;
 				curr = curr->next;
 			}
@@ -74,7 +78,7 @@ int	tokenized(t_data *all)
 {
 	t_token		*curr;
 	t_token		*to_tmp;
-	char **envp;
+	char		**envp;
 
 	envp = ft_get_envp(all->env);
 	curr = NULL;
@@ -90,15 +94,24 @@ int	tokenized(t_data *all)
 	curr = all->token;
 	while (curr != NULL)
 	{
-		if (curr->str && curr->prev && curr->prev->type == INPUT_RE && (curr->type == WORD || curr->type == SQUO))
+		if (curr->str && curr->prev
+			&& curr->prev->type == INPUT_RE
+			&& (curr->type == WORD || curr->type == SQUO))
 			curr->type = INFILE;
-		else if (curr->str && curr->prev && curr->prev->type == OUTPUT_RE && (curr->type == WORD ||curr->type == SQUO))
+		else if (curr->str && curr->prev
+			&& curr->prev->type == OUTPUT_RE 
+			&& (curr->type == WORD || curr->type == SQUO))
 			curr->type = OUTFILE;
-		else if (curr->str && curr->prev && curr->prev->type == APPEND_RE && (curr->type == WORD ||curr->type == SQUO))
+		else if (curr->str && curr->prev
+			&& curr->prev->type == APPEND_RE
+			&& (curr->type == WORD || curr->type == SQUO))
 			curr->type = APPFILE;
-		else if (curr->str && curr->prev && curr->prev->type == HERE_DOC && (curr->type == WORD ||curr->type == SQUO))
+		else if (curr->str && curr->prev
+			&& curr->prev->type == HERE_DOC
+			&& (curr->type == WORD || curr->type == SQUO))
 			curr->type = DELIMI;
-		else if (curr->str && (curr->type == EMPTY || curr->type == SQUO || curr->type == DQUO))
+		else if (curr->str && (curr->type == EMPTY 
+				|| curr->type == SQUO || curr->type == DQUO))
 			curr->type = WORD;
 		if (!curr->next)
 			return (0);
@@ -106,44 +119,3 @@ int	tokenized(t_data *all)
 	}
 	return (0);
 }
-
-// ft_putstr_fd("minishell: ", STDERR_FILENO);
-// 	if (error == 0)
-// 		ft_putstr_fd("syntax error near unexpected token 'newline'\n",
-// 			STDERR_FILENO);
-
-/* int main(int argc, char **argv,char **envp)
-{
-	t_token *curr;
-	t_data	all;
-	char *str;
-
-	all.cmd =NULL;
-	(void)argc;
-	(void)argv;
-	//all.input = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
-	//all.input = " cmd arg| cmd";
-	//all.input = "  chkhk df";
-	//all.input = "  chkhk df >outfile <infile";
-	//all.input = " cmd <file  >outfile | \"|\"<infile";
-	//all.input = "cat <file1 cat > out | <ls| <file cmd"; //break pipe
-	all.input = " \'$PATH\' $$<< in|fi\'\'le   	  hgjgh$dsf$sdfd$?$$$$$ <infile cmd arg>outfile | cmd1 aa a a a >1outfile|";//$$ error
-	//all.input = " $PATH ADS  $sdf $ df hgjgh$dsf$sdfd$?$$$$$";
-	all.input = " $PATH ";
-	//all.input = "ls|wc";
-	//all.input = "||\"|\"cmd "; //break pipe
-	//all.input = " echo adfds''fdas\'$PATH\'SDGF";
-	//all.input = " \"echo\" hello | wc";
-	//all.input = "<file1 cat > out \"|\" <infile "; //works 
-	all.input = " <infile>cmd >outfile | <infile";
-	all.input = "ASDASD\'$USER\"$USER\"\'\'\'HASDOASDH\'$USER\'\"$USER\"";
-	tokenized(&all);
-	curr = all.token;
-	printf("test:%s\n", all.input);
-	 while (curr != NULL)
-	{
-		printf(" %i: type :%i :%s\n", curr->index, curr->type , curr->str);
-		curr = curr->next;
-	} 
-	return 0;
-} */

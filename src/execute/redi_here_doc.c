@@ -48,7 +48,7 @@ int	redi_here_doc(t_token *redi, t_data *all, char **envp)
 	return (0);
 }
 
-void	here_doc(int out, char *limiter,t_data *all, char **envp)
+void	here_doc(int out, char *limiter, t_data *all, char **envp)
 {
 	char		*line;
 	t_token		*to_tmp;
@@ -76,7 +76,7 @@ void	here_doc(int out, char *limiter,t_data *all, char **envp)
 			line = token_to_str(&to_tmp);
 			free(tmp);
 		}
-		line = ft_strjoin(line,"\n");
+		line = ft_strjoin(line, "\n");
 		protect_write(out, line, ft_strlen(line), all);
 		free(line);
 	}
