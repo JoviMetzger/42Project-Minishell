@@ -74,11 +74,6 @@ static void	ft_exit_status(t_data *all, int i)
 		return ;
 	if (protect_waitpid(all->id[i], &status, 0, all) == -1)
 		return ;
-	printf("EXITCODE: %d\n", g_exit_status);
-	printf("SIGNAL: %d\n", WIFSIGNALED(status));
-	printf("EXITED: %d\n", WIFEXITED(status));
-	printf("SIG: %d\n", WTERMSIG(status));
-	printf("STATUS: %d\n", WEXITSTATUS(status));
 	if (WTERMSIG(status) == 2 || WTERMSIG(status) == 3)
 		g_exit_status = WTERMSIG(status) + 128;
 	else if (all->here_status == 256)
