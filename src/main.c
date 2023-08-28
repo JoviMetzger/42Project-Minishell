@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	all;
 	char	*prompt;
+	char	*input;
 
 	first_check(argc, argv);
 	all.env = init_env(envp);
@@ -50,7 +51,8 @@ int	main(int argc, char **argv, char **envp)
 		init_all(&all);
 		handle_signal(1);
 		prompt = display_prompt();
-		all.input = readline(prompt);
+		input = readline(prompt);
+		all.input = input;
 		ft_free(prompt);
 		if (all.input == NULL)
 		{
@@ -59,7 +61,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(all.input);
 		ft_commands(&all);
+		free_cmd(&all);
+		free(input);
 		free(all.input);
+		free(all.id);
 	}
 	return (0);
 }

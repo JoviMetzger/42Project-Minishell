@@ -40,6 +40,8 @@ t_token	*delspace_jointoken(t_token ** token, char **envp)
 					tmp = curr->str;
 					curr->str = token_to_str(&to_tmp);
 					free(tmp);
+					curr->type = WORD;
+					free_token(to_tmp);
 				}
 				if (!words)
 					words = ft_strdup(curr->str);
@@ -84,6 +86,7 @@ int	tokenized(t_data *all)
 	all->input = token_to_str(&to_tmp);
 	to_tmp = split_token(all->input);
 	all->token = delspace_jointoken(&to_tmp, envp);
+	free_token(to_tmp);
 	curr = all->token;
 	while (curr != NULL)
 	{
@@ -109,8 +112,6 @@ int	tokenized(t_data *all)
 // 		ft_putstr_fd("syntax error near unexpected token 'newline'\n",
 // 			STDERR_FILENO);
 
-//test:gcc split_token.c token_util.c tokenized.c ../tool/free_error.c ../tool/protection.c ../tool/tool_utils.c ../env/find_env.c ../env/handle_dollar_sign.c ../../libft/libft.a
-
 /* int main(int argc, char **argv,char **envp)
 {
 	t_token *curr;
@@ -118,7 +119,6 @@ int	tokenized(t_data *all)
 	char *str;
 
 	all.cmd =NULL;
-	all.history =NULL;
 	(void)argc;
 	(void)argv;
 	//all.input = "  c\"\'\" asdasda\"\'\">&| \"|\" ";
@@ -137,7 +137,7 @@ int	tokenized(t_data *all)
 	//all.input = "<file1 cat > out \"|\" <infile "; //works 
 	all.input = " <infile>cmd >outfile | <infile";
 	all.input = "ASDASD\'$USER\"$USER\"\'\'\'HASDOASDH\'$USER\'\"$USER\"";
-	tokenized(&all, envp);
+	tokenized(&all);
 	curr = all.token;
 	printf("test:%s\n", all.input);
 	 while (curr != NULL)
