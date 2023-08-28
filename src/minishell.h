@@ -92,6 +92,7 @@ typedef struct s_data
 	int					tmp_fd;
 	int					tmp_out;
 	int					tmp_in;
+	int					here_status;
 	char				*input;
 	pid_t				*id;
 	struct s_env		*env;

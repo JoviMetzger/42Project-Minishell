@@ -92,7 +92,8 @@ int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 	else
 	{
 		protect_close(fd[1], all);
-		protect_close(all->tmp_fd, all);
+		if (all->tmp_fd)
+			protect_close(all->tmp_fd, all);
 		all->tmp_fd = fd[0];
 		return (0);
 	}

@@ -16,7 +16,6 @@ int	protect_waitpid(pid_t id, int *status, int options, t_data *all)
 {
 	if (waitpid(id, status, options) == -1)
 	{
-		g_exit_status = 1;
 		print_error(NULL, 1, all);
 		return (-1);
 	}

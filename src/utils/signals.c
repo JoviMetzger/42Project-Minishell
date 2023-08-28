@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 10:48:39 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/24 20:52:41 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/28 11:49:51 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* ft_signal_heredoc();
  *	- Display the here_doc sign (>)
- *	- exit the process.
+ *	- And exit the process.
  */
 void	signal_heredoc(int sig)
 {
@@ -52,7 +52,7 @@ void	ctrl_c(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		g_exit_status = 128 + sig;
+		g_exit_status = sig + 128;
 	}
 }
 
@@ -67,7 +67,7 @@ void	backslash(int sig)
 		ft_putstr_fd("Quit: ", STDERR_FILENO);
 		ft_putnbr_fd(sig, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
-		g_exit_status = 128 + sig;
+		g_exit_status = sig + 128;
 	}
 }
 

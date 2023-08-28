@@ -17,6 +17,8 @@ int	redi_here_doc(t_token *redi, t_data *all, char **envp)
 	int		fd[2];
 	int		status;
 	pid_t	id;
+
+	all->here_status = 0;
 	protect_pipe(fd, all);
 	id = fork();
 	if (id < 0)
@@ -37,12 +39,13 @@ int	redi_here_doc(t_token *redi, t_data *all, char **envp)
 			return (1);
 		protect_close(fd[0], all);
 		protect_close(fd[1], all);
-		if (protect_waitpid(id, &status, 0, all) == -1)
-			return (1);
-		if (status == 2)
-			return (1);
 	}
-	return (all->tmp_fd);
+	if (protect_waitpid(id, &status, 0, all) == -1)
+		return (1);
+	all->here_status = status;
+	if (status == 256)
+		g_exit_status = 1;
+	return (0);
 }
 
 void	here_doc(int out, char *limiter,t_data *all, char **envp)
@@ -77,7 +80,4 @@ void	here_doc(int out, char *limiter,t_data *all, char **envp)
 		protect_write(out, line, ft_strlen(line), all);
 		free(line);
 	}
-	// if (!line)
-	// 	g_exit_status = 1;
-	// g_exit_status = 0;
 }

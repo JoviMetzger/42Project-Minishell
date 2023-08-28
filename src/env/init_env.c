@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:41 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/23 00:23:05 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/25 20:59:29 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,16 @@ char	**split_envp(char *env)
 	split[2] = NULL;
 	return (split);
 }
+
+// static void	init_oldpwd(t_env **env)
+// {
+// 	char	*tmp;
+
+// 	unset_var("OLDPWD", env);
+// 	tmp = ft_strjoin("OLDPWD=", getenv("HOME"));
+// 	add_new_env_var(tmp, env, true);
+// 	free(tmp);
+// }
 
 /* init_env();
  *  - Parameters:
