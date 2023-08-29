@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(all.input);
 		ft_commands(&all);
 		free(input);
-		free_all(all);
+		free_all(&all);
 	}
 	return (0);
 }

@@ -27,6 +27,7 @@ static void	fork_loop(t_data *all)
 			break ;
 		curr = curr->next;
 	}
+	free_envp(envp);
 	close(all->tmp_fd);
 	close(all->tmp_out);
 }
@@ -69,10 +70,10 @@ static void	ft_exit_status(t_data *all, int i)
 {
 	int	status;
 
+	if (protect_waitpid(all->id[i], &status, 0, all) == -1)
+		return ;
 	g_exit_status = syntax_error_check(all->input);
 	if (g_exit_status == 258)
-		return ;
-	if (protect_waitpid(all->id[i], &status, 0, all) == -1)
 		return ;
 	if (WTERMSIG(status) == 2 || WTERMSIG(status) == 3)
 		g_exit_status = WTERMSIG(status) + 128;
@@ -110,9 +111,3 @@ void	ft_commands(t_data *all)
 		}
 	}
 }
-
-// printf("EXITCODE: %d\n", g_exit_status);
-// printf("SIGNAL: %d\n", WIFSIGNALED(status));
-// printf("EXITED: %d\n", WIFEXITED(status));
-// printf("SIG: %d\n", WTERMSIG(status));
-// printf("STATUS: %d\n", WEXITSTATUS(status));

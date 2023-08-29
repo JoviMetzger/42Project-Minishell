@@ -24,6 +24,7 @@ CFLAGS		= -Wall -Wextra -g #-fsanitize=address
 # Readline Files
 INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
 Include		= -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
+clang		= -Wno-unused-command-line-argument
 
 # Sources files
 SRC			= ./src/main.c \
@@ -83,7 +84,7 @@ RESET		= \033[0m
 all:		$(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(Include) -o $(NAME)
+		$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(Include) $(clang) -o $(NAME)
 		@echo "$(CORAL) $(UNDER) $(BOLD) $(ITALIC) ✨Compilation Done✨   $(RESET)"
 
 $(LIBFT): 
@@ -91,7 +92,7 @@ $(LIBFT):
 
 $(OBJDIR)/%.o: ./src/%.c
 		@mkdir -p $(OBJDIR)
-		$(CC) $(CFLAGS) $(INC_FILE) $(Include) -c -o $@ $<
+		$(CC) $(CFLAGS) $(INC_FILE) $(Include) $(clang) -c -o $@ $<
 
 $(OBJDIR)/%.o: ./src/utils/%.c
 		$(CC) $(CFLAGS) -c -o $@ $<
