@@ -32,8 +32,9 @@
 // Defining Colors
 # define RED     "\033[31m"
 # define RESET	 "\033[0m"
-
 // enum for token
+
+extern int	g_exit_status;
 typedef enum e_num
 {
 	EMPTY,
@@ -106,7 +107,7 @@ typedef struct s_data
  * Because the 'signal()' function can only return 'void', 
  * so we use this global variable to pass the exit status.
  */
-int	g_exit_status;
+
 
 // -- Function declaration --
 // ---------YIXINS_FUNCTIONS----------

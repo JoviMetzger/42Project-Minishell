@@ -12,10 +12,12 @@
 
 #include "minishell.h"
 
+
 // void leaks(void)
 // {
 // 	system("leaks -q minishell");
 // }
+int	g_exit_status;
 
 static void	first_check(int argc, char **argv)
 {
@@ -62,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(all.input);
 		ft_commands(&all);
 		free(input);
-		free_all(all);
+		free_all(&all);
 	}
 	return (0);
 }
