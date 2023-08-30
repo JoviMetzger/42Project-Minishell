@@ -69,7 +69,7 @@ t_token	*delspace_jointoken(t_token **token, t_token *top,
 				|| curr->type == DQUO))
 		{
 			words = NULL;
-			curr = extract_words(curr, &words, envp);//?
+			curr = extract_words(curr, &words, envp);
 			new = new_token(words);
 			new->type = WORD;
 			add_token_end(&top, new);

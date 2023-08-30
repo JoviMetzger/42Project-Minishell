@@ -12,42 +12,47 @@
 
 #include "../minishell.h"
 
-void	token_to_cmd(t_data *all)
+static void	handle_command(t_token *curr, t_data *all, int index)
 {
 	t_cmd	*new;
-	t_token	*curr;
 	char	**words;
 	int		len;
 	int		i;
+
+	len = cmd_len(&curr, curr->index);
+	words = malloc(sizeof(char *) * len);
+	if (!words)
+		print_error(NULL, 0, all);
+	words[len - 1] = NULL;
+	i = 0;
+	while (curr->type != PIPE && curr != NULL && i < len)
+	{
+		if (curr->type == WORD && curr->str)
+		{
+			words[i] = ft_strdup(curr->str);
+			i++;
+		}
+		if (!curr->next)
+			break ;
+		curr = curr->next;
+	}
+	new = new_cmd(words, len);
+	new->index = index;
+	add_cmd_end(&all->cmd, new);
+}
+
+void	token_to_cmd(t_data *all)
+{
+	t_token	*curr;
 	int		index;
 
 	curr = all->token;
-	all->cmd = NULL;
 	index = 0;
 	while (curr)
 	{
-		i = 0;
 		if (curr->index == 0 || (curr->prev && curr->prev->type == PIPE))
 		{
-			len = cmd_len(&curr, curr->index);
-			words = malloc(sizeof(char *) * len);
-			if (!words)
-				print_error(NULL, 0, all);
-			words[len - 1] = NULL;
-			while (curr->type != PIPE && curr != NULL && i < len)
-			{
-				if (curr->type == WORD && curr->str)
-				{
-					words[i] = ft_strdup(curr->str);
-					i++;
-				}
-				if (!curr->next)
-					break ;
-				curr = curr->next;
-			}
-			new = new_cmd(words, len);
-			new->index = index;
-			add_cmd_end(&all->cmd, new);
+			handle_command(curr, all, index);
 			index++;
 		}
 		if (!curr->next)
@@ -56,27 +61,6 @@ void	token_to_cmd(t_data *all)
 	}
 	all->cmd_len = index;
 	add_redirection(all);
-}
-
-void	add_redirection(t_data *all)
-{
-	t_token	*curr;
-	t_cmd	*cmd;
-
-	if (!all->cmd || !all->token)
-		return ;
-	curr = all->token;
-	cmd = all->cmd;
-	cmd->redi = NULL;
-	while (cmd != NULL && curr != NULL)
-	{
-		if (curr->type == INFILE || curr->type == OUTFILE
-			|| curr->type == APPFILE || curr->type == DELIMI)
-			add_token_end(&cmd->redi, copy_token(curr));
-		else if (curr->type == PIPE)
-			cmd = cmd->next;
-		curr = curr->next;
-	}
 }
 
 int	cmd_len(t_token **token, int index)

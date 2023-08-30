@@ -60,17 +60,3 @@ char	*find_env(t_token **token, char **envp)
 		i++;
 	return (&envp[index][i + 1]);
 }
-
-//test: gcc find_env.c ../tokenized/token_util.c ../../libft/libft.a
-
-/* int main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	//t_token *token = new_token("$PATH");
-	//t_token *token = new_token("$OLDPWD");
-	//t_token *token = new_token("$TERM_SESSION_ID");
-	char *str = find_env(&token, envp);
-	printf("%s\n",str);
-	return 0;
-} */

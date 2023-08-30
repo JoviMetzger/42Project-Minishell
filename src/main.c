@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-// void leaks(void)
-// {
-// 	system("leaks -q minishell");
-// }
-
 static void	first_check(int argc, char **argv)
 {
 	if (argc != 1 || argv[1])
@@ -61,7 +56,6 @@ int	main(int argc, char **argv, char **envp)
 		all.input = input;
 		add_history(all.input);
 		ft_commands(&all);
-		system("leaks -q minishell");
 		free_all(&all);
 	}
 	return (0);

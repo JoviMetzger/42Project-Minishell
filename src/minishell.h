@@ -153,10 +153,6 @@ int			redi_app(t_cmd *cmd, t_token *redi, t_data *data);
 void		add_redirection(t_data *all);
 void		do_redirection(t_cmd *cmd, t_data *all);
 
-// PIPE
-int			open_pipe(t_data *all);
-void		free_fd_2d(int **fd_2d);
-
 // TOOL (free and print_error)
 void		print_error(char *str, int errcode, t_data *data);
 void		free_2dstr(char **str);

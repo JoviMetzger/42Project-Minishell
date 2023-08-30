@@ -53,10 +53,24 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 		free(path);
 }
 
+// static void ft_child_process(t_cmd **cmd, char **envp, t_data *all)
+// {
+// 	if (!(*cmd)->next)
+// 		(*cmd)->fd_out = all->tmp_out;
+// 	else
+// 		(*cmd)->fd_out = fd[1];
+// 	do_redirection((*cmd), all);
+// 	protect_dup2((*cmd)->fd_out, 1, all);
+// 	protect_close(all->tmp_out, all);
+// 	protect_close(fd[0], all);
+// 	protect_close(fd[1], all);
+// 	run_cmd((*cmd), envp, all);
+// 	exit(0);
+// }
+
 int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 {
 	int		fd[2];
-	// t_token	*redi;
 
 	do_here_doc(cmd, envp, all);
 	if (protect_pipe(fd, all) == -1)
@@ -67,6 +81,7 @@ int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		return (-1);
 	if (all->id[cmd->index] == 0)
 	{
+		//ft_child_process();
 		if (!cmd->next)
 			cmd->fd_out = all->tmp_out;
 		else

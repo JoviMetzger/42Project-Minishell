@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/30 14:41:43 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/08/30 19:35:47 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,20 @@ static void	ft_process_error(char *str, int errcode, t_data *all)
 		exit(errno);
 }
 
+static void	ft_errcode_(char *str, int errcode)
+{
+	if (str[0] == '.' || str[0] == '/')
+		ft_error_msg(str, ": No such file or directory\n");
+	else
+		ft_error_msg(str, ": command not found\n");
+	exit(errcode);
+}
+
 void	print_error(char *str, int errcode, t_data *all)
 {
 	if (errcode == 127 && str)
 	{
-		if (str[0] == '.' || str[0] == '/')
-			ft_error_msg(str, ": No such file or directory\n");
-		else
-			ft_error_msg(str, ": command not found\n");
-		exit(errcode);
+		ft_errcode_(str, errcode);
 	}
 	else if (errcode == 7 && str)
 	{
