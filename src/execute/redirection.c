@@ -12,27 +12,6 @@
 
 #include "../minishell.h"
 
-void	add_redirection(t_data *all)
-{
-	t_token	*curr;
-	t_cmd	*cmd;
-
-	if (!all->cmd || !all->token)
-		return ;
-	curr = all->token;
-	cmd = all->cmd;
-	cmd->redi = NULL;
-	while (cmd != NULL && curr != NULL)
-	{
-		if (curr->type == INFILE || curr->type == OUTFILE
-			|| curr->type == APPFILE || curr->type == DELIMI)
-			add_token_end(&cmd->redi, copy_token(curr));
-		else if (curr->type == PIPE)
-			cmd = cmd->next;
-		curr = curr->next;
-	}
-}
-
 void	do_redirection(t_cmd *cmd, t_data *all)
 {
 	t_token	*redi;

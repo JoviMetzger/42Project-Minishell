@@ -12,30 +12,6 @@
 
 #include "../minishell.h"
 
-static void	run_cmd_(char *path, DIR *dir, t_data *all, char **envp)
-{
-	if (!path)
-		print_error(all->cmd->words[0], 127, all);
-	else if (!dir && access(path, X_OK) != 0 && path[0] == '.' )
-		print_error(all->cmd->words[0], 126, all);
-	else if (dir && (path[0] == '.' || path[0] == '/'))
-	{
-		closedir(dir);
-		print_error(all->cmd->words[0], 7, all);
-	}
-	else if (!dir && access(path, X_OK) != 0)
-		print_error(all->cmd->words[0], 127, all);
-	else if (!path && !dir && access(all->cmd->words[0], X_OK) != 0)
-		print_error(all->cmd->words[0], 6, all);
-	else if (execve(path, all->cmd->words, envp) == -1)
-	{
-		free(path);
-		print_error(all->cmd->words[0], 127, all);
-	}
-	else
-		free(path);
-}
-
 void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 {
 	char	*path;
@@ -55,38 +31,63 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 		path = cmd->words[0];
 	else
 		path = find_path(cmd->words[0], envp);
-	run_cmd_(path, dir, all, envp);
-}
-
-static void	ft_do_(t_cmd *cmd, t_data *all, int fd[2], char **envp)
-{
-	if (!cmd->next)
-		cmd->fd_out = all->tmp_out;
+	if (!path)
+		print_error(cmd->words[0], 127, all);
+	else if (!dir && access(path, X_OK) != 0 && path[0] == '.' )
+		print_error(cmd->words[0], 126, all);
+	else if (dir && (path[0] == '.' || path[0] == '/'))
+	{
+		closedir(dir);
+		print_error(cmd->words[0], 7, all);
+	}
+	else if (!dir && access(path, X_OK) != 0)
+		print_error(cmd->words[0], 127, all);
+	else if (!path && !dir && access(cmd->words[0], X_OK) != 0)
+		print_error(cmd->words[0], 6, all);
+	else if (execve(path, cmd->words, envp) == -1)
+	{
+		free(path);
+		print_error(cmd->words[0], 127, all);
+	}
 	else
-		cmd->fd_out = fd[1];
-	do_redirection(cmd, all);
-	protect_dup2(cmd->fd_out, 1, all);
-	protect_close(all->tmp_out, all);
-	protect_close(fd[0], all);
-	protect_close(fd[1], all);
-	run_cmd(cmd, envp, all);
-	exit(0);
+		free(path);
 }
 
 int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 {
 	int		fd[2];
+	t_token	*redi;
 
-	do_here_doc(cmd, envp, all);
+	redi = cmd->redi;
+	while (redi)
+	{
+		if (redi->type == DELIMI)
+		{
+			g_exit_status = redi_here_doc(redi, all, envp);
+		}
+		if (!redi->next)
+			break ;
+		redi = redi->next;
+	}
 	if (protect_pipe(fd, all) == -1)
 		return (-1);
-	handle_signal(2);
 	all->id[cmd->index] = fork();
+	handle_signal(2);
 	if (all->id[cmd->index] == -1)
 		return (-1);
 	if (all->id[cmd->index] == 0)
 	{
-		ft_do_(cmd, all, fd, envp);
+		if (!cmd->next)
+			cmd->fd_out = all->tmp_out;
+		else
+			cmd->fd_out = fd[1];
+		do_redirection(cmd, all);
+		protect_dup2(cmd->fd_out, 1, all);
+		protect_close(all->tmp_out, all);
+		protect_close(fd[0], all);
+		protect_close(fd[1], all);
+		run_cmd(cmd, envp, all);
+		exit(0);
 	}
 	else
 	{
@@ -96,5 +97,4 @@ int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 		all->tmp_fd = fd[0];
 		return (0);
 	}
-	return (0);
 }

@@ -6,29 +6,13 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:38 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/29 19:20:52 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 05:28:33 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_envp(char **envp)
-{
-	int	i;
-
-	if (envp != NULL)
-	{
-		i = 0;
-		while (envp[i] != NULL)
-		{
-			free(envp[i]);
-			i++;
-		}
-		free(envp);
-	}
-}
-
-static void	ft_free_(int i, char **envp)
+static void	ft_protect_and_free(int i, char **envp)
 {
 	int	j;
 
@@ -53,17 +37,17 @@ static char	**ft_loop(char **envp, int i, t_env *current)
 	length = ft_strlen(current->name) + ft_strlen(current->value) + 2;
 	envp[i] = (char *)malloc(length * sizeof(char));
 	if (!envp[i])
-		ft_free_(i, envp);
+		ft_protect_and_free(i, envp);
 	temp = ft_strdup(current->name);
 	separator = "=";
 	pair = ft_strjoin(temp, separator);
 	free(temp);
 	if (!pair)
-		ft_free_(i, envp);
+		ft_protect_and_free(i, envp);
 	full_entry = ft_strjoin(pair, current->value);
 	free(pair);
 	if (!full_entry)
-		ft_free_(i, envp);
+		ft_protect_and_free(i, envp);
 	ft_strcpy(envp[i], full_entry);
 	free(full_entry);
 	return (envp);
@@ -112,3 +96,22 @@ char	**ft_get_envp(t_env *env)
 	envp[count] = NULL;
 	return (envp);
 }
+
+// // -------------------------------------------------	
+// // -------------------------------------------------
+// static void free_envp(char **envp)
+// {
+// 	int i;
+//     if (envp != NULL)
+//     {
+// 		i = 0;
+//         while (envp[i] != NULL)
+//         {
+//             free(envp[i]);
+// 			i++;
+//         }
+//         free(envp);
+//     }
+// }
+// // -------------------------------------------------	
+// // -------------------------------------------------
