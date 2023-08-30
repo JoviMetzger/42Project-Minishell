@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **envp)
 		all.input = input;
 		add_history(all.input);
 		ft_commands(&all);
-		system("leaks -q minishell");
 		free_all(&all);
 	}
 	return (0);
