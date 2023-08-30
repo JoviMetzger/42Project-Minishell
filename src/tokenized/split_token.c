@@ -12,6 +12,16 @@
 
 #include "../minishell.h"
 
+static int	escape_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	return (i);
+}
+
 t_token	*split_token(char *str)
 {
 	int		i;
@@ -76,12 +86,3 @@ int	split_redi(char *str, int i, char c, t_token **top)
 	return (i);
 }
 
-int	escape_space(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
-	return (i);
-}

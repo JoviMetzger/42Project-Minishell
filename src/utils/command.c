@@ -29,6 +29,7 @@ static void	fork_loop(t_data *all)
 	}
 	close(all->tmp_fd);
 	close(all->tmp_out);
+	free_envp(envp);
 }
 
 int	redi_loop(t_cmd **top, t_data *all, char **envp)

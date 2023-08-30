@@ -56,19 +56,9 @@ void	run_cmd(t_cmd *cmd, char **envp, t_data *all)
 int	cmd_child(t_cmd *cmd, char **envp, t_data *all)
 {
 	int		fd[2];
-	t_token	*redi;
+	// t_token	*redi;
 
-	redi = cmd->redi;
-	while (redi)
-	{
-		if (redi->type == DELIMI)
-		{
-			g_exit_status = redi_here_doc(redi, all, envp);
-		}
-		if (!redi->next)
-			break ;
-		redi = redi->next;
-	}
+	do_here_doc(cmd, envp, all);
 	if (protect_pipe(fd, all) == -1)
 		return (-1);
 	all->id[cmd->index] = fork();
