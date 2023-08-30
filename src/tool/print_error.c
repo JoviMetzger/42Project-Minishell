@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/29 18:12:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/30 14:41:43 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,22 @@ void	print_error(char *str, int errcode, t_data *all)
 			ft_error_msg(str, ": command not found\n");
 		exit(errcode);
 	}
-	if (errcode == 7 && str)
+	else if (errcode == 7 && str)
 	{
 		ft_error_msg(str, ": is a directory\n");
 		exit(126);
 	}
-	if (errcode == 6 && str)
+	else if (errcode == 6 && str)
 	{
 		ft_error_msg(str, ": No such file or directory\n");
 		exit(126);
 	}
-	if (!str)
+	else if (!str && errcode == 1)
 	{
 		ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", 2);
 		g_exit_status = 1;
 		return ;
 	}
-	ft_process_error(str, errcode, all);
+	else if (str)
+		ft_process_error(str, errcode, all);
 }

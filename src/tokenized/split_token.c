@@ -85,3 +85,4 @@ int	split_redi(char *str, int i, char c, t_token **top)
 		i = split_char(str, i, top, c);
 	return (i);
 }
+

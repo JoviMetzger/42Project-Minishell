@@ -71,8 +71,8 @@ void	free_all(t_data *all)
 {
 	if (all->cmd)
 		free_cmd(all);
-	if (all->input)
-		free(all->input);
 	if (all->id)
 		free(all->id);
+	if (all->input)
+		free(all->input);
 }

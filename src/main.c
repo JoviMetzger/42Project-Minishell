@@ -52,16 +52,16 @@ int	main(int argc, char **argv, char **envp)
 		handle_signal(1);
 		prompt = display_prompt();
 		input = readline(prompt);
-		all.input = input;
 		ft_free(prompt);
-		if (all.input == NULL)
+		if (input == NULL)
 		{
 			printf("exit\n");
 			exit(0);
 		}
+		all.input = input;
 		add_history(all.input);
 		ft_commands(&all);
-		free(input);
+		system("leaks -q minishell");
 		free_all(&all);
 	}
 	return (0);

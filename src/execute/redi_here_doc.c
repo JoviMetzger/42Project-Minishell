@@ -17,6 +17,8 @@ static char	*has_dollar_(char **envp, char *line, t_token *to_tmp)
 	char		*tmp;
 
 	tmp = NULL;
+	if (!envp)
+		return (NULL);
 	to_tmp = dollar_split(line, DQUO);
 	swap_val(&to_tmp, envp);
 	tmp = line;
@@ -31,6 +33,8 @@ static void	here_doc(int out, char *limiter, t_data *all, char **envp)
 	t_token		*to_tmp;
 
 	to_tmp = NULL;
+	if (!envp)
+		return ;
 	while (1)
 	{
 		line = readline("> ");

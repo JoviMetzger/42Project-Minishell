@@ -16,31 +16,33 @@ static void	if_dquo(t_token *curr, t_token *to_tmp, char **envp)
 {
 	char	*tmp;
 
+	if (!envp)
+		return ;
 	to_tmp = dollar_split(curr->str, DQUO);
 	swap_val(&to_tmp, envp);
 	tmp = curr->str;
 	curr->str = token_to_str(&to_tmp);
 	free(tmp);
 	curr->type = WORD;
-	free_token(to_tmp);
 }
 
-static char	*extract_words(t_token *curr, char **envp)
+static t_token	*extract_words(t_token *curr, char **words, char **envp)
 {
-	char	*words;
 	t_token	*to_tmp;
 
-	words = NULL;
 	to_tmp = NULL;
+	if (!envp)
+		return (NULL);
 	while (curr && (curr->type == WORD
 			|| curr->type == SQUO || curr->type == DQUO))
 	{
 		if (curr->str && curr->type == DQUO)
 			if_dquo(curr, to_tmp, envp);
-		if (!words)
-			words = ft_strdup(curr->str);
+		free_token(to_tmp);
+		if (!*words)
+			*words = ft_strdup(curr->str);
 		else
-			words = ft_strjoin(words, curr->str);
+			*words = ft_strjoin(*words, curr->str);
 		if (!curr->next || (curr->next && (curr->next->type == SPACES
 					|| curr->next->type == PIPE 
 					|| curr->next->type == INPUT_RE
@@ -50,7 +52,7 @@ static char	*extract_words(t_token *curr, char **envp)
 			break ;
 		curr = curr->next;
 	}
-	return (words);
+	return (curr);
 }
 
 t_token	*delspace_jointoken(t_token **token, t_token *top, 
@@ -66,7 +68,8 @@ t_token	*delspace_jointoken(t_token **token, t_token *top,
 		if (curr && (curr->type == WORD || curr->type == SQUO
 				|| curr->type == DQUO))
 		{
-			words = extract_words(curr, envp);
+			words = NULL;
+			curr = extract_words(curr, &words, envp);//?
 			new = new_token(words);
 			new->type = WORD;
 			add_token_end(&top, new);
@@ -120,13 +123,14 @@ int	tokenized(t_data *all)
 	char		*words;
 
 	words = NULL;
-	envp = ft_get_envp(all->env);
 	curr = NULL;
+	envp = ft_get_envp(all->env);
 	if (quote_check(all->input) == 1)
-		exit (1);
+		return (1);
 	to_tmp = NULL;
 	to_tmp = dollar_split(all->input, 0);
 	swap_val(&to_tmp, envp);
+	free(all->input);
 	all->input = token_to_str(&to_tmp);
 	to_tmp = split_token(all->input);
 	all->token = delspace_jointoken(&to_tmp, curr, words, envp);

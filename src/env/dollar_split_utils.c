@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/09 15:14:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/22 14:19:34 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/30 14:57:53 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	dollar_swap_val(t_token **curr, char **envp)
 	{
 		free((*curr)->str);
 		tmp = find_env(&(*curr), envp);
-		(*curr)->str = ft_strdup(tmp);
+		if (!tmp)
+			(*curr)->str = NULL;
+		else
+			(*curr)->str = ft_strdup(tmp);
 	}
 }
 

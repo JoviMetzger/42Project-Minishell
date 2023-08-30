@@ -144,6 +144,7 @@ void		do_here_doc(t_cmd *cmd, char **envp, t_data *all);
 void		token_to_cmd(t_data *all);
 void		add_cmd_end(t_cmd **top, t_cmd *new);
 t_cmd		*new_cmd(char **words, int len);
+//void	here_doc(int out, char *limiter, t_data *all, char **envp);
 
 // REDIRECTION
 int			redi_in(t_cmd *cmd, t_token *redi, t_data *data);
