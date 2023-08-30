@@ -39,7 +39,6 @@ SRC			= ./src/main.c \
 				./src/tokenized/tokenized.c \
 				./src/execute/create_cmd.c \
 				./src/execute/find_path.c \
-				./src/execute/open_pipe.c \
 				./src/execute/redi_here_doc.c \
 				./src/execute/redirection.c \
 				./src/execute/run.c \
