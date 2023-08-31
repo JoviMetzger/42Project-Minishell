@@ -159,7 +159,7 @@ int			open_pipe(t_data *all);
 void		free_fd_2d(int **fd_2d);
 
 // TOOL (free and print_error)
-void		print_error(char *str, int errcode, t_data *data);
+int			print_error(char *str, int errcode, t_data *data);
 void		free_2dstr(char **str);
 void		free_token(t_token *token);
 void		free_all(t_data *all);

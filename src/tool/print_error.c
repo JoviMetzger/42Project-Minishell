@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/31 09:39:41 by yizhang       ########   odam.nl         */
+/*   Updated: 2023/08/31 11:07:52 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	ft_process_error(char *str, int errcode, t_data *all)
 		exit(errno);
 }
 
-static void	print_error_utils(char *str, int errcode, t_data *all)
+static int	print_error_utils(char *str, int errcode, t_data *all)
 {
 	if (errcode == 6 && str)
 	{
@@ -43,13 +43,14 @@ static void	print_error_utils(char *str, int errcode, t_data *all)
 	{
 		ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", 2);
 		g_exit_status = 1;
-		return ;
+		return (1);
 	}
 	else if (str)
 		ft_process_error(str, errcode, all);
+	return (0);
 }
 
-void	print_error(char *str, int errcode, t_data *all)
+int	print_error(char *str, int errcode, t_data *all)
 {
 	if (errcode == 127 && str)
 	{
@@ -65,5 +66,7 @@ void	print_error(char *str, int errcode, t_data *all)
 		exit(126);
 	}
 	else
-		print_error_utils(str, errcode, all);
+		if (print_error_utils(str, errcode, all))
+			return (1);
+	return (0);
 }

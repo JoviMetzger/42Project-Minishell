@@ -40,7 +40,7 @@ static int	ft_exit_status(t_data *all, int i)
 	if (g_exit_status == 258)
 		return (1);
 	if (protect_waitpid(all->id[i], &status, 0, all) == -1)
-		return (0);
+		return (1);
 	if (WTERMSIG(status) == 2 || WTERMSIG(status) == 3)
 		g_exit_status = WTERMSIG(status) + 128;
 	else if (all->here_status == 256)
