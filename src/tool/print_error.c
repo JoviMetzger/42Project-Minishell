@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/31 11:07:52 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/31 13:38:18 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_error_msg(char *str, char *msg)
 static void	ft_process_error(char *str, int errcode, t_data *all)
 {
 	if (str)
-		ft_error_msg(str, ": \n");
+		ft_error_msg(str, ": ");
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
 	free_all(all);

@@ -19,7 +19,7 @@ LIBFT		= ./libft/libft.a
 # Compiler and flags
 CC			= cc
 CFLAGS		= -Wall -Wextra -g #-fsanitize=address
-# CFLAGS		+= -Werror
+CFLAGS		+= -Werror
 
 # Readline Files
 INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
@@ -36,6 +36,7 @@ SRC			= ./src/main.c \
 				./src/tokenized/split_token.c \
 				./src/tokenized/syntax_error.c \
 				./src/tokenized/token_util.c \
+				./src/tokenized/tokenized_utils.c \
 				./src/tokenized/tokenized.c \
 				./src/execute/create_cmd.c \
 				./src/execute/find_path.c \

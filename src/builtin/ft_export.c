@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/23 00:26:53 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/31 15:12:42 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,17 @@ int	ft_export(char **input, t_data *data)
 	exit_status = EXIT_SUCCESS;
 	while (input[++i])
 	{
-		if (ft_is_name_valid(input[1]) == 1)
+		if (ft_is_name_valid(input[i]) == 1)
 		{
 			exit_status = ft_error_msg(input[i]);
 			break ;
 		}
-		if (ft_strchr(input[i], '='))
+		else if (input[i] && input[i][0] == '=')
+		{
+			exit_status = ft_error_msg(input[2]);
+			break ;
+		}
+		else if (input[i][0] != '=' && ft_strchr(input[i], '='))
 			add_new_env_var(input[i], &data->env, true);
 	}
 	return (exit_status);

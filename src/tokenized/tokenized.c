@@ -14,25 +14,22 @@
 
 static void	if_dquo(t_token *curr, t_token *to_tmp, char **envp)
 {
-	char	*tmp;
-
 	if (!envp)
 		return ;
 	to_tmp = dollar_split(curr->str, DQUO);
 	swap_val(&to_tmp, envp);
-	tmp = curr->str;
+	free(curr->str);
 	curr->str = token_to_str(&to_tmp);
-	free(tmp);
 	curr->type = WORD;
 }
 
 static t_token	*extract_words(t_token *curr, char **words, char **envp)
 {
 	t_token	*to_tmp;
+	char	*tmp;
 
 	to_tmp = NULL;
-	if (!envp)
-		return (NULL);
+	tmp = NULL;
 	while (curr && (curr->type == WORD
 			|| curr->type == SQUO || curr->type == DQUO))
 	{
@@ -42,13 +39,12 @@ static t_token	*extract_words(t_token *curr, char **words, char **envp)
 		if (!*words)
 			*words = ft_strdup(curr->str);
 		else
+		{
+			tmp = *words;
 			*words = ft_strjoin(*words, curr->str);
-		if (!curr->next || (curr->next && (curr->next->type == SPACES
-					|| curr->next->type == PIPE 
-					|| curr->next->type == INPUT_RE
-					|| curr->next->type == OUTPUT_RE 
-					|| curr->next->type == HERE_DOC
-					|| curr->next->type == APPEND_RE)))
+			free(tmp);
+		}
+		if (check_type_break(curr))
 			break ;
 		curr = curr->next;
 	}

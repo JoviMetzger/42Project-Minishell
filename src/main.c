@@ -59,7 +59,8 @@ int	main(int argc, char **argv, char **envp)
 			exit(0);
 		}
 		all.input = input;
-		add_history(all.input);
+		if (input != NULL)
+			add_history(all.input);
 		ft_commands(&all);
 		free_all(&all);
 	}

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 12:31:04 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/23 02:42:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/31 15:13:17 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,8 @@ static int	determine_exit_code(char **str)
  */
 int	ft_exit(char **input)
 {
+	int	status;
+
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (ft_argc(input) > 2)
 	{
@@ -177,7 +179,8 @@ int	ft_exit(char **input)
 	}
 	else
 	{
-		g_exit_status = EXIT_SUCCESS;
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
 		exit(g_exit_status);
 	}
 	return (g_exit_status);

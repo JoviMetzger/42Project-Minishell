@@ -132,6 +132,7 @@ t_token		*split_token(char *str);
 
 // TOKEN UTILITIES
 int			strlen_char(char *str, char c);
+int			check_type_break(t_token *curr);
 void		add_token_end(t_token **top, t_token *new);
 t_token		*new_token(char *str);
 t_token		*copy_token(t_token *old);
@@ -145,7 +146,6 @@ void		do_here_doc(t_cmd *cmd, char **envp, t_data *all);
 void		token_to_cmd(t_data *all);
 void		add_cmd_end(t_cmd **top, t_cmd *new);
 t_cmd		*new_cmd(char **words, int len);
-//void	here_doc(int out, char *limiter, t_data *all, char **envp);
 
 // REDIRECTION
 int			redi_in(t_cmd *cmd, t_token *redi, t_data *data);
@@ -153,10 +153,6 @@ int			redi_out(t_cmd *cmd, t_token *redi, t_data *data);
 int			redi_app(t_cmd *cmd, t_token *redi, t_data *data);
 void		add_redirection(t_data *all);
 void		do_redirection(t_cmd *cmd, t_data *all);
-
-// PIPE
-int			open_pipe(t_data *all);
-void		free_fd_2d(int **fd_2d);
 
 // TOOL (free and print_error)
 int			print_error(char *str, int errcode, t_data *data);
