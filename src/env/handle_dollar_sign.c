@@ -84,3 +84,42 @@ char	*token_to_str(t_token **top)
 	free_token(*top);
 	return (lang_str);
 }
+
+/*
+	test:  gcc handle_dollar_sign.c find_env.c ../tool/free_error.c 
+	../tool/protection.c ../tool/tool_utils.c ../tokenized/token_util.c 
+	../tokenized/split_token.c ../../libft/libft.a
+*/
+
+/* int main(int argc, char **argv, char **envp)
+{
+	int a;
+	char *str;
+	t_token *top = NULL;
+	t_data all;
+	int i;
+	i = 0;
+
+	(void)argv;
+	(void)argc;
+	atexit(leaks);
+	//str = "hgjgh$dsf$sdfd$?$$$$$PATH";
+	//str = "$PATH $dsf $sdf d$?$$$$$";
+	str = "$PATH $$<< infile| hgj|gh$dsf$sdfd$?$$$$$";
+	str = "echo adsfd\'\'afas\'$PATH\'";
+	str = "echo \'$PATH\'xchgfg\"$PATH\"";
+	str = "grep <Makefile c|grep e|grep $|wc";
+	//str = "\"$USER\'$USER\'\"";
+	//str = "\'$USER\"$USER\"\'";
+	//str = "\"$USER\"\"\"\'\'\'$USER\'";
+	//str = "ASD$USER";
+	str = "ASDASD\'$USER\"$USER\"\'\'\'HASDOASDH\'$USER\'\"$USER\"";
+	top = dollar_split(str, DQUO);//
+	swap_val(&top, envp, &all);//
+ 	printf("\n\n\n");
+	char *lang_str;
+	lang_str = token_to_str(&top);
+	printf("lang :%s\n",lang_str);
+	free(lang_str);
+	return (0);
+} */

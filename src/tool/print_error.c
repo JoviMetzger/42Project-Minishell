@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/22 09:50:27 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/30 19:35:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/31 09:39:41 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,9 @@ static void	ft_process_error(char *str, int errcode, t_data *all)
 		exit(errno);
 }
 
-static void	ft_errcode_(char *str, int errcode)
+static void	print_error_utils(char *str, int errcode, t_data *all)
 {
-	if (str[0] == '.' || str[0] == '/')
-		ft_error_msg(str, ": No such file or directory\n");
-	else
-		ft_error_msg(str, ": command not found\n");
-	exit(errcode);
-}
-
-void	print_error(char *str, int errcode, t_data *all)
-{
-	if (errcode == 127 && str)
-	{
-		ft_errcode_(str, errcode);
-	}
-	else if (errcode == 7 && str)
-	{
-		ft_error_msg(str, ": is a directory\n");
-		exit(126);
-	}
-	else if (errcode == 6 && str)
+	if (errcode == 6 && str)
 	{
 		ft_error_msg(str, ": No such file or directory\n");
 		exit(126);
@@ -65,4 +47,23 @@ void	print_error(char *str, int errcode, t_data *all)
 	}
 	else if (str)
 		ft_process_error(str, errcode, all);
+}
+
+void	print_error(char *str, int errcode, t_data *all)
+{
+	if (errcode == 127 && str)
+	{
+		if (str[0] == '.' || str[0] == '/')
+			ft_error_msg(str, ": No such file or directory\n");
+		else
+			ft_error_msg(str, ": command not found\n");
+		exit(errcode);
+	}
+	else if (errcode == 7 && str)
+	{
+		ft_error_msg(str, ": is a directory\n");
+		exit(126);
+	}
+	else
+		print_error_utils(str, errcode, all);
 }

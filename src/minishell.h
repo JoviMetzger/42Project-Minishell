@@ -93,6 +93,7 @@ typedef struct s_data
 	int					tmp_out;
 	int					tmp_in;
 	int					here_status;
+	DIR					*dir;
 	char				*input;
 	pid_t				*id;
 	struct s_env		*env;
@@ -152,6 +153,10 @@ int			redi_out(t_cmd *cmd, t_token *redi, t_data *data);
 int			redi_app(t_cmd *cmd, t_token *redi, t_data *data);
 void		add_redirection(t_data *all);
 void		do_redirection(t_cmd *cmd, t_data *all);
+
+// PIPE
+int			open_pipe(t_data *all);
+void		free_fd_2d(int **fd_2d);
 
 // TOOL (free and print_error)
 void		print_error(char *str, int errcode, t_data *data);

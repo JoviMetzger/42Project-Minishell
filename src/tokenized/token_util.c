@@ -85,3 +85,24 @@ void	add_token_end(t_token **top, t_token *new)
 	new->prev = current;
 	new->index = i;
 }
+
+//test: gcc token_util.c
+/* int main(void)
+{
+	t_token *test;
+	t_token *curr;
+
+	test = NULL;
+	add_token_end(&test,new_token("sfasdfdf"));
+	add_token_end(&test,new_token("aaaa"));
+	add_token_end(&test,new_token("ccccc"));
+	add_token_end(&test,new_token("dddfdf"));
+	add_token_end(&test,new_token("fffsdfdf"));
+	curr = test;
+	while (curr != NULL)
+	{
+		printf("%s\n", curr->str);
+		curr = curr->next;
+	}
+	return 0;
+} */

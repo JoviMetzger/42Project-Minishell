@@ -75,10 +75,7 @@ t_token	*delspace_jointoken(t_token **token, t_token *top,
 			add_token_end(&top, new);
 		}
 		else if (curr && curr->type != SPACES)
-		{
-			new = copy_token(curr);
-			add_token_end(&top, new);
-		}
+			add_token_end(&top, copy_token(curr));
 		if (!curr->next)
 			break ;
 		curr = curr->next;

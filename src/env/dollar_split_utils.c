@@ -6,7 +6,7 @@
 /*   By: yizhang <yizhang@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/09 15:14:34 by yizhang       #+#    #+#                 */
-/*   Updated: 2023/08/30 19:26:33 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/31 09:19:38 by yizhang       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	dollar_split_dollar(char *str, int i, t_token **top)
 	return (i);
 }
 
-static void	ft_find_dollar_env(t_token **curr, char **envp, char *tmp)
+static void	dollar_variable(char *tmp, t_token **curr, char **envp)
 {
 	free((*curr)->str);
 	tmp = find_env(&(*curr), envp);
@@ -70,9 +70,7 @@ void	dollar_swap_val(t_token **curr, char **envp)
 		(*curr)->str = ft_itoa(g_exit_status);
 	}
 	else if ((*curr)->str[0] == '$' && (*curr)->str[1] != '$')
-	{
-		ft_find_dollar_env(curr, envp, tmp);
-	}
+		dollar_variable(tmp, curr, envp);
 }
 
 char	*add_str_to_strend(char *lang_str, char *str)

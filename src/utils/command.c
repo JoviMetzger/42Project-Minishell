@@ -32,62 +32,40 @@ static void	fork_loop(t_data *all)
 	free_envp(envp);
 }
 
-int	redi_loop(t_cmd **top, t_data *all, char **envp)
-{
-	t_cmd	*curr;
-
-	curr = *top;
-	(void)envp;
-	(void)all;
-	while (curr)
-	{
-		if (!curr->next)
-			return (0);
-		curr = curr->next;
-	}
-	return (0);
-}
-
-int	close_all_fd(t_cmd **top, t_data *all)
-{
-	t_cmd	*curr;
-
-	curr = *top;
-	while (curr)
-	{
-		if (curr->fd_in != 0)
-			protect_close(curr->fd_in, all);
-		if (curr->fd_out != 1)
-			protect_close(curr->fd_out, all);
-		if (!curr->next)
-			return (0);
-		curr = curr->next;
-	}
-	return (0);
-}
-
-static void	ft_exit_status(t_data *all, int i)
+static int	ft_exit_status(t_data *all, int i)
 {
 	int	status;
 
-	if (protect_waitpid(all->id[i], &status, 0, all) == -1)
-		return ;
 	g_exit_status = syntax_error_check(all->input);
 	if (g_exit_status == 258)
-		return ;
+		return (1);
+	if (protect_waitpid(all->id[i], &status, 0, all) == -1)
+		return (0);
 	if (WTERMSIG(status) == 2 || WTERMSIG(status) == 3)
 		g_exit_status = WTERMSIG(status) + 128;
 	else if (all->here_status == 256)
 		g_exit_status = 1;
 	else if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
+	return (0);
+}
+
+static void	fork_wait(t_data *all, int i)
+{
+	fork_loop(all);
+	while (i < all->cmd_len)
+	{
+		if (ft_exit_status(all, i))
+			return ;
+		i++;
+	}
 }
 
 void	ft_commands(t_data *all)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (ft_strcmp(all->input, "") != 0)
 	{
 		if (tokenized(all))
@@ -104,10 +82,6 @@ void	ft_commands(t_data *all)
 		all->id = malloc(sizeof(pid_t) * all->cmd_len);
 		if (!all->id)
 			return ;
-		fork_loop(all);
-		while (++i < all->cmd_len)
-		{
-			ft_exit_status(all, i);
-		}
+		fork_wait(all, i);
 	}
 }

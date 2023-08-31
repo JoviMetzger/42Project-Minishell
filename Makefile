@@ -18,8 +18,8 @@ LIBFT		= ./libft/libft.a
 
 # Compiler and flags
 CC			= cc
-CFLAGS		= -Wall -Wextra #-g -fsanitize=address
-CFLAGS		+= -Werror
+CFLAGS		= -Wall -Wextra -g #-fsanitize=address
+# CFLAGS		+= -Werror
 
 # Readline Files
 INC_FILE	= -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
