@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:41 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/25 20:59:29 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/01 10:28:23 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,36 @@ bool	get_export_state(char *name, t_env **env)
 int	add_new_env_var(char *statement, t_env **env, bool for_export)
 {
 	char	**line;
+	char	*space;
 
 	line = split_envp(statement);
+	space = malloc(2);
+	space[0] = ' ';
+	space[1] = '\0';
 	if (get_export_state(line[0], env) && !for_export)
 		for_export = true;
 	unset_var(line[0], env);
-	env_lstadd_back(env, env_lstnew(line[0], line[1], for_export));
+	if (!line[1])
+		env_lstadd_back(env, env_lstnew(line[0], space, false));
+	else
+		env_lstadd_back(env, env_lstnew(line[0], line[1], for_export));
 	free(line);
+	free(space);
 	return (EXIT_SUCCESS);
+}
+
+static char	**split_(char **split, int idx_equal, char *env)
+{
+	split = (char **)malloc(sizeof(char *) * 3);
+	if (!split)
+		return (NULL);
+	split[0] = ft_substr(env, 0, idx_equal);
+	if (ft_strlen(env) - idx_equal == 0)
+		return (NULL);
+	else
+		split[1] = ft_substr(env, idx_equal + 1, ft_strlen(&env[idx_equal]));
+	split[2] = NULL;
+	return (split);
 }
 
 /* split_envp();
@@ -87,24 +109,29 @@ char	**split_envp(char *env)
 {
 	char	**split;
 	int		idx_equal;
+	int		i;
 
-	split = (char **)malloc(sizeof(char *) * 3);
-	idx_equal = ft_strchr(env, '=') - env;
-	split[0] = ft_substr(env, 0, idx_equal);
-	split[1] = ft_substr(env, idx_equal + 1, ft_strlen(&env[idx_equal]));
-	split[2] = NULL;
+	split = NULL;
+	idx_equal = -1;
+	i = -1;
+	while (env[++i] != '\0') 
+	{
+		if (env[i] == '=') 
+		{
+			idx_equal = i;
+			break ;
+		}
+	}
+	if (idx_equal == -1)
+	{
+		split = (char **)malloc(sizeof(char *) * 2);
+		split[0] = ft_strdup(env);
+		split[1] = NULL;
+	}
+	else
+		split = split_(split, idx_equal, env);
 	return (split);
 }
-
-// static void	init_oldpwd(t_env **env)
-// {
-// 	char	*tmp;
-
-// 	unset_var("OLDPWD", env);
-// 	tmp = ft_strjoin("OLDPWD=", getenv("HOME"));
-// 	add_new_env_var(tmp, env, true);
-// 	free(tmp);
-// }
 
 /* init_env();
  *  - Parameters:

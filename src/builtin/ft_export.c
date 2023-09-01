@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:38:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/31 15:12:42 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/01 10:06:16 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ static int	empty_export(t_data *data)
 	tmp = data->env;
 	while (tmp)
 	{
+		printf("declare -x ");
 		if (tmp->for_export)
-			printf("declare -x %s=\"%s\"\n", tmp->name, tmp->value);
+			printf("%s=%s\n", tmp->name, tmp->value);
+		else if (tmp->name && tmp->value)
+			printf("%s\n", tmp->name);
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);
@@ -112,7 +115,7 @@ int	ft_export(char **input, t_data *data)
 			exit_status = ft_error_msg(input[2]);
 			break ;
 		}
-		else if (input[i][0] != '=' && ft_strchr(input[i], '='))
+		else if (input[i])
 			add_new_env_var(input[i], &data->env, true);
 	}
 	return (exit_status);

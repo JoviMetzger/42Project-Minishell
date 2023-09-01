@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 16:37:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/23 02:32:00 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/01 10:02:40 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int	ft_env(t_data *data)
 	{
 		if (env->for_export)
 			printf("%s=%s\n", env->name, env->value);
-		env = env->next;
+		if (!env->next)
+			break ;
+		else
+			env = env->next;
 	}
 	return (EXIT_SUCCESS);
 }

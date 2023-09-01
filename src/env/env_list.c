@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/08 12:55:56 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/04 14:37:12 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/01 09:48:03 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,15 @@ void	env_lstadd_back(t_env **head, t_env *new)
 {
 	t_env	*tmp;
 
+	if (!new)
+		return ;
 	if (!*head)
 		*head = new;
-	if (head)
+	else
 	{
-		if (!*head)
-			*head = new;
-		else
-		{
-			tmp = env_lstlast(*head);
-			tmp->next = new;
-			new->next = NULL;
-		}
+		tmp = env_lstlast(*head);
+		tmp->next = new;
+		new->next = NULL;
 	}
 }
 
@@ -79,8 +76,21 @@ t_env	*env_lstnew(char *name, char *value, bool for_export)
 	if (!new)
 		return (NULL);
 	new->name = name;
+	new->for_export = for_export;
+	new->next = NULL;
 	new->value = value;
+	return (new);
+}
+
+/* t_env	*env_lstnew_single(char *name, bool for_export)
+{
+	t_env	*new;
+
+	new = (t_env *)malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->name = name;
 	new->for_export = for_export;
 	new->next = NULL;
 	return (new);
-}
+} */

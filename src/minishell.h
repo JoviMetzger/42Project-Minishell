@@ -99,6 +99,7 @@ typedef struct s_data
 	struct s_env		*env;
 	struct s_cmd		*cmd;
 	struct s_token		*token;
+	struct s_builtin	*builtin;
 }	t_data;
 
 /*
@@ -197,6 +198,7 @@ t_env		*init_env(char **envp);
 void		env_lstadd_back(t_env **head, t_env *new);
 t_env		*env_lstlast(t_env *lst);
 t_env		*env_lstnew(char *name, char *value, bool export);
+t_env		*env_lstnew_single(char *name, bool for_export);
 
 // BUILTIN COMMANDS
 int			ft_cd(char *path, t_data *data);
