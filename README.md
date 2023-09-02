@@ -128,12 +128,12 @@ mute     = -Wno-unused-command-line-argument
 
 ## Test for Leaks
 You can test for memory leaks using either `valgrind` or `system("leaks -q minishell")`. 
-Test after each command to identify specific leaks. In one terminal, run MiniShell, and in another, execute leaks minishell after each command.
+Test after each command to identify specific leaks. In one terminal, run MiniShell, and in another, execute leaks minishell after each command. <br>
 **Terminal 1**: *cd into minishell folder*;
 ```bash
 $ ./minishell
 minishell ➡️ 
-```  
+```
 **Terminal 2**: *cd into minishell folder*;
 ```bash
 $ leaks minishell
