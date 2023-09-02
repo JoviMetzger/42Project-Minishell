@@ -75,26 +75,12 @@ int	add_new_env_var(char *statement, t_env **env, bool for_export)
 	return (EXIT_SUCCESS);
 }
 
-static char	**split_(char **split, int idx_equal, char *env)
-{
-	split = (char **)malloc(sizeof(char *) * 3);
-	if (!split)
-		return (NULL);
-	split[0] = ft_substr(env, 0, idx_equal);
-	if (ft_strlen(env) - idx_equal == 0)
-		return (NULL);
-	else
-		split[1] = ft_substr(env, idx_equal + 1, ft_strlen(&env[idx_equal]));
-	split[2] = NULL;
-	return (split);
-}
-
-/* split_envp();
+/* split_();
  *  - Parameters:
  *    - char *env: The environment variable string in the format "NAME=VALUE";
  * 
  *  - Split an environment variable string into its 'name' and 'value'.
- * 	- First, we allocate memory to hold two pointers (name and value) 
+ *	- First we allocate memory to hold two pointers (name and value) 
  * 	  and a NULL terminator.
  * 	- Then we find the index of the '=' character in 
  * 	  the environment variable string.
@@ -104,6 +90,31 @@ static char	**split_(char **split, int idx_equal, char *env)
  * 	  and store it in split[1].
  *  - Add a NULL terminator to the array to mark the end.
  *  - Returns a array of strings containing the name and value.
+ */
+static char	**split_(char *env)
+{
+	char	**split;
+	int	idx_equal;
+
+	split = (char **)malloc(sizeof(char *) * 3);
+	idx_equal = ft_strchr(env, '=') - env;
+	split[0] = ft_substr(env, 0, idx_equal);
+	split[1] = ft_substr(env, idx_equal + 1, ft_strlen(&env[idx_equal]));
+	split[2] = NULL;
+	return (split);
+}
+
+/* split_envp();
+ *  - Parameters:
+ *    - char *env: The environment variable string in the format "NAME=VALUE";
+ * 
+ *  - Split an environment variable string into its 'name' and 'value'.
+ *	- First we check if we can find a '=',
+ *		- If we don't, there is only one variable, so we only need to 
+ *		  allocate memory for 'name'.
+ * 		- If we do, we allocate memory to hold two pointers (name and value) 
+ * 	  	  and a NULL terminator.
+ *  - Returns a array of strings.
  */
 char	**split_envp(char *env)
 {
@@ -129,7 +140,7 @@ char	**split_envp(char *env)
 		split[1] = NULL;
 	}
 	else
-		split = split_(split, idx_equal, env);
+		split = split_(env);
 	return (split);
 }
 
