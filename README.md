@@ -92,8 +92,7 @@ Finding information about the ***'rl_' functions*** is deficult. [Readline(3)](h
 🔴The order of built-in commands like ***export, cd, unset, and exit*** matters because these commands have immediate and direct effects on the shell's environment or behavior. Placing them before child commands ensures that their effects are applied before the child commands are executed. **They don't work in a child process.** 🔴 <br>
 | Command | Description |
 |---------|-------------|
-| `echo`  | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. 
-- **Considerations:** The behavior of `-n`, `-nnnn`, and `-n -n` should all be the same. |
+| `echo`  | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. **Considerations:** The behavior of `-n`, `-nnnn`, and `-n -n` should all be the same. |
 | `cd`    | Changes the current directory to the specified location. |
 | `pwd`   | The `pwd` command stands for *"print working directory"*. It prints the absolute path of the current working directory. |
 | `export`| Allows you to define variables that can be accessed by other processes or programs. When you use the `export` command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment.
@@ -167,8 +166,9 @@ input = readline(NULL);
 ``` 
 <br>
 
-❗**NOTE**: Be aware that using colored prompts might have display issues with copy/paste or arrow keys ***(Not your fault, it's readline problem)***. <br>
-Reason for that is, because the colored prompts often include ANSI escape codes to define text colors or styles. When readline calculates cursor positions for text input, it may not accurately consider the extra characters introduced by these escape codes. Consequently, there can be discrepancies between the displayed cursor position and its actual location within the input text. This can lead to unexpected behavior when performing actions such as copying and pasting text or using arrow keys for navigation within the command line. <br>
+❗**NOTE**: Be aware that using colored prompts might have display issues with copy/paste or arrow keys <br>
+***(Not your fault, it's readline problem)***. <br> <br>
+Reason for that is, because the colored prompts often include ANSI escape codes to define text colors or styles. When readline calculates cursor positions for text input, it may not accurately consider the extra characters introduced by these escape codes. Consequently, there can be discrepancies between the displayed cursor position and its actual location within the input text. This can lead to unexpected behavior when performing actions such as copying and pasting text or using arrow keys for navigation within the command line. <br> <br>
 ***However, the functionality of your application remains intact and everything will still work.***
 
 
