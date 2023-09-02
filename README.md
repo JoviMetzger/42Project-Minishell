@@ -159,7 +159,9 @@ You can find alot of tester for minishell, we used the 🔅 [MiniShell Tester](h
 
 ## Resources
 - [42 Docs(MiniShell)](https://harm-smits.github.io/42docs/projects/minishell)
+- [MiniShell-42 Explanation](https://cocalc.com/github/yabtaour/Minishell-42/blob/main/ReadMe.md)
 - [An Overview of How the BASH Shell Works](https://medium.com/geekculture/an-overview-of-the-working-of-the-bash-shell-f063e7f09945)
 - [Great README.md on MiniShell](https://github.com/maiadegraaf/minishell)
 - [readline(3) - Linux Manual Page](https://man7.org/linux/man-pages/man3/readline.3.html)
 - [Signals Explanation](https://btholt.github.io/complete-intro-to-linux-and-the-cli/signals-and-the-power-of-ctrl)
+- [Signals MiniShell Document](https://www.studocu.com/en-us/document/auburn-university-at-montgomery/topics-in-spanish-american-culture-and-civilization/minishell-3-signal-handling-compressed/35995495)
