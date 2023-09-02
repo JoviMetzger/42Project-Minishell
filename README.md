@@ -1,4 +1,4 @@
-# 🔥🔥 MiniS**hell**
+# 🔥 MiniS**hell** 🔥
 
 Welcome to MiniShell! This repository contains a simplified shell, inspired by bash. <br> 
 Created in collaboration with [Yixin Zhang](https://github.com/yixin1230).
@@ -8,13 +8,13 @@ Created in collaboration with [Yixin Zhang](https://github.com/yixin1230).
 - [About](#About)
    - [Functions](#Functions)
 	- [Buildin](#Buildin)
-      - [echo]
-      - [cd]
-      - [pwd]
-      - [export]
-      - [unset]
-      - [env](
-      - [exit]
+      - echo
+      - cd
+      - pwd
+      - export
+      - unset
+      - env
+      - exit
    - [Signals](#Signals)
    - [Prompt](#Prompt)
    - [Installing readline](#Installing-readline)
@@ -39,61 +39,42 @@ Finding information about the ***'rl_' functions*** is deficult. [Readline(3)](h
 - `readline`: Reads a line of input from the user, providing basic line editing capabilities such as cursor movement, deletion, and history retrieval.
 
 - `rl_clear_history`: Clears the history of previously entered lines in the readline library.
-
 - `rl_on_new_line`: Notifies the readline library that a new line has been created, typically used after outputting a newline character.
-
 - `rl_replace_line`: Replaces the current input line in the readline library with a new line of text.
-
 - `rl_redisplay`: Forces the readline library to redraw the current input line, updating any changes made to it.
-
 - `add_history`: Adds a line of text to the history list in the readline library, allowing for retrieval and editing of previously entered lines.
-
 - `access`: Checks whether a file or directory can be accessed with the specified permissions.
-
 - `fork`: Creates a new process by duplicating the existing process, creating a child process that is an exact copy of the parent process.
-
 - `wait`: Suspends the execution of the calling process until one of its child processes exits.
-
 - `waitpid`: Suspends the execution of the calling process until a specific child process terminates or a signal is received.
-
 - `signal`: Sets a function to handle a specific signal, allowing customization of the behavior when a signal is received.
-
 - `sigaction`: Specifies the action to be taken when a specific signal occurs, providing more control and options than signal.
-
 - `sigemptyset`: Initializes an empty signal set, which can be used to manage sets of signals.
-
 - `sigaddset`: Adds a specific signal to a signal set.
-
 - `kill`: Sends a signal to a specified process or process group.
-
 - `getcwd`: Retrieves the current working directory.
-
 - `chdir`: Changes the current working directory to the specified directory.
-
 - `execve`: Executes a program, replacing the current process with a new program.
-
 - `dup, dup2`: Duplicates a file descriptor, creating a new descriptor that refers to the same file or resource. dup2 allows specifying the desired file descriptor number.
-
 - `pipe`: Creates a communication pipe, which can be used for inter-process communication.
-
 - `opendir`: This function is used to open a directory, creating a directory stream. It takes a directory path as an argument and returns a pointer to the directory stream.
-
 - `closedir`: This function is used to close a directory stream that was previously opened with opendir.
-
 - `perror`: Prints a descriptive error message to the standard error stream (stderr), based on the value of the global errno variable.
-
 - `getenv`: Retrieves the value of an environment variable specified by its name, returning a pointer to the corresponding value.
-
 - `tcsetattr`: This function is used to set terminal attributes, specifically the parameters associated with a terminal interface (e.g., baud rate, line discipline, and control characters).
-
 - `tcgetattr`: This function is used to get (retrieve) the current terminal attributes. You can use it to check the current configuration of a terminal.
 
 ## Buildin
-The order of built-in commands like ***export, cd, unset, and exit*** matters because these commands have immediate and direct effects on the shell's environment or behavior. Placing them before child commands ensures that their effects are applied before the child commands are executed. **They don't work in a child process.**  <br>
+The order of built-in commands like *export, cd, unset, and exit* matters <br> 
+because these commands have immediate and direct effects on the shell's environment or behavior. <br> 
+Placing them before child commands ensures that their effects are applied before the child commands are executed. <br> 
+**They don't work in a child process.**  <br>
 | Command | Description | Considerations |
 |---------|-------------| -------------- |
 | `echo`  | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. | The behavior of `-n`, `-nnnn`, and `-n -n` should all be the same. |
+|---------|-------------| -------------- |
 | `cd`    | Changes the current directory to the specified location. | |
+|---------|-------------| -------------- |
 | `pwd`   | The `pwd` command stands for *"print working directory"*. It prints the absolute path of the current working directory. | |
 | `export`| Allows you to define variables that can be accessed by other processes or programs. When you use the `export` command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment. | **Exported variables have specific rules:** - The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`. - The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error. - Only the `export` command prints `declare x-` in front of each variable. |
 | `unset` | Allows you to remove a variable from the environment or unset its value. When you run the `unset` command followed by a variable name, it removes the variable from the environment or unsets its value. | **Variable names in `unset` must follow these rules:** - The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`.  - The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error. |
