@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-// void leaks(void)
-// {
-// 	system("leaks -q minishell");
-// }
-
 static void	first_check(int argc, char **argv)
 {
 	if (argc != 1 || argv[1])
