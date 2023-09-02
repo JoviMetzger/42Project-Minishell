@@ -95,8 +95,7 @@ Finding information about the ***'rl_' functions*** is deficult. [Readline(3)](h
 | `echo`  | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. **Considerations:** The behavior of `-n`, `-nnnn`, and `-n -n` should all be the same. |
 | `cd`    | Changes the current directory to the specified location. |
 | `pwd`   | The `pwd` command stands for *"print working directory"*. It prints the absolute path of the current working directory. |
-| `export`| Allows you to define variables that can be accessed by other processes or programs. When you use the `export` command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment.
-**Considerations:** Exported variables have specific rules:
+| `export`| Allows you to define variables that can be accessed by other processes or programs. When you use the `export` command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment. **Considerations:** Exported variables have specific rules:
   - The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`.
   - The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error.
   - Only the `export` command prints `declare x-` in front of each variable.
@@ -159,7 +158,7 @@ prompt = display_prompt();
 input = readline(prompt);
 ft_free(prompt);
 ```
-🚫 **NOT this!**
+**NOT this!** 🚫
 ```C
 display_prompt();
 input = readline(NULL);
@@ -167,9 +166,9 @@ input = readline(NULL);
 <br>
 
 ❗**NOTE**: Be aware that using colored prompts might have display issues with copy/paste or arrow keys <br>
-***(Not your fault, it's readline problem)***. <br> <br>
-Reason for that is, because the colored prompts often include ANSI escape codes to define text colors or styles. When readline calculates cursor positions for text input, it may not accurately consider the extra characters introduced by these escape codes. Consequently, there can be discrepancies between the displayed cursor position and its actual location within the input text. This can lead to unexpected behavior when performing actions such as copying and pasting text or using arrow keys for navigation within the command line. <br> <br>
-***However, the functionality of your application remains intact and everything will still work.***
+***(Not your fault, it's readline problem)***. <br>
+Reason for that is, because the colored prompts often include ANSI escape codes to define text colors or styles. When readline calculates cursor positions for text input, it may not accurately consider the extra characters introduced by these escape codes. Consequently, there can be discrepancies between the displayed cursor position and its actual location within the input text. This can lead to unexpected behavior when performing actions such as copying and pasting text or using arrow keys for navigation within the command line. <br>
+🔆***However, the functionality of your application remains intact and everything will still work.***🔆
 
 
 ## Installing readline
@@ -219,7 +218,7 @@ minishell ➡️  echo "Hello World"
 ```
 
 ## Testing
-You can find alot of tester for minishell, we used the 🔆 [MiniShell Tester](https://github.com/LucasKuhn/minishell_tester) 🔆 because it was the most easiest one to use. The testers README file provides clear instructions on installation and usage.
+You can find alot of tester for minishell, we used the 🔅 [MiniShell Tester](https://github.com/LucasKuhn/minishell_tester) 🔅 because it was the most easiest one to use. The testers README file provides clear instructions on installation and usage.
 
 ## Resources
 - [42 Docs(MiniShell)](https://harm-smits.github.io/42docs/projects/minishell)
