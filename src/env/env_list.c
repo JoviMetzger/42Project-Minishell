@@ -81,16 +81,3 @@ t_env	*env_lstnew(char *name, char *value, bool for_export)
 	new->value = value;
 	return (new);
 }
-
-/* t_env	*env_lstnew_single(char *name, bool for_export)
-{
-	t_env	*new;
-
-	new = (t_env *)malloc(sizeof(t_env));
-	if (!new)
-		return (NULL);
-	new->name = name;
-	new->for_export = for_export;
-	new->next = NULL;
-	return (new);
-} */
