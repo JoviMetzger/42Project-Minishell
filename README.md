@@ -124,7 +124,7 @@ INC_FILE = -I includes -I $(HOME)/.brew/Cellar/readline/8.2.1/include
 Include  = -L $(HOME)/.brew/Cellar/readline/8.2.1/lib -lreadline
 mute     = -Wno-unused-command-line-argument
 ```
-❗**NOTE**: `mute` is used to 'mute' the warnings about the readline.
+❗**NOTE**: `-Wno-unused-command-line-argument` is used to 'mute' the warnings about the readline.
 
 ## Test for Leaks
 You can test for memory leaks using either `valgrind` or `system("leaks -q minishell")`. 
