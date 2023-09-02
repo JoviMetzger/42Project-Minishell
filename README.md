@@ -28,7 +28,7 @@ Minishell should work like bash. Not everything should work like bash I mean it 
 - Have builtins: `echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`.
 
 ## Functions
-Finding information about the ***'rl_' functions*** is deficult. [Readline(3)](https://man7.org/linux/man-pages/man3/readline.3.html) has some, but not all of them, so here are the basics of what those functions do. <br>
+Finding information about the ***'rl_' functions*** is difficult. [Readline(3)](https://man7.org/linux/man-pages/man3/readline.3.html) has some, but not all of them, so here are the basics of what those functions do. <br>
 - `readline`: Reads a line of input from the user, providing basic line editing capabilities such as cursor movement, deletion, and history retrieval.
 - `rl_clear_history`: Clears the history of previously entered lines in the readline library.
 - `rl_on_new_line`: Notifies the readline library that a new line has been created, typically used after outputting a newline character.
