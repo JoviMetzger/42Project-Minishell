@@ -94,28 +94,28 @@ Finding information about the ***'rl_' functions*** is deficult. [Readline(3)](h
 |---|---|
 | ### `echo` | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. <br>
 **Things to have in mind:** <br>
-- *`-n`, `-nnnn`, `-n -n` should all behave the same.* |
+*`-n`, `-nnnn`, `-n -n` should all behave the same.* |
 | ### `cd` | Changes the current directory to the specified location. |
 | ### `pwd` |  The pwd command stands for *"print working directory"*. <br>
 Prints the absolute path of the current working directory. |
 | ### `export` | It allows you to define variables that can be accessed by other processes or programs. <br>
 When you use the export command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment.<br>
 **Things to have in mind:** *export variables have alot of egde-cases* <br>
-- *first letter of the variable can only start with **uppercase** and **lowercase** letters or with **underscore** `_`,* <br>
-- *the rest of the word can only have **uppercase**, **lowercase** letters, **underscore** and **numbers**, everything else will display an error,*
-- *only `export` prints `declare x-` infront of each varable.* |
+*first letter of the variable can only start with **uppercase** and **lowercase** letters or with **underscore** `_`,* <br>
+*the rest of the word can only have **uppercase**, **lowercase** letters, **underscore** and **numbers**, everything else will display an error,*
+*only `export` prints `declare x-` infront of each varable.* |
 | ### `unset` | It allows you to remove a variable from the environment or unset its value. <br>
 When you run the unset command followed by a variable name, it removes the variable from the environment or unsets its value.<br>
 **Things to have in mind:** <br>
-- *first letter of the variable can only start with **uppercase** and **lowercase** letters or with **underscore** `_`,* <br>
-- *the rest of the word can only have **uppercase**, **lowercase** letters, **underscore** and **numbers**, everything else will display an error,* |
+*first letter of the variable can only start with **uppercase** and **lowercase** letters or with **underscore** `_`,* <br>
+*the rest of the word can only have **uppercase**, **lowercase** letters, **underscore** and **numbers**, everything else will display an error,* |
 | ### `env` | When used without any options or arguments, it lists all the environment variables and their values. |
 | ### `exit` | When you run the exit command without any options, it immediately terminates the current shell and returns control to the parent shell or the operating system. <br>
 **Things to have in mind:** <br>
-- *max of long long int,* <br>
-- *doesn't exit if more than 1 argument `exit 1 2`, display error message,* <br>
-- *does exit with non-numric value `exit hello`, but displays an error message,* <br>
-- *if you exit only with `exit` it will show the exit code of the prevous command.* |
+*max of long long int,* <br>
+*doesn't exit if more than 1 argument `exit 1 2`, display error message,* <br>
+*does exit with non-numric value `exit hello`, but displays an error message,* <br>
+*if you exit only with `exit` it will show the exit code of the prevous command.* |
 
 ❗**NOTE**: Everything gets added to the enviromet. `export` prints the whole enviroment and `env` only prints the variables that have a value `name=value`.
 
