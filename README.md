@@ -1,4 +1,4 @@
-# 🔥 MiniS**hell** 🔥
+# 🔥 MiniS*hell* 🔥
 
 Welcome to MiniShell! This repository contains a simplified shell, inspired by bash. <br> 
 🌸 Created in collaboration with [Yixin Zhang](https://github.com/yixin1230) 🌸
