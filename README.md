@@ -63,6 +63,7 @@ because these commands have immediate and direct effects on the shell's environm
 Placing them before child commands ensures that their effects are applied before the child commands are executed. <br> 
 **They don't work in a child process.**  <br>
 | Command | Description | Considerations |
+| ------- | ----------- | -------------- |
 | `echo`  | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. | The behavior of `-n`, `-nnnn`, and `-n -n` should all be the same. |
 | `cd`    | Changes the current directory to the specified location. | - |
 | `pwd`   | The `pwd` command stands for *"print working directory"*. It prints the absolute path of the current working directory. | _ |
