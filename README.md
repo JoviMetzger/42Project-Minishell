@@ -7,14 +7,7 @@ Created in collaboration with [Yixin Zhang](https://github.com/yixin1230).
 
 - [About](#About)
    - [Functions](#Functions)
-	- [Buildin](#Buildin)
-      - echo
-      - cd
-      - pwd
-      - export
-      - unset
-      - env
-      - exit
+   - [Buildin](#Buildin)
    - [Signals](#Signals)
    - [Prompt](#Prompt)
    - [Installing readline](#Installing-readline)
@@ -70,16 +63,13 @@ because these commands have immediate and direct effects on the shell's environm
 Placing them before child commands ensures that their effects are applied before the child commands are executed. <br> 
 **They don't work in a child process.**  <br>
 | Command | Description | Considerations |
-|---------|-------------| -------------- |
 | `echo`  | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. | The behavior of `-n`, `-nnnn`, and `-n -n` should all be the same. |
-|---------|-------------| -------------- |
-| `cd`    | Changes the current directory to the specified location. | |
-|---------|-------------| -------------- |
-| `pwd`   | The `pwd` command stands for *"print working directory"*. It prints the absolute path of the current working directory. | |
-| `export`| Allows you to define variables that can be accessed by other processes or programs. When you use the `export` command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment. | **Exported variables have specific rules:** - The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`. - The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error. - Only the `export` command prints `declare x-` in front of each variable. |
-| `unset` | Allows you to remove a variable from the environment or unset its value. When you run the `unset` command followed by a variable name, it removes the variable from the environment or unsets its value. | **Variable names in `unset` must follow these rules:** - The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`.  - The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error. |
+| `cd`    | Changes the current directory to the specified location. | - |
+| `pwd`   | The `pwd` command stands for *"print working directory"*. It prints the absolute path of the current working directory. | _ |
+| `export`| Allows you to define variables that can be accessed by other processes or programs. When you use the `export` command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment. | **Exported variables have specific rules:** 🔸 The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`.  🔸 The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error. 🔸 Only the `export` command prints `declare x-` in front of each variable. |
+| `unset` | Allows you to remove a variable from the environment or unset its value. When you run the `unset` command followed by a variable name, it removes the variable from the environment or unsets its value. | **Variable names in `unset` must follow these rules:** 🔸 The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`.  🔸 The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error. |
 | `env`   | When used without any options or arguments, it lists all the environment variables and their values. | |
-| `exit`  | When you run the `exit` command without any options, it immediately terminates the current shell and returns control to the parent shell or the operating system. | - The maximum exit value is that of a long long int. - It doesn't exit if given more than one argument, e.g., `exit 1 2`; it displays an error message. - It does exit with a non-numeric value, e.g., `exit hello`, but displays an error message. - If you exit with only `exit`, it will show the exit code of the previous command. |
+| `exit`  | When you run the `exit` command without any options, it immediately terminates the current shell and returns control to the parent shell or the operating system. | 🔸 The maximum exit value is that of a long long int. 🔸 It doesn't exit if given more than one argument, e.g., `exit 1 2`; it displays an error message. 🔸 It does exit with a non-numeric value, e.g., `exit hello`, but displays an error message. 🔸 If you exit with only `exit`, it will show the exit code of the previous command. |
 
 ❗**NOTE**: All variables are added to the environment. <br>
 When you use the `export` command, it displays the entire environment, including all variables. <br>
