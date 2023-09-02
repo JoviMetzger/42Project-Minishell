@@ -28,7 +28,7 @@ Minishell should work like bash. Not everything should work like bash I mean it 
 - Having a prompt.
 - Handle `'` *(single quote)* and `"` *(double quote)*. Double quote should handle `$`*(dollar sign)*, but no need to handle the other metacharacters (`|`, `&`, `(`, `)`, `;`).
 - Handle redirections `<` *(input)*, `>` *(output)*, `<<` *(append)*, `>>` *(here_doc)*.
-- Handle pipes `|`.
+- Handle pipes `|` *(adding syntax error check)*.
 - Handle environment variables *(ex. $PATH)*.
 - Handle `$?` *(exit status)*. 
 - Handle signals, `ctrl-C` *(displays a new prompt on a new line)*, `ctrl-D` *(exits the shell)*, `ctrl-\` *(does nothing)*.
@@ -89,21 +89,39 @@ Finding information about the ***'rl_' functions*** is deficult. [Readline(3)](h
 - `tcgetattr`: This function is used to get (retrieve) the current terminal attributes. You can use it to check the current configuration of a terminal.
 
 ## Buildin
-❗The order of built-in commands like **export, cd, unset, and exit** matters because these commands have immediate and direct effects on the shell's environment or behavior. Placing them before child commands ensures that their effects are applied before the child commands are executed. **They don't work in a child process.**❗ <br>
+🔴The order of built-in commands like ***export, cd, unset, and exit*** matters because these commands have immediate and direct effects on the shell's environment or behavior. Placing them before child commands ensures that their effects are applied before the child commands are executed. **They don't work in a child process.** 🔴 <br>
 | Command | Description |
-|---|---|
-| echo | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. **Things to have in mind:** *`-n`, `-nnnn`, `-n -n` should all behave the same.* |
-| cd | Changes the current directory to the specified location. |
-| pwd |  The pwd command stands for *"print working directory"*. Prints the absolute path of the current working directory. |
-| export | It allows you to define variables that can be accessed by other processes or programs. When you use the export command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment **Things to have in mind:** *export variables have alot of egde-cases* *first letter of the variable can only start with **uppercase** and **lowercase** letters or with **underscore** `_`,*  *the rest of the word can only have **uppercase**, **lowercase** letters, **underscore** and **numbers**, everything else will display an error,* *only export prints `declare x-` infront of each varable.* |
-| unset | It allows you to remove a variable from the environment or unset its value. When you run the unset command followed by a variable name, it removes the variable from the environment or unsets its value. **Things to have in mind:** *first letter of the variable can only start with **uppercase** and **lowercase** letters or with **underscore** `_`,*  *the rest of the word can only have **uppercase**, **lowercase** letters, **underscore** and **numbers**, everything else will display an error,* |
-| env | When used without any options or arguments, it lists all the environment variables and their values. |
-| exit | When you run the exit command without any options, it immediately terminates the current shell and returns control to the parent shell or the operating system. **Things to have in mind:** *max of long long int,*  *doesn't exit if more than 1 argument `exit 1 2`, display error message,* *does exit with non-numric value `exit hello`, but displays an error message,*  *if you exit only with `exit` it will show the exit code of the prevous command.* |
+|---------|-------------|
+| `echo`  | Prints text or a string to the standard output. The `-n` option prevents adding a newline to the output. 
+- **Considerations:** The behavior of `-n`, `-nnnn`, and `-n -n` should all be the same. |
+| `cd`    | Changes the current directory to the specified location. |
+| `pwd`   | The `pwd` command stands for *"print working directory"*. It prints the absolute path of the current working directory. |
+| `export`| Allows you to define variables that can be accessed by other processes or programs. When you use the `export` command followed by a variable assignment, it sets the value of the variable and marks it for export to the environment.
+**Considerations:** Exported variables have specific rules:
+  - The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`.
+  - The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error.
+  - Only the `export` command prints `declare x-` in front of each variable.
+|
+| `unset` | Allows you to remove a variable from the environment or unset its value. When you run the `unset` command followed by a variable name, it removes the variable from the environment or unsets its value.
+**Considerations:** Variable names in `unset` must follow these rules:
+  - The first letter of the variable can only start with uppercase and lowercase letters or with an underscore `_`.
+  - The rest of the variable name can only contain uppercase and lowercase letters, underscores, and numbers; anything else will result in an error.
+|
+| `env`   | When used without any options or arguments, it lists all the environment variables and their values. |
+| `exit`  | When you run the `exit` command without any options, it immediately terminates the current shell and returns control to the parent shell or the operating system.
+**Considerations:** 
+  - The maximum exit value is that of a long long int.
+  - It doesn't exit if given more than one argument, e.g., `exit 1 2`; it displays an error message.
+  - It does exit with a non-numeric value, e.g., `exit hello`, but displays an error message.
+  - If you exit with only `exit`, it will show the exit code of the previous command.
+|
 
-❗**NOTE**: Everything gets added to the enviromet. `export` prints the whole enviroment and `env` only prints the variables that have a value `name=value`.
+❗**NOTE**: All variables are added to the environment. <br>
+When you use the `export` command, it displays the entire environment, including all variables. <br>
+In contrast, the `env` command selectively lists only those variables that have a value assigned to them `name=value`.
 
 ## Signals
-MiniShell handles signals as follows:
+MiniShell handles signals as follows: <br>
 You need 3 different signal functions.
 1. For the **main**:
    - `Ctrl-C`: Displays a new prompt, *exits with code 1*.
@@ -114,6 +132,7 @@ You need 3 different signal functions.
 3. For **child processes** *(e.g., cat)*:
    - `Ctrl-C`: Exits the child process, displaying ^C, *exits with code 130*.
    - `Ctrl-\`: Exits the child process, displaying ^\Quit, *exits with code 131*. <br>
+
 `Ctrl-C`: tells the terminal to send a ***SIGINT*** to the current foreground process. <br>
 `Ctrl-\`: tells the terminal to send a ***SIGQUIT*** to the current foreground process. <br>
 `Ctrl-D`: **is no signal**. Ctrl-D tells the terminal that it should register a EOF on standard input, which bash interprets as a desire to exit.
@@ -131,17 +150,17 @@ In the case of SIGQUIT (signal number 3), adding 128 gives 131.
 
 ## Prompt
 It's important to keep the prompt inside the readline() function to avoid its disappearance when deleting a word. You can use a simple or fancy prompt with colors, but avoid separating it from readline().  
-- **simple prompt**
+**simple prompt**
 ```C
 input = readline("minishel ➡️ ");
 ``` 
-- **fancy prompt** *(using colours)*
+**fancy prompt** *(using colours)*
 ```C
 prompt = display_prompt();
 input = readline(prompt);
 ft_free(prompt);
 ```
-- 🚫 **NOT this!**
+🚫 **NOT this!**
 ```C
 display_prompt();
 input = readline(NULL);
@@ -200,7 +219,7 @@ minishell ➡️  echo "Hello World"
 ```
 
 ## Testing
-You can find alot of tester form minishell, we used the 🔆 [MiniShell Tester](https://github.com/LucasKuhn/minishell_tester) 🔆 because it was the most easiest one to use. The testers README file provides clear instructions on installation and usage.
+You can find alot of tester for minishell, we used the 🔆 [MiniShell Tester](https://github.com/LucasKuhn/minishell_tester) 🔆 because it was the most easiest one to use. The testers README file provides clear instructions on installation and usage.
 
 ## Resources
 - [42 Docs(MiniShell)](https://harm-smits.github.io/42docs/projects/minishell)
