@@ -18,7 +18,7 @@ LIBFT		= ./libft/libft.a
 
 # Compiler and flags
 CC			= cc
-CFLAGS		= -Wall -Wextra -g #-fsanitize=address
+CFLAGS		= -Wall -Wextra # -g -fsanitize=address
 CFLAGS		+= -Werror
 
 # Readline Files
