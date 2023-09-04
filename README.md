@@ -84,12 +84,12 @@ In the case of SIGINT (signal number 2), by convention, the shell uses an exit s
 In the case of SIGQUIT (signal number 3), adding 128 gives 131.
 
 ## Prompt
-It's important to keep the prompt inside the readline() function to avoid its disappearance when deleting a word. You can use a simple or fancy prompt with colors, but avoid separating it from readline().  
-**simple prompt**:
+It's important to keep the prompt inside the readline() function to avoid its disappearance when deleting a word. You can use a simple or fancy prompt with colors, but avoid separating it from readline(). <br> <br> 
+**Simple Prompt**:
 ```C
 input = readline("minishel ➡️ ");
 ``` 
-**fancy prompt** *(using colours)*:
+**Fancy Prompt** *(using colours)*:
 ```C
 prompt = display_prompt();
 input = readline(prompt);
