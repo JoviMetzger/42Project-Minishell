@@ -16,7 +16,7 @@ Welcome to MiniShell! This repository contains a simplified shell, inspired by b
 - [Testing](#Testing)
 - [Resources](#Resources)
 
-## About 
+## 🌱About 
 Minishell should work like bash. Not everything should work like bash I mean it is **"mini"** shell, but a few things should be taken care of, like:
 - Having a prompt.
 - Handle `'` *(single quote)* and `"` *(double quote)*. Double quote should handle `$`*(dollar sign)*, but no need to handle the other metacharacters (`|`, `&`, `(`, `)`, `;`).
@@ -27,7 +27,7 @@ Minishell should work like bash. Not everything should work like bash I mean it 
 - Handle signals, `ctrl-C` *(displays a new prompt on a new line)*, `ctrl-D` *(exits the shell)*, `ctrl-\` *(does nothing)*.
 - Have builtins: `echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`.
 
-## Functions
+## 🌱Functions
 Finding information about the ***'rl_' functions*** is difficult. [Readline(3)](https://man7.org/linux/man-pages/man3/readline.3.html) has some, but not all of them, so here are the basics of what those functions do. <br>
 - `readline`: Reads a line of input from the user, providing basic line editing capabilities such as cursor movement, deletion, and history retrieval.
 - `rl_clear_history`: Clears the history of previously entered lines in the readline library.
@@ -36,7 +36,7 @@ Finding information about the ***'rl_' functions*** is difficult. [Readline(3)](
 - `rl_redisplay`: Forces the readline library to redraw the current input line, updating any changes made to it.
 - `add_history`: Adds a line of text to the history list in the readline library, allowing for retrieval and editing of previously entered lines.
 
-## Buildin
+## 🌱Buildin
 The order of built-in commands like *export, cd, unset, and exit* matters <br> 
 because these commands have immediate and direct effects on the shell's environment or behavior. <br> 
 Placing them before child commands ensures that their effects are applied before the child commands are executed. <br> 
@@ -55,7 +55,7 @@ Placing them before child commands ensures that their effects are applied before
 When you use the `export` command, it displays the entire environment, including all variables. <br>
 In contrast, the `env` command selectively lists only those variables that have a value assigned to them `name=value`.
 
-## Signals
+## 🌱Signals
 MiniShell handles signals as follows: <br>
 You need 3 different signal functions.
 1. For the **main**:
@@ -83,7 +83,7 @@ if (input == NULL)
 In the case of SIGINT (signal number 2), by convention, the shell uses an exit status of 128 + signal number to indicate that the process was terminated due to a signal, adding 128 + (signal number 2) gives 130. <br>
 In the case of SIGQUIT (signal number 3), adding 128 gives 131.
 
-## Prompt
+## 🌱Prompt
 It's important to keep the prompt inside the readline() function to avoid its disappearance when deleting a word. You can use a simple or fancy prompt with colors, but avoid separating it from readline(). <br> <br> 
 **Simple Prompt**:
 ```C
@@ -108,7 +108,7 @@ Reason for that is, because the colored prompts often include ANSI escape codes 
 🔆 ***However, the functionality of your application remains intact and everything will still work.*** 🔆
 
 
-## Installing readline
+## 🌱Installing readline
 For readline to work you need to do a few things.
 1. Install brew:
 ```bash
@@ -126,7 +126,7 @@ mute     = -Wno-unused-command-line-argument
 ```
 ❗**NOTE**: `-Wno-unused-command-line-argument` is used to 'mute' the warnings about the readline.
 
-## Test for Leaks
+## 🌱Test for Leaks
 You can test for memory leaks using either `valgrind` or `system("leaks -q minishell")`. 
 Test after each command to identify specific leaks. <br> In one terminal, run MiniShell, and in another, execute "leaks minishell" after each command. <br> <br>
 **Terminal 1**: *cd into minishell folder*:
@@ -139,7 +139,7 @@ minishell ➡️
 $ leaks minishell
 ```
 
-## Installation
+## 🌱Installation
 
 1. Compile the program by running the following command:
 ```bash
@@ -154,10 +154,10 @@ $ ./minishell
 minishell ➡️  echo "Hello World"
 ```
 
-## Testing
+## 🌱Testing
 You can find alot of tester for minishell, we used the 🔅 [MiniShell Tester](https://github.com/LucasKuhn/minishell_tester) 🔅 because it was the most easiest one to use. The testers README file provides clear instructions on installation and usage.
 
-## Resources
+## 🌱Resources
 - [42 Docs(MiniShell)](https://harm-smits.github.io/42docs/projects/minishell)
 - [MiniShell-42 Explanation](https://cocalc.com/github/yabtaour/Minishell-42/blob/main/ReadMe.md)
 - [An Overview of How the BASH Shell Works](https://medium.com/geekculture/an-overview-of-the-working-of-the-bash-shell-f063e7f09945)
