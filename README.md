@@ -141,7 +141,7 @@ $ leaks minishell
 ```
 
 ### **Valgrind:** 
-It will automatically check for leaks after each command, alerting you if one is found. <br> Upon exiting, it will provide a summary of all the information. <br>
+It will automatically check for leaks after each command, alerting you if one is found. <br> Upon exiting, it will provide a summary of all the information. <br> <br>
 **Execute:** 
 ```bash
 $ make && valgrind --leak-check=full ./minishell
