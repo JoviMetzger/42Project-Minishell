@@ -140,6 +140,7 @@ minishell ➡️
 $ leaks minishell
 ```
 <br>
+
 ### **For valgrind:** 
 It will automatically check for leaks after each command, alerting you if one is found. Upon exiting, it will provide a summary of all the information. <br>
 **Execute** 
