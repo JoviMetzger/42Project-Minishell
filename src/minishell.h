@@ -107,7 +107,7 @@ typedef struct s_data
  * Because the 'signal()' function can only return 'void', 
  * so we use this global variable to pass the exit status.
  */
-int	g_exit_status;
+extern int	g_exit_status;
 
 // -- Function declaration --
 // ---------YIXINS_FUNCTIONS----------
