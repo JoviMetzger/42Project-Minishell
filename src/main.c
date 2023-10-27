@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	g_exit_status = 0; // Initialize global_variable
+
 static void	first_check(int argc, char **argv)
 {
 	if (argc != 1 || argv[1])
