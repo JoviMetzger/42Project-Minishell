@@ -164,7 +164,7 @@ static int	determine_exit_code(char **str)
  */
 int	ft_exit(char **input)
 {
-	int	status;
+	int	status = 0;
 
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	if (ft_argc(input) > 2)
